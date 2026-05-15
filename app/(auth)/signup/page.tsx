@@ -5,7 +5,8 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Zap, Github, ArrowRight, Eye, EyeOff, CheckCircle2 } from "lucide-react"
+import { Github, ArrowRight, Eye, EyeOff, CheckCircle2 } from "lucide-react"
+import { LogoMark } from "@/components/logo"
 
 const benefits = [
   "Free forever plan — no credit card",
@@ -32,9 +33,7 @@ export default function SignupPage() {
         <div className="absolute top-1/2 left-0 w-72 h-72 bg-amber-500/10 blur-3xl rounded-full" />
 
         <Link href="/" className="relative flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10">
-            <Zap className="h-4 w-4 text-amber-400" fill="currentColor" />
-          </div>
+          <LogoMark size={32} />
           <span className="text-base font-semibold text-white">Meridian</span>
         </Link>
 
@@ -76,9 +75,7 @@ export default function SignupPage() {
       {/* Right panel */}
       <div className="flex flex-1 flex-col items-center justify-center px-6 py-12 bg-[#FAFAF8]">
         <Link href="/" className="mb-8 flex items-center gap-2 lg:hidden">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0F1729]">
-            <Zap className="h-4 w-4 text-amber-400" fill="currentColor" />
-          </div>
+          <LogoMark size={32} />
           <span className="text-base font-semibold text-[#0F1729]">Meridian</span>
         </Link>
 

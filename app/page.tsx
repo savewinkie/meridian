@@ -6,11 +6,12 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import {
-  ArrowRight, Zap, Shield, GitPullRequest, BarChart3,
+  ArrowRight, Shield, GitPullRequest, BarChart3,
   AlertTriangle, Brain, CheckCircle2, Star, Menu, X,
-  TrendingUp, Users, Clock, Lock, Sparkles, GitMerge,
+  TrendingUp, Users, Clock, Sparkles, GitMerge,
   AlertCircle, ChevronRight, Code2,
 } from "lucide-react"
+import { LogoMark } from "@/components/logo"
 
 // ─── Nav ────────────────────────────────────────────────────────────────────
 
@@ -34,9 +35,7 @@ function Navbar() {
       <div className="mx-auto max-w-6xl px-6">
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#0F1729]">
-              <Zap className="h-3.5 w-3.5 text-amber-400" fill="currentColor" />
-            </div>
+            <LogoMark size={28} />
             <span className={cn("text-base font-semibold tracking-tight transition-colors", scrolled ? "text-[#0F1729]" : "text-white")}>
               Meridian
             </span>
@@ -663,9 +662,7 @@ export default function LandingPage() {
           <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
             <div className="col-span-2">
               <Link href="/" className="flex items-center gap-2 mb-4">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#0F1729]">
-                  <Zap className="h-3.5 w-3.5 text-amber-400" fill="currentColor" />
-                </div>
+                <LogoMark size={28} />
                 <span className="text-base font-semibold text-[#0F1729]">Meridian</span>
               </Link>
               <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">

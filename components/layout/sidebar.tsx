@@ -11,7 +11,6 @@ import {
   AlertTriangle,
   Settings,
   ChevronDown,
-  Zap,
   LogOut,
   Plus,
   Bell,
@@ -19,6 +18,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { LogoMark } from "@/components/logo"
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -36,9 +36,7 @@ export function Sidebar() {
     <div className="flex h-full w-[220px] flex-col border-r border-border bg-card">
       {/* Logo */}
       <div className="flex h-[57px] items-center gap-2.5 border-b border-border px-4">
-        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#0F1729]">
-          <Zap className="h-3.5 w-3.5 text-amber-400" fill="currentColor" />
-        </div>
+        <LogoMark size={28} />
         <span className="text-[15px] font-semibold tracking-tight text-[#0F1729]">
           Meridian
         </span>

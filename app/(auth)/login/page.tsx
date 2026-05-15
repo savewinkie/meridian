@@ -5,7 +5,8 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Zap, Github, ArrowRight, Eye, EyeOff } from "lucide-react"
+import { Github, ArrowRight, Eye, EyeOff } from "lucide-react"
+import { LogoMark } from "@/components/logo"
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
@@ -28,9 +29,7 @@ export default function LoginPage() {
         <div className="absolute bottom-0 right-0 w-64 h-64 bg-amber-500/10 blur-3xl rounded-full" />
 
         <Link href="/" className="relative flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10">
-            <Zap className="h-4 w-4 text-amber-400" fill="currentColor" />
-          </div>
+          <LogoMark size={32} />
           <span className="text-base font-semibold text-white">Meridian</span>
         </Link>
 
@@ -58,9 +57,7 @@ export default function LoginPage() {
       <div className="flex flex-1 flex-col items-center justify-center px-6 py-12 bg-[#FAFAF8]">
         {/* Mobile logo */}
         <Link href="/" className="mb-8 flex items-center gap-2 lg:hidden">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0F1729]">
-            <Zap className="h-4 w-4 text-amber-400" fill="currentColor" />
-          </div>
+          <LogoMark size={32} />
           <span className="text-base font-semibold text-[#0F1729]">Meridian</span>
         </Link>
 
