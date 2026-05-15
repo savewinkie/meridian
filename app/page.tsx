@@ -207,50 +207,193 @@ function DashboardMockup() {
 
 // ─── Features ─────────────────────────────────────────────────────────────────
 
-const features = [
-  {
-    icon: Brain,
-    title: "AI-Powered Reviews",
-    description: "Claude analyzes every PR for bugs, anti-patterns, and logic errors — with context-aware suggestions, not just lint rules.",
-    color: "text-purple-600",
-    bg: "bg-purple-50",
-  },
-  {
-    icon: Shield,
-    title: "Security Scanning",
-    description: "Detect hardcoded secrets, CVEs, OWASP vulnerabilities, and misconfigurations before they reach production.",
-    color: "text-red-600",
-    bg: "bg-red-50",
-  },
-  {
-    icon: TrendingUp,
-    title: "Risk Scoring",
-    description: "Every PR gets a risk score based on change complexity, blast radius, and historical bug patterns.",
-    color: "text-amber-600",
-    bg: "bg-amber-50",
-  },
-  {
-    icon: BarChart3,
-    title: "Team Analytics",
-    description: "Track review response times, merge velocity, contributor health, and quality trends across your org.",
-    color: "text-blue-600",
-    bg: "bg-blue-50",
-  },
-  {
-    icon: AlertTriangle,
-    title: "Tech Debt Tracker",
-    description: "Visualize debt per file and module. Track how it grows or shrinks over time, and prioritize what to fix.",
-    color: "text-orange-600",
-    bg: "bg-orange-50",
-  },
-  {
-    icon: GitMerge,
-    title: "Review Policies",
-    description: "Define rules: require N approvals, block merges on critical severity, enforce review time SLAs.",
-    color: "text-emerald-600",
-    bg: "bg-emerald-50",
-  },
-]
+function FeaturesSection() {
+  return (
+    <section id="features" className="py-24 bg-[#0F1729] border-t border-white/5">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="mb-16 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          <div>
+            <p className="text-amber-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">Features</p>
+            <h2 className="text-4xl lg:text-5xl font-bold text-white tracking-tight leading-[1.1]">
+              Built for teams that
+              <br />
+              care about quality.
+            </h2>
+          </div>
+          <p className="text-white/40 text-sm leading-relaxed max-w-xs">
+            From AI-powered reviews to security scanning and tech debt tracking — one platform, zero friction.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Big card — AI Reviews */}
+          <div className="md:col-span-2 rounded-2xl border border-white/10 bg-white/5 p-8 hover:border-amber-500/20 transition-all duration-300">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/20">
+                <Brain className="h-5 w-5 text-amber-400" />
+              </div>
+              <div>
+                <p className="text-[10px] text-white/25 font-mono tracking-[0.2em] uppercase mb-0.5">01</p>
+                <h3 className="text-base font-semibold text-white">AI-Powered Reviews</h3>
+              </div>
+            </div>
+            <p className="text-white/50 text-sm leading-relaxed max-w-md mb-7">
+              Claude analyzes every PR for bugs, anti-patterns, and logic errors — with context-aware suggestions, not just lint rules.
+            </p>
+            <div className="rounded-xl border border-white/10 bg-[#070d1a] overflow-hidden">
+              <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-white/5">
+                <div className="h-2 w-2 rounded-full bg-red-500/50" />
+                <div className="h-2 w-2 rounded-full bg-amber-500/50" />
+                <div className="h-2 w-2 rounded-full bg-emerald-500/50" />
+                <span className="text-[10px] text-white/20 font-mono ml-2">auth/validator.ts</span>
+              </div>
+              <div className="font-mono text-[11px] px-4 py-3 space-y-0.5">
+                <div className="flex gap-4 text-white/35 py-0.5">
+                  <span className="w-6 shrink-0 text-right">12</span>
+                  <span>{"const token = authHeader.split(' ')[1]"}</span>
+                </div>
+                <div className="flex gap-4 bg-red-500/10 border-l-2 border-red-500/50 pl-2 -ml-px text-red-400/70 py-0.5">
+                  <span className="w-6 shrink-0 text-right">13</span>
+                  <span>{"- const decoded = jwt.decode(token)"}</span>
+                </div>
+                <div className="flex gap-4 bg-emerald-500/10 border-l-2 border-emerald-500/50 pl-2 -ml-px text-emerald-400/70 py-0.5">
+                  <span className="w-6 shrink-0 text-right">13</span>
+                  <span>{"+ const decoded = jwt.verify(token, SECRET)"}</span>
+                </div>
+                <div className="flex gap-4 text-white/35 py-0.5">
+                  <span className="w-6 shrink-0 text-right">14</span>
+                  <span>{"if (!decoded) { return unauthorized() }"}</span>
+                </div>
+              </div>
+              <div className="mx-4 mb-4 rounded-lg bg-amber-500/5 border border-amber-500/15 p-3">
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span className="text-[10px] font-semibold text-amber-400">Meridian AI</span>
+                  <span className="text-[9px] bg-red-500/15 text-red-400 px-1.5 py-0.5 rounded-md font-semibold">Critical</span>
+                  <span className="text-[9px] text-white/20">Security · Line 13</span>
+                </div>
+                <p className="text-[11px] text-white/45 leading-relaxed">
+                  <span className="text-red-300/70 font-mono">jwt.decode()</span> skips signature validation — an attacker can forge arbitrary tokens without the secret key.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Security Scanning */}
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-8 hover:border-amber-500/20 transition-all duration-300">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/20">
+                <Shield className="h-5 w-5 text-amber-400" />
+              </div>
+              <div>
+                <p className="text-[10px] text-white/25 font-mono tracking-[0.2em] uppercase mb-0.5">02</p>
+                <h3 className="text-base font-semibold text-white">Security Scanning</h3>
+              </div>
+            </div>
+            <p className="text-white/50 text-sm leading-relaxed mb-7">
+              Detect hardcoded secrets, CVEs, OWASP vulnerabilities, and misconfigurations before they reach production.
+            </p>
+            <div className="space-y-2">
+              {[
+                { label: "Hardcoded API key", sev: "Critical", cls: "text-red-400 bg-red-500/10" },
+                { label: "SQL injection risk", sev: "High", cls: "text-orange-400 bg-orange-500/10" },
+                { label: "Outdated dep (lodash)", sev: "Medium", cls: "text-amber-400 bg-amber-500/10" },
+                { label: "Missing rate limit", sev: "Low", cls: "text-blue-400 bg-blue-500/10" },
+              ].map((v) => (
+                <div key={v.label} className="flex items-center justify-between rounded-lg bg-white/5 border border-white/5 px-3 py-2.5">
+                  <span className="text-[11px] text-white/55">{v.label}</span>
+                  <span className={cn("text-[10px] font-semibold px-2 py-0.5 rounded-md", v.cls)}>{v.sev}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Risk Scoring */}
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-6 hover:border-amber-500/20 transition-all duration-300">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/20">
+                <TrendingUp className="h-4 w-4 text-amber-400" />
+              </div>
+              <div>
+                <p className="text-[10px] text-white/25 font-mono tracking-[0.2em] uppercase mb-0.5">03</p>
+                <h3 className="text-sm font-semibold text-white">Risk Scoring</h3>
+              </div>
+            </div>
+            <p className="text-white/40 text-xs leading-relaxed mb-5">
+              Every PR gets a risk score based on change complexity, blast radius, and historical patterns.
+            </p>
+            <div className="flex items-end gap-1 h-10">
+              {[35, 60, 28, 75, 50, 88, 42, 70, 55, 92].map((h, i) => (
+                <div
+                  key={i}
+                  className="flex-1 rounded-sm"
+                  style={{ height: `${h}%`, background: `rgba(245,158,11,${0.15 + (h / 100) * 0.55})` }}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Team Analytics */}
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-6 hover:border-amber-500/20 transition-all duration-300">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/20">
+                <BarChart3 className="h-4 w-4 text-amber-400" />
+              </div>
+              <div>
+                <p className="text-[10px] text-white/25 font-mono tracking-[0.2em] uppercase mb-0.5">04</p>
+                <h3 className="text-sm font-semibold text-white">Team Analytics</h3>
+              </div>
+            </div>
+            <p className="text-white/40 text-xs leading-relaxed mb-5">
+              Track review response times, merge velocity, contributor health, and quality trends across your org.
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                { label: "Avg review time", val: "1.8h", delta: "↓ 43%" },
+                { label: "Merge velocity", val: "12/day", delta: "↑ 28%" },
+              ].map((m) => (
+                <div key={m.label} className="rounded-lg bg-white/5 border border-white/5 p-3">
+                  <p className="text-[9px] text-white/30 uppercase tracking-wide mb-1.5">{m.label}</p>
+                  <p className="text-sm font-bold text-white leading-none mb-1">{m.val}</p>
+                  <p className="text-[10px] text-emerald-400 font-medium">{m.delta}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Review Policies */}
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-6 hover:border-amber-500/20 transition-all duration-300">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/20">
+                <GitMerge className="h-4 w-4 text-amber-400" />
+              </div>
+              <div>
+                <p className="text-[10px] text-white/25 font-mono tracking-[0.2em] uppercase mb-0.5">05</p>
+                <h3 className="text-sm font-semibold text-white">Review Policies</h3>
+              </div>
+            </div>
+            <p className="text-white/40 text-xs leading-relaxed mb-5">
+              Define rules: require N approvals, block merges on critical severity, enforce review time SLAs.
+            </p>
+            <div className="space-y-2">
+              {[
+                { rule: "Block merge on Critical", on: true },
+                { rule: "Require 2 approvals", on: true },
+                { rule: "Max review time 24h", on: false },
+              ].map((r) => (
+                <div key={r.rule} className="flex items-center justify-between rounded-lg bg-white/5 border border-white/5 px-3 py-2">
+                  <span className="text-[11px] text-white/50">{r.rule}</span>
+                  <div className={cn("h-4 w-7 rounded-full flex items-center px-0.5", r.on ? "bg-amber-500/30 justify-end" : "bg-white/10 justify-start")}>
+                    <div className={cn("h-3 w-3 rounded-full", r.on ? "bg-amber-400" : "bg-white/25")} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
 
 // ─── Testimonials ──────────────────────────────────────────────────────────────
 
@@ -401,14 +544,14 @@ export default function LandingPage() {
       </section>
 
       {/* Logos */}
-      <section className="border-b border-border bg-white py-12">
+      <section className="border-b border-white/5 bg-[#0a1020] py-12">
         <div className="mx-auto max-w-5xl px-6 text-center">
-          <p className="text-sm text-muted-foreground mb-8">
+          <p className="text-sm text-white/25 mb-8 tracking-wide">
             Trusted by engineering teams at
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4">
             {["Acme Corp", "Streamline", "Vertex", "Cascade", "Pulsar", "Flowbase"].map((name) => (
-              <span key={name} className="text-lg font-semibold text-gray-300">
+              <span key={name} className="text-sm font-semibold text-white/15 tracking-widest uppercase">
                 {name}
               </span>
             ))}
@@ -416,37 +559,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Features */}
-      <section id="features" className="py-24 bg-[#FAFAF8]">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="text-center mb-16">
-            <Badge variant="navy" className="mb-4">Features</Badge>
-            <h2 className="text-4xl font-bold text-[#0F1729] tracking-tight mb-4">
-              Everything your team needs
-              <br />
-              to ship with confidence.
-            </h2>
-            <p className="text-muted-foreground text-lg max-w-xl mx-auto">
-              From AI-powered reviews to security scanning and tech debt tracking — one platform, zero friction.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((feature) => (
-              <div
-                key={feature.title}
-                className="group rounded-2xl border border-border bg-white p-6 hover:border-amber-200 hover:shadow-lg hover:shadow-amber-500/5 transition-all duration-200"
-              >
-                <div className={cn("flex h-11 w-11 items-center justify-center rounded-xl mb-4", feature.bg)}>
-                  <feature.icon className={cn("h-5 w-5", feature.color)} />
-                </div>
-                <h3 className="text-base font-semibold text-[#0F1729] mb-2">{feature.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <FeaturesSection />
 
       {/* How it works */}
       <section className="py-24 bg-white border-y border-border">
