@@ -87,6 +87,11 @@
     background-size: 24px 24px;
   }
 
+  .dot-grid-dark {
+    background-image: radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
   /* Code blocks */
   .code-line-added { @apply bg-emerald-50 border-l-2 border-emerald-400; }
   .code-line-removed { @apply bg-red-50 border-l-2 border-red-400; }

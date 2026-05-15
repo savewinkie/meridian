@@ -29,7 +29,7 @@ function Navbar() {
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled ? "bg-white/90 backdrop-blur-md border-b border-border shadow-sm" : "bg-transparent"
+        scrolled ? "bg-[#0F1729]/95 backdrop-blur-md border-b border-white/10" : "bg-transparent"
       )}
     >
       <div className="mx-auto max-w-6xl px-6">
@@ -48,7 +48,7 @@ function Navbar() {
                 href={`#${item.toLowerCase()}`}
                 className={cn(
                   "px-3 py-1.5 rounded-md text-sm font-medium transition-colors",
-                  scrolled ? "text-gray-600 hover:text-[#0F1729] hover:bg-gray-50" : "text-white/70 hover:text-white hover:bg-white/10"
+                  scrolled ? "text-white/60 hover:text-white hover:bg-white/10" : "text-white/70 hover:text-white hover:bg-white/10"
                 )}
               >
                 {item}
@@ -58,7 +58,7 @@ function Navbar() {
 
           <div className="hidden md:flex items-center gap-3">
             <Link href="/login">
-              <Button variant="ghost" size="sm" className={cn(scrolled ? "" : "text-white/80 hover:text-white hover:bg-white/10")}>
+              <Button variant="ghost" size="sm" className="text-white/80 hover:text-white hover:bg-white/10">
                 Sign in
               </Button>
             </Link>
@@ -79,14 +79,14 @@ function Navbar() {
       </div>
 
       {mobileOpen && (
-        <div className="md:hidden bg-white border-b border-border px-6 py-4 space-y-3">
+        <div className="md:hidden bg-[#0F1729] border-b border-white/10 px-6 py-4 space-y-3">
           {["Features", "Pricing", "Docs", "Blog"].map((item) => (
-            <Link key={item} href={`#${item.toLowerCase()}`} className="block text-sm text-gray-600 py-1">
+            <Link key={item} href={`#${item.toLowerCase()}`} className="block text-sm text-white/60 py-1 hover:text-white">
               {item}
             </Link>
           ))}
           <div className="pt-2 flex flex-col gap-2">
-            <Link href="/login"><Button variant="outline" className="w-full">Sign in</Button></Link>
+            <Link href="/login"><Button variant="ghost" className="w-full text-white/70 hover:text-white hover:bg-white/10">Sign in</Button></Link>
             <Link href="/signup"><Button variant="amber" className="w-full">Get started free</Button></Link>
           </div>
         </div>
@@ -484,12 +484,11 @@ const plans = [
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-[#FAFAF8]">
+    <div className="min-h-screen bg-[#0F1729] dot-grid-dark">
       <Navbar />
 
       {/* Hero */}
-      <section className="relative overflow-hidden bg-[#0F1729] pt-32 pb-24">
-        <div className="absolute inset-0 dot-grid opacity-20" />
+      <section className="relative overflow-hidden pt-32 pb-24">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-amber-500/10 blur-[120px] rounded-full pointer-events-none" />
 
         <div className="relative mx-auto max-w-6xl px-6">
@@ -544,7 +543,7 @@ export default function LandingPage() {
       </section>
 
       {/* Logos */}
-      <section className="border-b border-white/5 bg-[#0a1020] py-12">
+      <section className="border-b border-white/5 py-12">
         <div className="mx-auto max-w-5xl px-6 text-center">
           <p className="text-sm text-white/25 mb-8 tracking-wide">
             Trusted by engineering teams at
@@ -562,11 +561,11 @@ export default function LandingPage() {
       <FeaturesSection />
 
       {/* How it works */}
-      <section className="py-24 bg-white border-y border-border">
+      <section className="py-24 border-y border-white/5">
         <div className="mx-auto max-w-5xl px-6">
           <div className="text-center mb-16">
-            <Badge variant="navy" className="mb-4">How it works</Badge>
-            <h2 className="text-4xl font-bold text-[#0F1729] tracking-tight mb-4">
+            <p className="text-amber-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">How it works</p>
+            <h2 className="text-4xl font-bold text-white tracking-tight mb-4">
               Set up in minutes.
               <br />
               Works automatically forever.
@@ -597,14 +596,14 @@ export default function LandingPage() {
               <div key={step.step} className="relative">
                 <div className="flex items-start gap-4">
                   <div className="shrink-0">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0F1729]">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/10 border border-amber-500/20">
                       <step.icon className="h-5 w-5 text-amber-400" />
                     </div>
                   </div>
                   <div>
                     <p className="text-xs font-bold text-amber-500 mb-1">{step.step}</p>
-                    <h3 className="text-base font-semibold text-[#0F1729] mb-2">{step.title}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{step.description}</p>
+                    <h3 className="text-base font-semibold text-white mb-2">{step.title}</h3>
+                    <p className="text-sm text-white/50 leading-relaxed">{step.description}</p>
                   </div>
                 </div>
               </div>
@@ -614,7 +613,7 @@ export default function LandingPage() {
       </section>
 
       {/* Stats */}
-      <section className="bg-[#0F1729] py-16">
+      <section className="py-16">
         <div className="mx-auto max-w-5xl px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
@@ -633,31 +632,31 @@ export default function LandingPage() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-24 bg-[#FAFAF8]">
+      <section className="py-24 border-y border-white/5">
         <div className="mx-auto max-w-6xl px-6">
           <div className="text-center mb-16">
-            <Badge variant="navy" className="mb-4">Testimonials</Badge>
-            <h2 className="text-4xl font-bold text-[#0F1729] tracking-tight">
+            <p className="text-amber-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">Testimonials</p>
+            <h2 className="text-4xl font-bold text-white tracking-tight">
               Loved by engineering teams.
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {testimonials.map((t) => (
-              <div key={t.author} className="rounded-2xl border border-border bg-white p-6">
+              <div key={t.author} className="rounded-2xl border border-white/10 bg-white/5 p-6">
                 <div className="flex items-center gap-0.5 mb-4">
                   {[...Array(t.stars)].map((_, i) => (
                     <Star key={i} className="h-3.5 w-3.5 text-amber-400 fill-current" />
                   ))}
                 </div>
-                <p className="text-sm text-gray-700 leading-relaxed mb-6">"{t.quote}"</p>
+                <p className="text-sm text-white/65 leading-relaxed mb-6">"{t.quote}"</p>
                 <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-amber-100 text-amber-700 text-xs font-bold">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-amber-500/15 text-amber-400 text-xs font-bold">
                     {t.avatar}
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-[#0F1729]">{t.author}</p>
-                    <p className="text-xs text-muted-foreground">{t.role}</p>
+                    <p className="text-sm font-semibold text-white">{t.author}</p>
+                    <p className="text-xs text-white/40">{t.role}</p>
                   </div>
                 </div>
               </div>
@@ -667,14 +666,14 @@ export default function LandingPage() {
       </section>
 
       {/* Pricing */}
-      <section id="pricing" className="py-24 bg-white border-y border-border">
+      <section id="pricing" className="py-24 border-y border-white/5">
         <div className="mx-auto max-w-6xl px-6">
           <div className="text-center mb-16">
-            <Badge variant="navy" className="mb-4">Pricing</Badge>
-            <h2 className="text-4xl font-bold text-[#0F1729] tracking-tight mb-4">
+            <p className="text-amber-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">Pricing</p>
+            <h2 className="text-4xl font-bold text-white tracking-tight mb-4">
               Simple, transparent pricing.
             </h2>
-            <p className="text-muted-foreground text-lg">
+            <p className="text-white/50 text-lg">
               No seat fees. No usage surprises. Start free, scale as you grow.
             </p>
           </div>
@@ -686,8 +685,8 @@ export default function LandingPage() {
                 className={cn(
                   "relative rounded-2xl border p-8 flex flex-col",
                   plan.highlighted
-                    ? "bg-[#0F1729] border-[#0F1729] shadow-2xl shadow-[#0F1729]/20"
-                    : "bg-white border-border"
+                    ? "bg-amber-500/10 border-amber-500/30 shadow-2xl shadow-amber-500/10"
+                    : "bg-white/5 border-white/10"
                 )}
               >
                 {plan.highlighted && (
@@ -697,20 +696,12 @@ export default function LandingPage() {
                 )}
 
                 <div className="mb-6">
-                  <h3 className={cn("text-lg font-semibold mb-1", plan.highlighted ? "text-white" : "text-[#0F1729]")}>
-                    {plan.name}
-                  </h3>
-                  <p className={cn("text-sm mb-4", plan.highlighted ? "text-white/50" : "text-muted-foreground")}>
-                    {plan.description}
-                  </p>
+                  <h3 className="text-lg font-semibold text-white mb-1">{plan.name}</h3>
+                  <p className="text-sm text-white/40 mb-4">{plan.description}</p>
                   <div className="flex items-baseline gap-1">
-                    <span className={cn("text-4xl font-bold", plan.highlighted ? "text-white" : "text-[#0F1729]")}>
-                      {plan.price}
-                    </span>
+                    <span className="text-4xl font-bold text-white">{plan.price}</span>
                     {plan.period && (
-                      <span className={cn("text-sm", plan.highlighted ? "text-white/40" : "text-muted-foreground")}>
-                        {plan.period}
-                      </span>
+                      <span className="text-sm text-white/40">{plan.period}</span>
                     )}
                   </div>
                 </div>
@@ -718,10 +709,8 @@ export default function LandingPage() {
                 <ul className="space-y-3 mb-8 flex-1">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-2.5">
-                      <CheckCircle2 className={cn("h-4 w-4 mt-0.5 shrink-0", plan.highlighted ? "text-amber-400" : "text-emerald-500")} />
-                      <span className={cn("text-sm", plan.highlighted ? "text-white/70" : "text-gray-600")}>
-                        {feature}
-                      </span>
+                      <CheckCircle2 className={cn("h-4 w-4 mt-0.5 shrink-0", plan.highlighted ? "text-amber-400" : "text-emerald-400")} />
+                      <span className="text-sm text-white/60">{feature}</span>
                     </li>
                   ))}
                 </ul>
@@ -742,8 +731,7 @@ export default function LandingPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 bg-[#0F1729] relative overflow-hidden">
-        <div className="absolute inset-0 dot-grid opacity-20" />
+      <section className="py-24 relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[300px] bg-amber-500/10 blur-[80px] rounded-full pointer-events-none" />
         <div className="relative mx-auto max-w-3xl px-6 text-center">
           <h2 className="text-4xl sm:text-5xl font-bold text-white tracking-tight mb-6">
@@ -770,15 +758,15 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-border py-12">
+      <footer className="border-t border-white/10 py-12">
         <div className="mx-auto max-w-6xl px-6">
           <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
             <div className="col-span-2">
               <Link href="/" className="flex items-center gap-2 mb-4">
                 <LogoMark size={28} />
-                <span className="text-base font-semibold text-[#0F1729]">Meridian</span>
+                <span className="text-base font-semibold text-white">Meridian</span>
               </Link>
-              <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
+              <p className="text-sm text-white/40 max-w-xs leading-relaxed">
                 AI-powered code review and quality platform for modern engineering teams.
               </p>
             </div>
@@ -798,13 +786,13 @@ export default function LandingPage() {
               },
             ].map((col) => (
               <div key={col.heading}>
-                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/60 mb-4">
+                <p className="text-xs font-semibold uppercase tracking-widest text-white/25 mb-4">
                   {col.heading}
                 </p>
                 <ul className="space-y-3">
                   {col.links.map((link) => (
                     <li key={link}>
-                      <a href="#" className="text-sm text-muted-foreground hover:text-[#0F1729] transition-colors">
+                      <a href="#" className="text-sm text-white/40 hover:text-white transition-colors">
                         {link}
                       </a>
                     </li>
@@ -814,11 +802,11 @@ export default function LandingPage() {
             ))}
           </div>
 
-          <div className="border-t border-border pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-muted-foreground">
+          <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p className="text-xs text-white/25">
               © {new Date().getFullYear()} Meridian, Inc. All rights reserved.
             </p>
-            <div className="flex items-center gap-4 text-xs text-muted-foreground">
+            <div className="flex items-center gap-4 text-xs text-white/25">
               <span>Made with ♥ for developers</span>
             </div>
           </div>
