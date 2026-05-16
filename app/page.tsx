@@ -13,6 +13,7 @@ import {
   Bell, Zap, Check, Lock,
 } from "lucide-react"
 import { LogoMark } from "@/components/logo"
+import { LiveDemo } from "@/components/live-demo"
 
 // ─── Animation Hooks ────────────────────────────────────────────────────────
 
@@ -64,10 +65,29 @@ function AnimateIn({
   )
 }
 
+function useCountUp(target: number, duration = 1800, active = false): number {
+  const [count, setCount] = useState(0)
+  useEffect(() => {
+    if (!active) return
+    let raf: number
+    const start = performance.now()
+    function tick(now: number) {
+      const p = Math.min((now - start) / duration, 1)
+      setCount(Math.floor(p * target))
+      if (p < 1) raf = requestAnimationFrame(tick)
+      else setCount(target)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [target, duration, active])
+  return count
+}
+
 // ─── Stat Card ───────────────────────────────────────────────────────────────
 
-function StatCard({ value, label, delay = 0 }: { value: string; label: string; delay?: number }) {
+function CountStatCard({ num, suffix, label, delay = 0 }: { num: number; suffix: string; label: string; delay?: number }) {
   const { ref, inView } = useInView(0.3)
+  const count = useCountUp(num, 1800, inView)
   return (
     <div
       ref={ref}
@@ -77,7 +97,7 @@ function StatCard({ value, label, delay = 0 }: { value: string; label: string; d
         inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
       )}
     >
-      <div className="text-4xl lg:text-5xl font-bold text-white mb-2">{value}</div>
+      <div className="text-4xl lg:text-5xl font-bold text-white mb-2">{count}{suffix}</div>
       <div className="text-sm text-white/50">{label}</div>
     </div>
   )
@@ -747,6 +767,110 @@ const plans = [
 
 const companies = ["Acme Corp", "Streamline", "Vertex", "Cascade", "Pulsar", "Flowbase", "Luminary", "Nexus", "Orbit", "Prism", "Vanta", "Axiom"]
 
+// ─── Integrations ─────────────────────────────────────────────────────────────
+
+const INTEGRATIONS = [
+  { name: "GitHub", color: "#e6edf3" },
+  { name: "GitLab", color: "#fc6d26" },
+  { name: "Bitbucket", color: "#2684ff" },
+  { name: "GitHub Actions", color: "#2088ff" },
+  { name: "CircleCI", color: "#93c5fd" },
+  { name: "Slack", color: "#4ade80" },
+  { name: "Microsoft Teams", color: "#5558af" },
+  { name: "Jira", color: "#0052cc" },
+  { name: "Linear", color: "#5e6ad2" },
+  { name: "VS Code", color: "#007acc" },
+  { name: "JetBrains", color: "#fe315d" },
+  { name: "PagerDuty", color: "#06ac38" },
+  { name: "Datadog", color: "#632ca6" },
+  { name: "Asana", color: "#f06a6a" },
+]
+
+function IntegrationsSection() {
+  return (
+    <section className="py-24 border-y border-white/5">
+      <div className="mx-auto max-w-5xl px-6">
+        <AnimateIn className="text-center mb-12">
+          <p className="text-amber-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">Integrations</p>
+          <h2 className="text-4xl font-bold text-white tracking-tight mb-4">Works with your stack.</h2>
+          <p className="text-white/40 text-base max-w-xl mx-auto">
+            Connect to the tools your team already uses. Set up in minutes, not days.
+          </p>
+        </AnimateIn>
+        <AnimateIn delay={100}>
+          <div className="flex flex-wrap gap-3 justify-center">
+            {INTEGRATIONS.map((integration) => (
+              <div
+                key={integration.name}
+                className="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-5 py-2.5 hover:border-white/20 hover:bg-white/10 transition-all duration-200 cursor-default"
+              >
+                <div className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: integration.color }} />
+                <span className="text-sm font-medium text-white/55">{integration.name}</span>
+              </div>
+            ))}
+          </div>
+        </AnimateIn>
+        <AnimateIn delay={200} className="mt-10 text-center">
+          <p className="text-white/25 text-sm">And 50+ more via webhooks and REST API</p>
+        </AnimateIn>
+      </div>
+    </section>
+  )
+}
+
+// ─── Enterprise ───────────────────────────────────────────────────────────────
+
+function EnterpriseSection() {
+  const items = [
+    { icon: Shield, title: "SOC 2 Type II", desc: "Audited annually by independent third parties. Controls verified, reports available on request." },
+    { icon: Lock, title: "SAML / SSO", desc: "Plug in Okta, Azure AD, Google Workspace, or any SAML 2.0 provider in minutes." },
+    { icon: CheckCircle2, title: "GDPR Compliant", desc: "Data residency controls, DPA available, and right-to-erasure fully supported." },
+    { icon: AlertCircle, title: "Audit Logs", desc: "Immutable logs of every action across your org. Export to your SIEM or object store." },
+    { icon: GitMerge, title: "Role-Based Access", desc: "Granular permissions: owner, admin, reviewer, and read-only roles per repo or org." },
+    { icon: Code2, title: "On-Premises", desc: "Deploy in your own VPC or air-gapped environment. Full data sovereignty." },
+  ]
+
+  return (
+    <section className="py-24 border-y border-white/5">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <AnimateIn direction="left">
+            <p className="text-amber-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">Enterprise</p>
+            <h2 className="text-4xl font-bold text-white tracking-tight mb-6">
+              Security your<br />compliance team loves.
+            </h2>
+            <p className="text-white/50 text-base leading-relaxed mb-8">
+              Meridian meets the requirements of the world's most regulated engineering organizations.
+              SOC 2, GDPR, and enterprise SSO are included on every Enterprise plan — not add-ons.
+            </p>
+            <Link href="mailto:sales@meridian.dev">
+              <Button variant="amber" className="gap-2">
+                Talk to sales <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </AnimateIn>
+          <AnimateIn direction="right" delay={100}>
+            <div className="grid grid-cols-2 gap-4">
+              {items.map((item) => (
+                <div
+                  key={item.title}
+                  className="rounded-2xl border border-white/10 bg-white/5 p-5 hover:border-amber-500/20 transition-all duration-300"
+                >
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/20 mb-4">
+                    <item.icon className="h-4 w-4 text-amber-400" />
+                  </div>
+                  <h3 className="text-sm font-semibold text-white mb-2">{item.title}</h3>
+                  <p className="text-xs text-white/40 leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </AnimateIn>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function LandingPage() {
@@ -821,6 +945,8 @@ export default function LandingPage() {
         </div>
       </section>
 
+      <LiveDemo />
+
       <FeaturesSection />
 
       <ProductTour />
@@ -859,17 +985,21 @@ export default function LandingPage() {
         </div>
       </section>
 
+      <IntegrationsSection />
+
       {/* Stats */}
       <section className="py-20">
         <div className="mx-auto max-w-5xl px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <StatCard value="2M+" label="Reviews processed" delay={0} />
-            <StatCard value="500+" label="Engineering teams" delay={80} />
-            <StatCard value="47%" label="Faster review cycles" delay={160} />
-            <StatCard value="99.9%" label="Uptime SLA" delay={240} />
+            <CountStatCard num={2} suffix="M+" label="Reviews processed" delay={0} />
+            <CountStatCard num={500} suffix="+" label="Engineering teams" delay={80} />
+            <CountStatCard num={47} suffix="%" label="Faster review cycles" delay={160} />
+            <CountStatCard num={99} suffix=".9%" label="Uptime SLA" delay={240} />
           </div>
         </div>
       </section>
+
+      <EnterpriseSection />
 
       <ComparisonTable />
 
