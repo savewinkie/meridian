@@ -1,7 +1,8 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
+import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import {
   LayoutDashboard,
@@ -32,6 +33,31 @@ const navigation = [
 
 export function Sidebar() {
   const pathname = usePathname()
+  const router = useRouter()
+  const [user, setUser] = useState<any>(null)
+
+  useEffect(() => {
+    import("@/lib/supabase/client").then(({ createClient }) => {
+      const supabase = createClient()
+      supabase.auth.getSession().then(({ data: { session } }) => setUser(session?.user ?? null))
+      const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
+        setUser(session?.user ?? null)
+      })
+      return () => subscription.unsubscribe()
+    })
+  }, [])
+
+  const handleSignOut = async () => {
+    const { createClient } = await import("@/lib/supabase/client")
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    router.push("/")
+  }
+
+  const avatar = user?.user_metadata?.avatar_url
+  const username = user?.user_metadata?.user_name || user?.user_metadata?.name || user?.email?.split("@")[0] || "User"
+  const email = user?.email || ""
+  const initials = username.slice(0, 2).toUpperCase()
 
   return (
     <div className="flex h-full w-[220px] flex-col border-r border-white/[0.06] bg-[#080d1a]">
@@ -123,18 +149,22 @@ export function Sidebar() {
 
       {/* User section */}
       <div className="border-t border-white/[0.06] p-3">
-        <div className="flex items-center gap-2.5 rounded-md px-2 py-1.5 hover:bg-white/[0.05] transition-colors group cursor-pointer">
+        <div className="flex items-center gap-2.5 rounded-md px-2 py-1.5 hover:bg-white/[0.05] transition-colors group">
           <Avatar className="h-7 w-7 shrink-0">
-            <AvatarImage src="" />
+            <AvatarImage src={avatar} />
             <AvatarFallback className="bg-amber-500/20 text-amber-400 text-[11px] font-semibold">
-              JD
+              {initials}
             </AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-semibold text-white/80 truncate">John Doe</p>
-            <p className="text-[10px] text-white/30 truncate">john@acme.com</p>
+            <p className="text-xs font-semibold text-white/80 truncate">{username}</p>
+            <p className="text-[10px] text-white/30 truncate">{email}</p>
           </div>
-          <button className="text-white/25 hover:text-white/60 transition-colors opacity-0 group-hover:opacity-100">
+          <button
+            onClick={handleSignOut}
+            title="Sign out"
+            className="text-white/25 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100"
+          >
             <LogOut className="h-3.5 w-3.5" />
           </button>
         </div>
