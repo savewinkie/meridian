@@ -238,6 +238,13 @@ function Navbar() {
   const avatar = user?.user_metadata?.avatar_url
   const username = user?.user_metadata?.user_name || user?.user_metadata?.name || user?.email?.split("@")[0]
 
+  const handleSignOut = async () => {
+    const { createClient } = await import("@/lib/supabase/client")
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    setUser(null)
+  }
+
   return (
     <header className={cn("fixed top-0 left-0 right-0 z-50 transition-all duration-300", scrolled ? "bg-[#0F1729]/95 backdrop-blur-md border-b border-white/10" : "bg-transparent")}>
       <div className="mx-auto max-w-6xl px-6">
@@ -271,6 +278,9 @@ function Navbar() {
                 <MagneticButton>
                   <Link href="/dashboard"><Button size="sm" variant="amber">Dashboard</Button></Link>
                 </MagneticButton>
+                <Button variant="ghost" size="sm" onClick={handleSignOut} className="text-white/40 hover:text-white/80 hover:bg-white/10">
+                  Sign out
+                </Button>
               </>
             ) : (
               <>
@@ -293,7 +303,10 @@ function Navbar() {
           ))}
           <div className="pt-2 flex flex-col gap-2">
             {user ? (
-              <Link href="/dashboard"><Button variant="amber" className="w-full">Go to Dashboard</Button></Link>
+              <>
+                <Link href="/dashboard"><Button variant="amber" className="w-full">Go to Dashboard</Button></Link>
+                <Button variant="ghost" onClick={handleSignOut} className="w-full text-white/50 hover:text-white hover:bg-white/10">Sign out</Button>
+              </>
             ) : (
               <>
                 <Link href="/login"><Button variant="ghost" className="w-full text-white/70 hover:text-white hover:bg-white/10">Sign in</Button></Link>
