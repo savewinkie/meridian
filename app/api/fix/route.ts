@@ -1,9 +1,17 @@
 import Anthropic from "@anthropic-ai/sdk"
 import { NextResponse } from "next/server"
 
-const client = new Anthropic()
-
 export async function POST(req: Request) {
+  const apiKey = process.env.ANTHROPIC_API_KEY
+  if (!apiKey || apiKey === "placeholder-key" || apiKey.startsWith("sk-ant-...")) {
+    return NextResponse.json(
+      { error: "ANTHROPIC_API_KEY is not set. Add your real key to .env.local and restart the server." },
+      { status: 500 }
+    )
+  }
+
+  const client = new Anthropic({ apiKey })
+
   try {
     const { code, language } = await req.json()
 
