@@ -14,6 +14,7 @@ import {
   LogOut,
   Plus,
   Bell,
+  Brain,
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -22,6 +23,7 @@ import { LogoMark } from "@/components/logo"
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { name: "AI Scanner", href: "/scanner", icon: Brain, isNew: true },
   { name: "Reviews", href: "/reviews", icon: GitPullRequest, badge: 12 },
   { name: "Analytics", href: "/analytics", icon: BarChart3 },
   { name: "Security", href: "/security", icon: Shield, badge: 3, badgeVariant: "critical" as const },
@@ -93,7 +95,12 @@ export function Sidebar() {
                 )}
               />
               <span className="flex-1">{item.name}</span>
-              {item.badge && (
+              {item.isNew && !isActive && (
+                <span className="text-[9px] font-bold bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded-full">
+                  NEW
+                </span>
+              )}
+              {item.badge && !item.isNew && (
                 <span
                   className={cn(
                     "flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-[10px] font-semibold",
