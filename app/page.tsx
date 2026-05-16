@@ -342,7 +342,7 @@ function FeaturesSection() {
           <p className="text-white/40 text-sm leading-relaxed max-w-xs">From AI-powered reviews to security scanning and tech debt tracking — one platform, zero friction.</p>
         </AnimateIn>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           {/* AI Reviews — big */}
           <AnimateIn delay={0} className="md:col-span-2">
             <SpotlightCard className="rounded-2xl border border-white/10 bg-white/5 p-8 hover:border-amber-500/20 transition-all duration-300 h-full">
@@ -444,100 +444,25 @@ function FeaturesSection() {
             </SpotlightCard>
           </AnimateIn>
 
-          {/* Review Policies */}
-          <AnimateIn delay={160}>
-            <SpotlightCard className="rounded-2xl border border-white/10 bg-white/5 p-6 hover:border-amber-500/20 transition-all duration-300 h-full">
-              <div className="flex items-center gap-3 mb-4 relative z-10">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/20"><GitMerge className="h-4 w-4 text-amber-400" /></div>
-                <div><p className="text-[10px] text-white/25 font-mono tracking-[0.2em] uppercase mb-0.5">05</p><h3 className="text-sm font-semibold text-white">Review Policies</h3></div>
-              </div>
-              <p className="text-white/40 text-xs leading-relaxed mb-5 relative z-10">Define rules: require N approvals, block merges on critical severity, enforce review time SLAs.</p>
-              <div className="space-y-2 relative z-10">
-                {[{ rule: "Block merge on Critical", on: true }, { rule: "Require 2 approvals", on: true }, { rule: "Max review time 24h", on: false }].map((r) => (
-                  <div key={r.rule} className="flex items-center justify-between rounded-lg bg-white/5 border border-white/5 px-3 py-2">
-                    <span className="text-[11px] text-white/50">{r.rule}</span>
-                    <div className={cn("h-4 w-7 rounded-full flex items-center px-0.5", r.on ? "bg-amber-500/30 justify-end" : "bg-white/10 justify-start")}>
-                      <div className={cn("h-3 w-3 rounded-full", r.on ? "bg-amber-400" : "bg-white/25")} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </SpotlightCard>
-          </AnimateIn>
-
-          {/* Smart Notifications */}
-          <AnimateIn delay={0}>
-            <SpotlightCard className="rounded-2xl border border-white/10 bg-white/5 p-6 hover:border-amber-500/20 transition-all duration-300 h-full">
-              <div className="flex items-center gap-3 mb-4 relative z-10">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/20"><Bell className="h-4 w-4 text-amber-400" /></div>
-                <div><p className="text-[10px] text-white/25 font-mono tracking-[0.2em] uppercase mb-0.5">06</p><h3 className="text-sm font-semibold text-white">Smart Notifications</h3></div>
-              </div>
-              <p className="text-white/40 text-xs leading-relaxed mb-5 relative z-10">Route alerts to the right people. Slack, email, or PagerDuty — only for issues that actually matter.</p>
-              <div className="rounded-xl bg-[#0d1117] border border-white/10 p-3 space-y-2 relative z-10">
-                {[
-                  { icon: "🔴", text: "Critical issue in auth/", time: "now", channel: "#security" },
-                  { icon: "🟡", text: "PR #312 needs review", time: "2m", channel: "#backend" },
-                  { icon: "🟢", text: "Debt score improved 8%", time: "1h", channel: "#eng" },
-                ].map((n) => (
-                  <div key={n.text} className="flex items-center gap-2 rounded-lg bg-white/5 px-2.5 py-2">
-                    <span className="text-sm">{n.icon}</span>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-[10px] text-white/70 truncate">{n.text}</p>
-                      <p className="text-[9px] text-white/30">{n.channel}</p>
-                    </div>
-                    <span className="text-[9px] text-white/25 shrink-0">{n.time}</span>
-                  </div>
-                ))}
-              </div>
-            </SpotlightCard>
-          </AnimateIn>
-
-          {/* Auto-fix — big */}
-          <AnimateIn delay={80} className="md:col-span-2">
-            <SpotlightCard className="rounded-2xl border border-white/10 bg-white/5 p-8 hover:border-amber-500/20 transition-all duration-300 h-full">
-              <div className="flex items-center gap-3 mb-5 relative z-10">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/20"><Zap className="h-5 w-5 text-amber-400" /></div>
-                <div>
-                  <p className="text-[10px] text-white/25 font-mono tracking-[0.2em] uppercase mb-0.5">07</p>
-                  <h3 className="text-base font-semibold text-white">Auto-fix Suggestions</h3>
-                </div>
-              </div>
-              <p className="text-white/50 text-sm leading-relaxed max-w-md mb-7 relative z-10">Meridian doesn't just flag issues — it generates safe, tested fix suggestions you can apply with one click directly in your PR.</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5 relative z-10">
-                <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-4">
-                  <p className="text-[10px] font-semibold text-red-400 mb-3 flex items-center gap-1.5"><X className="h-3 w-3" /> Before</p>
-                  <div className="font-mono text-[10px] space-y-0.5 text-red-300/60">
-                    <div>{"const q = `SELECT * FROM users"}</div>
-                    <div>{"  WHERE id = ${userId}`"}</div>
-                  </div>
-                </div>
-                <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4">
-                  <p className="text-[10px] font-semibold text-emerald-400 mb-3 flex items-center gap-1.5"><Check className="h-3 w-3" /> After</p>
-                  <div className="font-mono text-[10px] space-y-0.5 text-emerald-300/70">
-                    <div>{"const q = db.query("}</div>
-                    <div>{"  'SELECT * FROM users"}</div>
-                    <div>{"   WHERE id = ?', [userId])"}</div>
-                  </div>
-                </div>
-              </div>
-              <button className="flex items-center gap-2 rounded-xl bg-amber-500/10 border border-amber-500/20 px-4 py-2 text-xs font-semibold text-amber-400 hover:bg-amber-500/20 transition-colors relative z-10">
-                <Zap className="h-3.5 w-3.5" />Apply fix to PR
-              </button>
-            </SpotlightCard>
-          </AnimateIn>
         </div>
+
+        <AnimateIn delay={200} className="text-center">
+          <Link href="/dashboard" className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] hover:bg-white/[0.07] hover:border-white/20 px-5 py-2.5 text-sm font-medium text-white/50 hover:text-white/80 transition-all">
+            See all features — auto-fix, review policies, smart alerts, and more
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </AnimateIn>
       </div>
     </section>
   )
 }
 
-// ─── Product Tour ──────────────────────────────────────────────────────────────
+// ─── Product Tour removed ─────────────────────────────────────────────────────
 
-type TourTab = "review" | "security" | "analytics" | "policies"
-
-function ProductTour() {
-  const [active, setActive] = useState<TourTab>("review")
-  const tabs: Array<{ id: TourTab; label: string; icon: any }> = [
+function ProductTour() { return null }
+function _PT() {
+  const [active, setActive] = useState<any>("review")
+  const tabs: Array<{ id: any; label: string; icon: any }> = [
     { id: "review", label: "AI Review", icon: Brain },
     { id: "security", label: "Security", icon: Shield },
     { id: "analytics", label: "Analytics", icon: BarChart3 },
@@ -735,9 +660,10 @@ function ProductTour() {
   )
 }
 
-// ─── Comparison Table ──────────────────────────────────────────────────────────
+// ─── Comparison Table removed ─────────────────────────────────────────────────
 
-const comparisons: Array<{ feature: string; manual: boolean | "partial"; copilot: boolean | "partial"; meridian: boolean }> = [
+function ComparisonTable() { return null }
+const _comparisons: Array<{ feature: string; manual: boolean | "partial"; copilot: boolean | "partial"; meridian: boolean }> = [
   { feature: "AI-powered code review", manual: false, copilot: "partial", meridian: true },
   { feature: "Security vulnerability scanning", manual: false, copilot: false, meridian: true },
   { feature: "Risk scoring per PR", manual: false, copilot: false, meridian: true },
@@ -750,7 +676,7 @@ const comparisons: Array<{ feature: string; manual: boolean | "partial"; copilot
   { feature: "CVE / OWASP detection", manual: false, copilot: false, meridian: true },
 ]
 
-function ComparisonTable() {
+function _ComparisonTableOld() {
   const Cell = ({ val }: { val: boolean | "partial" }) => {
     if (val === true) return <Check className="h-4 w-4 text-emerald-400 mx-auto" />
     if (val === "partial") return <span className="text-[11px] font-semibold text-amber-400">Partial</span>
@@ -777,8 +703,8 @@ function ComparisonTable() {
                 </div>
               </div>
             </div>
-            {comparisons.map((row, i) => (
-              <div key={row.feature} className={cn("grid grid-cols-4", i < comparisons.length - 1 ? "border-b border-white/5" : "")}>
+            {_comparisons.map((row, i) => (
+              <div key={row.feature} className={cn("grid grid-cols-4", i < _comparisons.length - 1 ? "border-b border-white/5" : "")}>
                 <div className="p-4 flex items-center"><p className="text-sm text-white/60">{row.feature}</p></div>
                 <div className="p-4 flex items-center justify-center border-l border-white/5"><Cell val={row.manual} /></div>
                 <div className="p-4 flex items-center justify-center border-l border-white/5"><Cell val={row.copilot} /></div>
@@ -839,85 +765,51 @@ const INTEGRATIONS = [
   { name: "Asana", color: "#f06a6a" },
 ]
 
-function IntegrationsSection() {
-  return (
-    <section className="py-24 border-y border-white/5">
-      <div className="mx-auto max-w-5xl px-6">
-        <AnimateIn className="text-center mb-12">
-          <p className="text-amber-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">Integrations</p>
-          <h2 className="text-4xl font-bold text-white tracking-tight mb-4">Works with your stack.</h2>
-          <p className="text-white/40 text-base max-w-xl mx-auto">Connect to the tools your team already uses. Set up in minutes, not days.</p>
-        </AnimateIn>
-        <AnimateIn delay={100}>
-          <div className="flex flex-wrap gap-3 justify-center">
-            {INTEGRATIONS.map((integration, i) => (
-              <motion.div
-                key={integration.name}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.04 }}
-                whileHover={{ scale: 1.05, borderColor: "rgba(255,255,255,0.25)" }}
-                className="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-5 py-2.5 cursor-default"
-              >
-                <div className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: integration.color }} />
-                <span className="text-sm font-medium text-white/55">{integration.name}</span>
-              </motion.div>
-            ))}
-          </div>
-        </AnimateIn>
-        <AnimateIn delay={200} className="mt-10 text-center">
-          <p className="text-white/25 text-sm">And 50+ more via webhooks and REST API</p>
-        </AnimateIn>
-      </div>
-    </section>
-  )
-}
+function IntegrationsSection() { return null }
 
-// ─── Enterprise ───────────────────────────────────────────────────────────────
+// ─── Enterprise + Integrations compact callout ────────────────────────────────
 
 function EnterpriseSection() {
-  const items = [
-    { icon: Shield, title: "SOC 2 Type II", desc: "Audited annually by independent third parties. Controls verified, reports available on request." },
-    { icon: Lock, title: "SAML / SSO", desc: "Plug in Okta, Azure AD, Google Workspace, or any SAML 2.0 provider in minutes." },
-    { icon: CheckCircle2, title: "GDPR Compliant", desc: "Data residency controls, DPA available, and right-to-erasure fully supported." },
-    { icon: AlertCircle, title: "Audit Logs", desc: "Immutable logs of every action across your org. Export to your SIEM or object store." },
-    { icon: GitMerge, title: "Role-Based Access", desc: "Granular permissions: owner, admin, reviewer, and read-only roles per repo or org." },
-    { icon: Code2, title: "On-Premises", desc: "Deploy in your own VPC or air-gapped environment. Full data sovereignty." },
-  ]
   return (
-    <section className="py-24 border-y border-white/5">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    <section className="py-16 border-y border-white/5">
+      <div className="mx-auto max-w-5xl px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Integrations */}
           <AnimateIn direction="left">
-            <p className="text-amber-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">Enterprise</p>
-            <h2 className="text-4xl font-bold text-white tracking-tight mb-6">Security your<br />compliance team loves.</h2>
-            <p className="text-white/50 text-base leading-relaxed mb-8">Meridian meets the requirements of the world's most regulated engineering organizations. SOC 2, GDPR, and enterprise SSO are included on every Enterprise plan — not add-ons.</p>
-            <MagneticButton>
-              <Link href="mailto:sales@meridian.dev">
-                <Button variant="amber" className="gap-2">Talk to sales <ArrowRight className="h-4 w-4" /></Button>
-              </Link>
-            </MagneticButton>
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-8 flex flex-col justify-between h-full">
+              <div>
+                <p className="text-amber-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">Integrations</p>
+                <h3 className="text-2xl font-bold text-white mb-3">Works with your stack.</h3>
+                <p className="text-white/40 text-sm leading-relaxed mb-6">GitHub, GitLab, Bitbucket, Slack, Jira, Linear, VS Code, and 50+ more tools — connected in minutes.</p>
+                <div className="flex flex-wrap gap-2">
+                  {["GitHub", "GitLab", "Slack", "Jira", "Linear", "VS Code"].map((name) => (
+                    <span key={name} className="text-[11px] font-medium text-white/40 bg-white/[0.06] border border-white/[0.08] rounded-full px-3 py-1">{name}</span>
+                  ))}
+                  <span className="text-[11px] font-medium text-white/25 bg-white/[0.03] border border-white/[0.05] rounded-full px-3 py-1">+50 more</span>
+                </div>
+              </div>
+            </div>
           </AnimateIn>
-          <AnimateIn direction="right" delay={100}>
-            <div className="grid grid-cols-2 gap-4">
-              {items.map((item, i) => (
-                <motion.div
-                  key={item.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.08 }}
-                  whileHover={{ y: -3, borderColor: "rgba(245,158,11,0.25)" }}
-                  className="rounded-2xl border border-white/10 bg-white/5 p-5 transition-colors duration-300"
-                >
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/20 mb-4">
-                    <item.icon className="h-4 w-4 text-amber-400" />
-                  </div>
-                  <h3 className="text-sm font-semibold text-white mb-2">{item.title}</h3>
-                  <p className="text-xs text-white/40 leading-relaxed">{item.desc}</p>
-                </motion.div>
-              ))}
+          {/* Enterprise */}
+          <AnimateIn direction="right" delay={80}>
+            <div className="rounded-2xl border border-amber-500/15 bg-amber-500/[0.05] p-8 flex flex-col justify-between h-full">
+              <div>
+                <p className="text-amber-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">Enterprise</p>
+                <h3 className="text-2xl font-bold text-white mb-3">Built for regulated teams.</h3>
+                <p className="text-white/40 text-sm leading-relaxed mb-6">SOC 2 Type II, GDPR, SAML/SSO, audit logs, RBAC, and on-premises deployment — included in every Enterprise plan.</p>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {["SOC 2 Type II", "GDPR", "SAML/SSO", "Audit Logs", "RBAC", "On-Prem"].map((item) => (
+                    <span key={item} className="flex items-center gap-1.5 text-[11px] font-medium text-amber-400/70 bg-amber-500/[0.08] border border-amber-500/15 rounded-full px-3 py-1">
+                      <CheckCircle2 className="h-3 w-3" />{item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <MagneticButton>
+                <Link href="mailto:sales@meridian.dev">
+                  <Button variant="amber" size="sm" className="gap-2">Talk to sales <ArrowRight className="h-3.5 w-3.5" /></Button>
+                </Link>
+              </MagneticButton>
             </div>
           </AnimateIn>
         </div>
@@ -1119,8 +1011,6 @@ export default function LandingPage() {
 
       <FeaturesSection />
 
-      <ProductTour />
-
       {/* How it works */}
       <section className="py-24 border-y border-white/5">
         <div className="mx-auto max-w-5xl px-6">
@@ -1158,8 +1048,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <IntegrationsSection />
-
       {/* Stats */}
       <section className="py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-amber-500/2 to-transparent pointer-events-none" />
@@ -1174,8 +1062,6 @@ export default function LandingPage() {
       </section>
 
       <EnterpriseSection />
-
-      <ComparisonTable />
 
       {/* Testimonials */}
       <section className="py-24 border-y border-white/5">
