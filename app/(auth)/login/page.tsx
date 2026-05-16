@@ -6,21 +6,71 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Github, ArrowRight, Eye, EyeOff, Sparkles, Shield, Zap } from "lucide-react"
+import { Github, ArrowRight, Eye, EyeOff, Sparkles, Shield, Zap, AlertCircle } from "lucide-react"
 import { LogoMark } from "@/components/logo"
+
+const isDemoMode =
+  !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+  process.env.NEXT_PUBLIC_SUPABASE_URL.includes("placeholder") ||
+  process.env.NEXT_PUBLIC_SUPABASE_URL === "https://your-project.supabase.co"
 
 export default function LoginPage() {
   const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [githubLoading, setGithubLoading] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [error, setError] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    await new Promise((r) => setTimeout(r, 800))
-    router.push("/dashboard")
+    setError(null)
+
+    if (isDemoMode) {
+      await new Promise((r) => setTimeout(r, 800))
+      router.push("/dashboard")
+      return
+    }
+
+    const { createClient } = await import("@/lib/supabase/client")
+    const supabase = createClient()
+    const { error: authError } = await supabase.auth.signInWithPassword({ email, password })
+
+    if (authError) {
+      setError(authError.message)
+      setLoading(false)
+    } else {
+      router.push("/dashboard")
+      router.refresh()
+    }
+  }
+
+  const handleGitHub = async () => {
+    setGithubLoading(true)
+    setError(null)
+
+    if (isDemoMode) {
+      await new Promise((r) => setTimeout(r, 800))
+      router.push("/dashboard")
+      return
+    }
+
+    const { createClient } = await import("@/lib/supabase/client")
+    const supabase = createClient()
+    const { error: authError } = await supabase.auth.signInWithOAuth({
+      provider: "github",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+        scopes: "repo read:user user:email",
+      },
+    })
+
+    if (authError) {
+      setError(authError.message)
+      setGithubLoading(false)
+    }
   }
 
   return (
@@ -90,17 +140,38 @@ export default function LoginPage() {
             <p className="text-sm text-white/40">Sign in to your account to continue.</p>
           </div>
 
-          {/* GitHub SSO */}
-          <button
-            className="group relative w-full flex items-center justify-center gap-2.5 rounded-xl border border-white/[0.1] bg-white/[0.04] hover:bg-white/[0.07] px-4 h-11 text-sm font-medium text-white/70 hover:text-white transition-all duration-200 mb-6 overflow-hidden"
-            onClick={() => { setLoading(true); setTimeout(() => router.push("/dashboard"), 800) }}
-          >
-            <Github className="h-4 w-4" />
-            Continue with GitHub
-            <div className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/5 to-transparent group-hover:translate-x-full transition-transform duration-700" />
-          </button>
+          {/* Error */}
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-center gap-2.5 rounded-xl bg-red-500/10 border border-red-500/20 px-3.5 py-3 mb-4"
+            >
+              <AlertCircle className="h-4 w-4 text-red-400 shrink-0" />
+              <p className="text-xs text-red-400">{error}</p>
+            </motion.div>
+          )}
 
-          <div className="relative mb-6">
+          {/* GitHub OAuth */}
+          <motion.button
+            onClick={handleGitHub}
+            disabled={githubLoading || loading}
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
+            className="group relative w-full flex items-center justify-center gap-2.5 rounded-xl border border-white/[0.1] bg-white/[0.04] hover:bg-white/[0.07] px-4 h-11 text-sm font-medium text-white/70 hover:text-white transition-all mb-4 overflow-hidden disabled:opacity-50"
+          >
+            {githubLoading ? (
+              <svg className="h-4 w-4 animate-spin text-white/60" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeDasharray="32" strokeDashoffset="12" />
+              </svg>
+            ) : (
+              <Github className="h-4 w-4" />
+            )}
+            {githubLoading ? "Connecting to GitHub…" : "Continue with GitHub"}
+            <div className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/5 to-transparent group-hover:translate-x-full transition-transform duration-700" />
+          </motion.button>
+
+          <div className="relative mb-5">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-white/[0.06]" />
             </div>
@@ -126,7 +197,7 @@ export default function LoginPage() {
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <Label htmlFor="password" className="text-xs text-white/50">Password</Label>
-                <Link href="#" className="text-xs text-amber-500/80 hover:text-amber-400 transition-colors">
+                <Link href="#" className="text-xs text-amber-500/70 hover:text-amber-400 transition-colors">
                   Forgot password?
                 </Link>
               </div>

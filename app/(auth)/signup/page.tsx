@@ -6,8 +6,13 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Github, ArrowRight, Eye, EyeOff, CheckCircle2 } from "lucide-react"
+import { Github, ArrowRight, Eye, EyeOff, CheckCircle2, AlertCircle } from "lucide-react"
 import { LogoMark } from "@/components/logo"
+
+const isDemoMode =
+  !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+  process.env.NEXT_PUBLIC_SUPABASE_URL.includes("placeholder") ||
+  process.env.NEXT_PUBLIC_SUPABASE_URL === "https://your-project.supabase.co"
 
 const benefits = [
   "Free forever plan — no credit card",
@@ -20,12 +25,95 @@ export default function SignupPage() {
   const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [githubLoading, setGithubLoading] = useState(false)
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    await new Promise((r) => setTimeout(r, 900))
-    router.push("/dashboard")
+    setError(null)
+
+    if (isDemoMode) {
+      await new Promise((r) => setTimeout(r, 900))
+      router.push("/dashboard")
+      return
+    }
+
+    const { createClient } = await import("@/lib/supabase/client")
+    const supabase = createClient()
+    const { error: authError } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { first_name: firstName, last_name: lastName },
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+      },
+    })
+
+    if (authError) {
+      setError(authError.message)
+      setLoading(false)
+    } else {
+      setSuccess(true)
+      setLoading(false)
+    }
+  }
+
+  const handleGitHub = async () => {
+    setGithubLoading(true)
+    setError(null)
+
+    if (isDemoMode) {
+      await new Promise((r) => setTimeout(r, 800))
+      router.push("/dashboard")
+      return
+    }
+
+    const { createClient } = await import("@/lib/supabase/client")
+    const supabase = createClient()
+    const { error: authError } = await supabase.auth.signInWithOAuth({
+      provider: "github",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+        scopes: "repo read:user user:email",
+      },
+    })
+
+    if (authError) {
+      setError(authError.message)
+      setGithubLoading(false)
+    }
+  }
+
+  if (success) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#060b16] px-6">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="w-full max-w-sm text-center"
+        >
+          <div className="flex h-16 w-16 mx-auto items-center justify-center rounded-2xl bg-emerald-500/10 border border-emerald-500/20 mb-5">
+            <CheckCircle2 className="h-8 w-8 text-emerald-400" />
+          </div>
+          <h1 className="text-xl font-bold text-white mb-2">Check your email</h1>
+          <p className="text-sm text-white/40 mb-6">
+            We sent a confirmation link to <span className="text-white/60">{email}</span>. Click it to activate your account.
+          </p>
+          <Link
+            href="/login"
+            className="text-sm text-amber-500/80 hover:text-amber-400 transition-colors"
+          >
+            Back to sign in
+          </Link>
+        </motion.div>
+      </div>
+    )
   }
 
   return (
@@ -111,16 +199,38 @@ export default function SignupPage() {
             <p className="text-sm text-white/40">Free forever. No credit card required.</p>
           </div>
 
-          <button
-            onClick={() => { setLoading(true); setTimeout(() => router.push("/dashboard"), 800) }}
-            className="group relative w-full flex items-center justify-center gap-2.5 rounded-xl border border-white/[0.1] bg-white/[0.04] hover:bg-white/[0.07] px-4 h-11 text-sm font-medium text-white/70 hover:text-white transition-all mb-6 overflow-hidden"
-          >
-            <Github className="h-4 w-4" />
-            Continue with GitHub
-            <div className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/5 to-transparent group-hover:translate-x-full transition-transform duration-700" />
-          </button>
+          {/* Error */}
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-center gap-2.5 rounded-xl bg-red-500/10 border border-red-500/20 px-3.5 py-3 mb-4"
+            >
+              <AlertCircle className="h-4 w-4 text-red-400 shrink-0" />
+              <p className="text-xs text-red-400">{error}</p>
+            </motion.div>
+          )}
 
-          <div className="relative mb-6">
+          {/* GitHub OAuth */}
+          <motion.button
+            onClick={handleGitHub}
+            disabled={githubLoading || loading}
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
+            className="group relative w-full flex items-center justify-center gap-2.5 rounded-xl border border-white/[0.1] bg-white/[0.04] hover:bg-white/[0.07] px-4 h-11 text-sm font-medium text-white/70 hover:text-white transition-all mb-4 overflow-hidden disabled:opacity-50"
+          >
+            {githubLoading ? (
+              <svg className="h-4 w-4 animate-spin text-white/60" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeDasharray="32" strokeDashoffset="12" />
+              </svg>
+            ) : (
+              <Github className="h-4 w-4" />
+            )}
+            {githubLoading ? "Connecting to GitHub…" : "Continue with GitHub"}
+            <div className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/5 to-transparent group-hover:translate-x-full transition-transform duration-700" />
+          </motion.button>
+
+          <div className="relative mb-5">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-white/[0.06]" />
             </div>
@@ -133,17 +243,39 @@ export default function SignupPage() {
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
                 <Label htmlFor="first" className="text-xs text-white/50">First name</Label>
-                <Input id="first" placeholder="Jane" required className="h-11 bg-white/[0.04] border-white/[0.08] text-white placeholder:text-white/20 focus:border-amber-500/50 rounded-xl" />
+                <Input
+                  id="first"
+                  placeholder="Jane"
+                  required
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  className="h-11 bg-white/[0.04] border-white/[0.08] text-white placeholder:text-white/20 focus:border-amber-500/50 focus:ring-amber-500/20 rounded-xl"
+                />
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="last" className="text-xs text-white/50">Last name</Label>
-                <Input id="last" placeholder="Smith" required className="h-11 bg-white/[0.04] border-white/[0.08] text-white placeholder:text-white/20 focus:border-amber-500/50 rounded-xl" />
+                <Input
+                  id="last"
+                  placeholder="Smith"
+                  required
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="h-11 bg-white/[0.04] border-white/[0.08] text-white placeholder:text-white/20 focus:border-amber-500/50 focus:ring-amber-500/20 rounded-xl"
+                />
               </div>
             </div>
 
             <div className="space-y-1.5">
               <Label htmlFor="email" className="text-xs text-white/50">Work email</Label>
-              <Input id="email" type="email" placeholder="you@company.com" required className="h-11 bg-white/[0.04] border-white/[0.08] text-white placeholder:text-white/20 focus:border-amber-500/50 rounded-xl" />
+              <Input
+                id="email"
+                type="email"
+                placeholder="you@company.com"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="h-11 bg-white/[0.04] border-white/[0.08] text-white placeholder:text-white/20 focus:border-amber-500/50 focus:ring-amber-500/20 rounded-xl"
+              />
             </div>
 
             <div className="space-y-1.5">
@@ -155,7 +287,9 @@ export default function SignupPage() {
                   placeholder="Min. 8 characters"
                   required
                   minLength={8}
-                  className="h-11 pr-10 bg-white/[0.04] border-white/[0.08] text-white placeholder:text-white/20 focus:border-amber-500/50 rounded-xl"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="h-11 pr-10 bg-white/[0.04] border-white/[0.08] text-white placeholder:text-white/20 focus:border-amber-500/50 focus:ring-amber-500/20 rounded-xl"
                 />
                 <button
                   type="button"
