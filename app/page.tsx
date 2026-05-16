@@ -75,7 +75,7 @@ function MagneticButton({ children }: { children: React.ReactNode }) {
   const [offset, setOffset] = useState({ x: 0, y: 0 })
   const onMouseMove = (e: React.MouseEvent) => {
     const rect = ref.current!.getBoundingClientRect()
-    setOffset({ x: (e.clientX - rect.left - rect.width / 2) * 0.28, y: (e.clientY - rect.top - rect.height / 2) * 0.28 })
+    setOffset({ x: (e.clientX - rect.left - rect.width / 2) * 0.04, y: (e.clientY - rect.top - rect.height / 2) * 0.04 })
   }
   const onMouseLeave = () => setOffset({ x: 0, y: 0 })
   return (
@@ -83,11 +83,15 @@ function MagneticButton({ children }: { children: React.ReactNode }) {
       ref={ref}
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
+      className="relative inline-flex group"
       style={{
         transform: `translate(${offset.x}px, ${offset.y}px)`,
         transition: offset.x === 0 ? "transform 0.5s cubic-bezier(0.34,1.56,0.64,1)" : "transform 0.1s ease",
       }}
     >
+      <div className="pointer-events-none absolute inset-0 rounded-lg overflow-hidden z-10">
+        <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 transition-transform duration-500 ease-in-out" />
+      </div>
       {children}
     </div>
   )
