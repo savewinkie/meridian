@@ -201,14 +201,43 @@ function CountStatCard({ num, suffix, label, delay = 0 }: { num: number; suffix:
 
 // ─── Nav ──────────────────────────────────────────────────────────────────────
 
+const isDemoMode =
+  !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+  process.env.NEXT_PUBLIC_SUPABASE_URL.includes("placeholder") ||
+  process.env.NEXT_PUBLIC_SUPABASE_URL === "https://your-project.supabase.co"
+
 function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [user, setUser] = useState<any>(null)
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10)
     window.addEventListener("scroll", onScroll)
-    return () => window.removeEventListener("scroll", onScroll)
+
+    let cleanup: (() => void) | undefined
+    if (!isDemoMode) {
+      import("@/lib/supabase/client").then(({ createClient }) => {
+        const supabase = createClient()
+        supabase.auth.getSession().then(({ data: { session } }) => {
+          setUser(session?.user ?? null)
+        })
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
+          setUser(session?.user ?? null)
+        })
+        cleanup = () => subscription.unsubscribe()
+      })
+    }
+
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      cleanup?.()
+    }
   }, [])
+
+  const avatar = user?.user_metadata?.avatar_url
+  const username = user?.user_metadata?.user_name || user?.user_metadata?.name || user?.email?.split("@")[0]
+
   return (
     <header className={cn("fixed top-0 left-0 right-0 z-50 transition-all duration-300", scrolled ? "bg-[#0F1729]/95 backdrop-blur-md border-b border-white/10" : "bg-transparent")}>
       <div className="mx-auto max-w-6xl px-6">
@@ -220,17 +249,37 @@ function Navbar() {
             <span className="text-base font-semibold tracking-tight text-white">Meridian</span>
           </Link>
           <nav className="hidden md:flex items-center gap-1">
-            {["Features", "Demo", "Pricing", "Blog"].map((item) => (
-              <Link key={item} href={`#${item.toLowerCase()}`} className="px-3 py-1.5 rounded-md text-sm font-medium transition-colors text-white/60 hover:text-white hover:bg-white/10">
-                {item}
+            {[["Features", "#features"], ["Pricing", "#pricing"], ["Info", "/info"]].map(([label, href]) => (
+              <Link key={label} href={href} className="px-3 py-1.5 rounded-md text-sm font-medium transition-colors text-white/60 hover:text-white hover:bg-white/10">
+                {label}
               </Link>
             ))}
           </nav>
           <div className="hidden md:flex items-center gap-3">
-            <Link href="/login"><Button variant="ghost" size="sm" className="text-white/80 hover:text-white hover:bg-white/10">Sign in</Button></Link>
-            <MagneticButton>
-              <Link href="/signup"><Button size="sm" variant="amber">Get started free</Button></Link>
-            </MagneticButton>
+            {user ? (
+              <>
+                <div className="flex items-center gap-2.5">
+                  {avatar ? (
+                    <img src={avatar} alt={username} className="h-8 w-8 rounded-full border border-white/20 object-cover" />
+                  ) : (
+                    <div className="h-8 w-8 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold">
+                      {username?.[0]?.toUpperCase()}
+                    </div>
+                  )}
+                  <span className="text-sm text-white/60 font-medium">{username}</span>
+                </div>
+                <MagneticButton>
+                  <Link href="/dashboard"><Button size="sm" variant="amber">Dashboard</Button></Link>
+                </MagneticButton>
+              </>
+            ) : (
+              <>
+                <Link href="/login"><Button variant="ghost" size="sm" className="text-white/80 hover:text-white hover:bg-white/10">Sign in</Button></Link>
+                <MagneticButton>
+                  <Link href="/signup"><Button size="sm" variant="amber">Get started free</Button></Link>
+                </MagneticButton>
+              </>
+            )}
           </div>
           <button className="md:hidden text-white" onClick={() => setMobileOpen(!mobileOpen)}>
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -239,12 +288,18 @@ function Navbar() {
       </div>
       {mobileOpen && (
         <div className="md:hidden bg-[#0F1729] border-b border-white/10 px-6 py-4 space-y-3">
-          {["Features", "Demo", "Pricing", "Blog"].map((item) => (
-            <Link key={item} href={`#${item.toLowerCase()}`} className="block text-sm text-white/60 py-1 hover:text-white">{item}</Link>
+          {[["Features", "#features"], ["Pricing", "#pricing"], ["Info", "/info"]].map(([label, href]) => (
+            <Link key={label} href={href} className="block text-sm text-white/60 py-1 hover:text-white">{label}</Link>
           ))}
           <div className="pt-2 flex flex-col gap-2">
-            <Link href="/login"><Button variant="ghost" className="w-full text-white/70 hover:text-white hover:bg-white/10">Sign in</Button></Link>
-            <Link href="/signup"><Button variant="amber" className="w-full">Get started free</Button></Link>
+            {user ? (
+              <Link href="/dashboard"><Button variant="amber" className="w-full">Go to Dashboard</Button></Link>
+            ) : (
+              <>
+                <Link href="/login"><Button variant="ghost" className="w-full text-white/70 hover:text-white hover:bg-white/10">Sign in</Button></Link>
+                <Link href="/signup"><Button variant="amber" className="w-full">Get started free</Button></Link>
+              </>
+            )}
           </div>
         </div>
       )}
@@ -1007,46 +1062,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <LiveDemo />
-
       <FeaturesSection />
-
-      {/* How it works */}
-      <section className="py-24 border-y border-white/5">
-        <div className="mx-auto max-w-5xl px-6">
-          <AnimateIn className="text-center mb-16">
-            <p className="text-amber-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">How it works</p>
-            <h2 className="text-4xl font-bold text-white tracking-tight mb-4">Set up in minutes.<br />Works automatically forever.</h2>
-          </AnimateIn>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-            {/* Connecting line */}
-            <div className="hidden md:block absolute top-6 left-[16.67%] right-[16.67%] h-px bg-gradient-to-r from-transparent via-amber-500/20 to-transparent" />
-            {[
-              { step: "01", title: "Connect your repos", description: "Install the Meridian GitHub App in one click. Works with GitHub, GitLab, and Bitbucket.", icon: GitPullRequest },
-              { step: "02", title: "AI reviews every PR", description: "When a PR is opened, Meridian automatically analyzes the diff and leaves inline comments with severity ratings.", icon: Brain },
-              { step: "03", title: "Track & improve", description: "Use analytics to identify patterns, track quality trends, and measure your team's improvement over time.", icon: TrendingUp },
-            ].map((step, i) => (
-              <AnimateIn key={step.step} delay={i * 120}>
-                <motion.div whileHover={{ y: -4 }} transition={{ type: "spring", stiffness: 300 }} className="flex items-start gap-4">
-                  <div className="shrink-0">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/10 border border-amber-500/20 relative">
-                      <step.icon className="h-5 w-5 text-amber-400" />
-                      <div className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center">
-                        <span className="text-[8px] font-bold text-amber-400">{i + 1}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-amber-500 mb-1">{step.step}</p>
-                    <h3 className="text-base font-semibold text-white mb-2">{step.title}</h3>
-                    <p className="text-sm text-white/50 leading-relaxed">{step.description}</p>
-                  </div>
-                </motion.div>
-              </AnimateIn>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Stats */}
       <section className="py-20 relative overflow-hidden">
@@ -1062,35 +1078,6 @@ export default function LandingPage() {
       </section>
 
       <EnterpriseSection />
-
-      {/* Testimonials */}
-      <section className="py-24 border-y border-white/5">
-        <div className="mx-auto max-w-6xl px-6">
-          <AnimateIn className="text-center mb-16">
-            <p className="text-amber-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">Testimonials</p>
-            <h2 className="text-4xl font-bold text-white tracking-tight">Loved by engineering teams.</h2>
-          </AnimateIn>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((t, i) => (
-              <AnimateIn key={t.author} delay={i * 100}>
-                <motion.div whileHover={{ y: -4, borderColor: "rgba(245,158,11,0.2)" }} transition={{ type: "spring", stiffness: 300 }} className="rounded-2xl border border-white/10 bg-white/5 p-6 h-full transition-colors duration-300">
-                  <div className="flex items-center gap-0.5 mb-4">
-                    {[...Array(t.stars)].map((_, i) => <Star key={i} className="h-3.5 w-3.5 text-amber-400 fill-current" />)}
-                  </div>
-                  <p className="text-sm text-white/65 leading-relaxed mb-6">"{t.quote}"</p>
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-amber-500/15 text-amber-400 text-xs font-bold">{t.avatar}</div>
-                    <div>
-                      <p className="text-sm font-semibold text-white">{t.author}</p>
-                      <p className="text-xs text-white/40">{t.role}</p>
-                    </div>
-                  </div>
-                </motion.div>
-              </AnimateIn>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <PricingSection />
 
