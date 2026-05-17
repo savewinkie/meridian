@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
@@ -106,9 +106,20 @@ export default function WebsiteScannerPage() {
   const [result, setResult] = useState<WebsiteResult | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
+  const [freeUsed, setFreeUsed] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    setFreeUsed(localStorage.getItem("meridian_free_website") === "1")
+    import("@/lib/supabase/client").then(({ createClient }) => {
+      createClient().auth.getSession().then(({ data: { session } }) => setIsLoggedIn(!!session))
+    })
+  }, [])
+
+  const blocked = freeUsed && isLoggedIn === false
 
   async function scan() {
-    if (!url.trim() || isScanning) return
+    if (!url.trim() || isScanning || blocked) return
     setIsScanning(true); setResult(null); setError(null); setStepIdx(0); setActiveCategory(null)
     const interval = setInterval(() => setStepIdx(i => Math.min(i + 1, STEPS.length - 1)), 3200)
     try {
@@ -120,6 +131,10 @@ export default function WebsiteScannerPage() {
       if (data.error) throw new Error(data.error)
       setResult(data)
       if (data.categories?.length) setActiveCategory(data.categories[0].name)
+      if (isLoggedIn === false) {
+        localStorage.setItem("meridian_free_website", "1")
+        setFreeUsed(true)
+      }
     } catch (err: any) {
       setError(err.message ?? "Scan failed. Please try again.")
     } finally {
@@ -184,18 +199,47 @@ export default function WebsiteScannerPage() {
                 </p>
               </div>
 
-              <div className="flex gap-3 w-full max-w-xl">
-                <div className="flex-1 relative">
-                  <Globe className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20"/>
-                  <input type="text" value={url} onChange={e => setUrl(e.target.value)} onKeyDown={e => e.key === "Enter" && scan()}
-                    placeholder="https://example.com" autoFocus
-                    className="w-full h-12 bg-white/[0.04] border border-white/[0.08] rounded-2xl pl-10 pr-4 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-blue-500/40 focus:ring-2 focus:ring-blue-500/10 transition-all"/>
+              {blocked ? (
+                <div className="w-full max-w-xl rounded-2xl border border-amber-500/20 bg-amber-500/[0.06] p-6 text-center">
+                  <p className="text-sm font-semibold text-white mb-1">Free scan used</p>
+                  <p className="text-xs text-white/40 mb-4">Sign up to scan unlimited websites.</p>
+                  <div className="flex gap-3 justify-center">
+                    <Link href="/signup">
+                      <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
+                        className="flex items-center gap-2 rounded-2xl px-6 h-10 text-sm font-semibold text-white bg-amber-500 hover:bg-amber-400 transition-colors shadow-lg shadow-amber-500/25">
+                        Sign up free
+                      </motion.button>
+                    </Link>
+                    <Link href="/login">
+                      <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
+                        className="flex items-center gap-2 rounded-2xl px-6 h-10 text-sm font-medium text-white/60 hover:text-white bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] transition-colors">
+                        Sign in
+                      </motion.button>
+                    </Link>
+                  </div>
                 </div>
-                <motion.button onClick={scan} disabled={!url.trim()} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
-                  className="flex items-center gap-2 rounded-2xl px-6 h-12 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shadow-lg shadow-blue-500/20">
-                  <Search className="h-4 w-4"/>Scan
-                </motion.button>
-              </div>
+              ) : (
+                <div className="flex gap-3 w-full max-w-xl">
+                  <div className="flex-1 relative">
+                    <Globe className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20"/>
+                    <input type="text" value={url} onChange={e => setUrl(e.target.value)} onKeyDown={e => e.key === "Enter" && scan()}
+                      placeholder="https://example.com" autoFocus
+                      className="w-full h-12 bg-white/[0.04] border border-white/[0.08] rounded-2xl pl-10 pr-4 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-blue-500/40 focus:ring-2 focus:ring-blue-500/10 transition-all"/>
+                  </div>
+                  <motion.button onClick={scan} disabled={!url.trim()} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
+                    className="flex items-center gap-2 rounded-2xl px-6 h-12 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shadow-lg shadow-blue-500/20">
+                    <Search className="h-4 w-4"/>Scan
+                  </motion.button>
+                </div>
+              )}
+
+              {/* Free use indicator */}
+              {!freeUsed && isLoggedIn === false && (
+                <div className="flex items-center gap-1.5 text-[11px] text-emerald-400/55">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  1 free scan available — no account needed
+                </div>
+              )}
 
               {/* Example domains */}
               <div className="flex items-center gap-2 flex-wrap justify-center">

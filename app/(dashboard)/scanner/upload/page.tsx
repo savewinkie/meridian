@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef, useCallback } from "react"
+import { useState, useRef, useCallback, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
@@ -272,7 +272,18 @@ export default function UploadScannerPage() {
   const [results, setResults] = useState<FileResult[] | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [scanningFile, setScanningFile] = useState<string | null>(null)
+  const [freeUsed, setFreeUsed] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    setFreeUsed(localStorage.getItem("meridian_free_upload") === "1")
+    import("@/lib/supabase/client").then(({ createClient }) => {
+      createClient().auth.getSession().then(({ data: { session } }) => setIsLoggedIn(!!session))
+    })
+  }, [])
+
+  const blocked = freeUsed && isLoggedIn === false
 
   const addFiles = useCallback((fileList: FileList | null) => {
     if (!fileList) return
@@ -288,7 +299,7 @@ export default function UploadScannerPage() {
   }, [])
 
   async function scan() {
-    if (!files.length) return
+    if (!files.length || blocked) return
     setIsScanning(true); setResults(null); setError(null)
     const allResults: FileResult[] = []
     try {
@@ -302,6 +313,10 @@ export default function UploadScannerPage() {
         if (data.error) throw new Error(data.error)
         allResults.push(data.results[0])
         setResults([...allResults])
+      }
+      if (isLoggedIn === false) {
+        localStorage.setItem("meridian_free_upload", "1")
+        setFreeUsed(true)
       }
     } catch (err: any) {
       setError(err.message ?? "Scan failed. Please try again.")
@@ -408,12 +423,27 @@ export default function UploadScannerPage() {
                 )}
 
                 {!isScanning && !results && (
-                  <button onClick={scan}
-                    className="group relative overflow-hidden flex items-center gap-2 rounded-xl px-5 py-2 text-[12px] font-semibold text-white bg-emerald-600 hover:bg-emerald-500 shadow-lg shadow-emerald-500/20 transition-colors">
-                    <Play className="h-3.5 w-3.5 fill-white"/>
-                    Scan {files.length} file{files.length !== 1 ? "s" : ""}
-                    <div className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent group-hover:translate-x-full transition-transform duration-700"/>
-                  </button>
+                  blocked ? (
+                    <div className="flex items-center gap-3">
+                      <Link href="/signup">
+                        <button className="flex items-center gap-2 rounded-xl px-5 py-2 text-[12px] font-semibold text-white bg-amber-500 hover:bg-amber-400 shadow-lg shadow-amber-500/20 transition-colors">
+                          Sign up to scan
+                        </button>
+                      </Link>
+                      <Link href="/login">
+                        <button className="text-[12px] font-medium text-white/40 hover:text-white/70 transition-colors">
+                          Sign in
+                        </button>
+                      </Link>
+                    </div>
+                  ) : (
+                    <button onClick={scan}
+                      className="group relative overflow-hidden flex items-center gap-2 rounded-xl px-5 py-2 text-[12px] font-semibold text-white bg-emerald-600 hover:bg-emerald-500 shadow-lg shadow-emerald-500/20 transition-colors">
+                      <Play className="h-3.5 w-3.5 fill-white"/>
+                      Scan {files.length} file{files.length !== 1 ? "s" : ""}
+                      <div className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent group-hover:translate-x-full transition-transform duration-700"/>
+                    </button>
+                  )
                 )}
                 {allDone && results.some(r => r.fixedCode) && (
                   <button onClick={() => results.forEach(r => r.fixedCode && (()=>{const b=new Blob([r.fixedCode],{type:"text/plain"});const u=URL.createObjectURL(b);const a=document.createElement("a");a.href=u;a.download=`fixed-${r.name}`;a.click();URL.revokeObjectURL(u)})())}

@@ -1075,6 +1075,8 @@ export default function LandingPage() {
         </div>
       </section>
 
+      <LiveDemo />
+
       <FeaturesSection />
 
       {/* Stats */}
