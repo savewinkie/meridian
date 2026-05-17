@@ -1,6 +1,8 @@
 import Anthropic from "@anthropic-ai/sdk"
 import { NextResponse } from "next/server"
 
+export const maxDuration = 300
+
 export async function POST(req: Request) {
   const apiKey = process.env.ANTHROPIC_API_KEY
   if (!apiKey || apiKey === "placeholder-key" || apiKey.startsWith("sk-ant-...")) {
@@ -21,7 +23,7 @@ export async function POST(req: Request) {
 
     // Validate each file
     for (const f of files) {
-      if (!f.name || typeof f.content !== "string" || f.content.length > 20000) {
+      if (!f.name || typeof f.content !== "string" || f.content.length > 50000) {
         return NextResponse.json({ error: `Invalid file: ${f.name}` }, { status: 400 })
       }
     }
@@ -36,7 +38,7 @@ export async function POST(req: Request) {
 
       try {
         const msg = await client.messages.create({
-          model: "claude-opus-4-7",
+          model: "claude-sonnet-4-6",
           max_tokens: 6000,
           messages: [
             {

@@ -29,8 +29,9 @@ interface FileResult {
   error?: string
 }
 
-const MAX_FILES = 10
-const MAX_SIZE = 1024 * 100 // 100 KB per file
+const MAX_FILES = 20
+const MAX_SIZE = 1024 * 1024 * 50 // 50 MB per file (truncated to 50KB for AI analysis)
+const ANALYSIS_LIMIT = 1024 * 50 // first 50KB sent to AI
 
 const SEV = {
   Critical: { badge: "bg-red-500/15 text-red-400", bar: "bg-red-500" },
@@ -109,7 +110,7 @@ export default function UploadScannerPage() {
         const res = await fetch("/api/scan-batch", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ files: [{ name: file.name, content: file.content }] }),
+          body: JSON.stringify({ files: [{ name: file.name, content: file.content.slice(0, ANALYSIS_LIMIT) }] }),
         })
         const data = await res.json()
         if (data.error) throw new Error(data.error)
@@ -183,7 +184,7 @@ export default function UploadScannerPage() {
         </div>
       </motion.div>
 
-      <div className="flex flex-col flex-1 gap-5 p-6">
+      <div className={cn("flex flex-col flex-1 gap-5 p-6", files.length === 0 && !results ? "items-center justify-center" : "")}>
 
         {/* Drop zone */}
         {!results && (
@@ -195,7 +196,8 @@ export default function UploadScannerPage() {
             onDrop={onDrop}
             onClick={() => fileInputRef.current?.click()}
             className={cn(
-              "relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed p-10 cursor-pointer transition-all",
+              "relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed cursor-pointer transition-all w-full max-w-xl",
+              files.length === 0 ? "p-16" : "p-8",
               isDragging
                 ? "border-emerald-500/50 bg-emerald-500/5"
                 : "border-white/[0.08] bg-[#0a0f1c] hover:border-white/[0.14] hover:bg-white/[0.02]"
@@ -209,17 +211,18 @@ export default function UploadScannerPage() {
               onChange={(e) => addFiles(e.target.files)}
             />
             <motion.div
-              animate={isDragging ? { scale: 1.1 } : { scale: 1 }}
+              animate={isDragging ? { scale: 1.15 } : { scale: 1 }}
               className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-500/10 border border-emerald-500/20 mb-4"
             >
               <Upload className="h-6 w-6 text-emerald-400" />
             </motion.div>
             <p className="text-[13px] font-semibold text-white/60 mb-1">
-              {isDragging ? "Drop files here" : "Drag & drop files"}
+              {isDragging ? "Drop files here" : "Drag & drop your files"}
             </p>
             <p className="text-[11px] text-white/25">
-              or click to browse · up to {MAX_FILES} files · max 100 KB each
+              or click to browse · up to {MAX_FILES} files · max 50 MB each
             </p>
+            <p className="text-[10px] text-white/15 mt-1">Large files are analyzed up to the first 50 KB</p>
           </motion.div>
         )}
 

@@ -108,7 +108,7 @@ function CyclingWord() {
     return () => clearInterval(t)
   }, [])
   return (
-    <span className="relative inline-block">
+    <span className="relative inline-block pb-[0.18em]">
       <AnimatePresence mode="wait">
         <motion.span
           key={idx}
@@ -116,7 +116,7 @@ function CyclingWord() {
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           exit={{ opacity: 0, y: -24, filter: "blur(10px)" }}
           transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-          className="gradient-amber inline-block"
+          className="gradient-amber inline-block pb-[0.18em]"
         >
           {HERO_WORDS[idx]}
         </motion.span>
