@@ -111,21 +111,23 @@ function Navbar() {
   return (
     <header className={cn("fixed top-0 left-0 right-0 z-50 transition-all duration-300", scrolled ? "bg-[#0F1729]/95 backdrop-blur-md border-b border-white/10" : "bg-transparent")}>
       <div className="mx-auto max-w-6xl px-6">
-        <div className="flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 group">
-            <motion.div whileHover={{ rotate: 15 }} transition={{ type: "spring", stiffness: 400 }}>
-              <LogoMark size={28} />
-            </motion.div>
-            <span className="text-base font-semibold tracking-tight text-white">Meridian</span>
-          </Link>
+        <div className="flex h-16 items-center">
+          <div className="flex-1">
+            <Link href="/" className="inline-flex items-center gap-2 group">
+              <motion.div whileHover={{ rotate: 15 }} transition={{ type: "spring", stiffness: 400 }}>
+                <LogoMark size={28} />
+              </motion.div>
+              <span className="text-base font-semibold tracking-tight text-white">Meridian</span>
+            </Link>
+          </div>
           <nav className="hidden md:flex items-center gap-1">
-            {[["Home", "/"], ["Features", "/#features"], ["Pricing", "/#pricing"]].map(([label, href]) => (
+            {[["Home", "/"], ["Features", "/#features"], ["Pricing", "/#pricing"], ["Demo", "/demo"]].map(([label, href]) => (
               <Link key={label} href={href} className="px-3 py-1.5 rounded-md text-sm font-medium transition-colors text-white/60 hover:text-white hover:bg-white/10">
                 {label}
               </Link>
             ))}
           </nav>
-          <div className="hidden md:flex items-center gap-3">
+          <div className="flex-1 hidden md:flex items-center justify-end gap-3">
             {user ? (
               <>
                 <div className="flex items-center gap-2.5">
