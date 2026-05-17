@@ -298,12 +298,12 @@ export default function SettingsPage() {
               <div className="flex items-start justify-between p-5 rounded-xl bg-[#0F1729] text-white mb-6">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-lg font-bold">Pro Plan</span>
-                    <Badge variant="warning" className="text-[10px]">Active</Badge>
+                    <span className="text-lg font-bold">Free Plan</span>
+                    <Badge variant="success" className="text-[10px]">Active</Badge>
                   </div>
-                  <p className="text-white/60 text-sm">$29/month · Renews Jan 15, 2027</p>
+                  <p className="text-white/60 text-sm">No charge · Access to all core features</p>
                   <div className="mt-4 space-y-1.5 text-sm text-white/70">
-                    {["Unlimited repositories", "Unlimited AI scans", "Priority support", "All scanner features"].map(f => (
+                    {["GitHub repo scanning", "Website scanner", "File upload scanner", "AI-powered analysis"].map(f => (
                       <div key={f} className="flex items-center gap-2">
                         <CheckCircle2 className="h-3.5 w-3.5 text-amber-400" />
                         {f}
@@ -312,34 +312,11 @@ export default function SettingsPage() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-3xl font-bold">$29</div>
+                  <div className="text-3xl font-bold">$0</div>
                   <div className="text-white/40 text-xs">/month</div>
                 </div>
               </div>
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm">Change plan</Button>
-                <Button variant="ghost" size="sm" className="text-red-600 hover:text-red-700 hover:bg-red-50">
-                  Cancel subscription
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base">Payment Method</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center gap-3 p-4 rounded-lg border border-border bg-muted/20">
-                <div className="flex h-9 w-14 items-center justify-center rounded-md bg-white border border-border">
-                  <span className="text-xs font-bold text-blue-600">VISA</span>
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-foreground">•••• •••• •••• 4242</p>
-                  <p className="text-xs text-muted-foreground">Expires 12/26</p>
-                </div>
-                <Button variant="ghost" size="sm" className="ml-auto text-xs">Update</Button>
-              </div>
+              <Button variant="amber" size="sm">Upgrade to Pro</Button>
             </CardContent>
           </Card>
         </TabsContent>

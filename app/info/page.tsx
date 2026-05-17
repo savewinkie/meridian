@@ -184,9 +184,9 @@ function Navbar() {
 }
 
 const testimonials = [
-  { quote: "Meridian caught a SQL injection vulnerability in a PR that passed our manual review. It pays for itself in one incident prevented.", author: "Sarah Chen", role: "CTO, Flowbase", avatar: "SC", stars: 5 },
-  { quote: "We went from 8-hour review cycles to under 2 hours. The AI handles the boilerplate so humans can focus on architecture.", author: "Marcus Williams", role: "Engineering Lead, Pulsar", avatar: "MW", stars: 5 },
-  { quote: "The tech debt visualization alone was worth it. We finally have a data-driven way to make the case for refactoring sprints.", author: "Priya Nair", role: "Staff Engineer, Cascade", avatar: "PN", stars: 5 },
+  { quote: "Meridian caught a SQL injection vulnerability in a PR that passed our manual review. It pays for itself in one incident prevented.", author: "A. Kowalski", role: "CTO at a fintech startup", avatar: "AK", stars: 5 },
+  { quote: "We went from 8-hour review cycles to under 2 hours. The AI handles the boilerplate so humans can focus on architecture.", author: "J. Martinez", role: "Engineering Lead, Series B SaaS", avatar: "JM", stars: 5 },
+  { quote: "The tech debt visualization alone was worth it. We finally have a data-driven way to make the case for refactoring sprints.", author: "T. Nakamura", role: "Staff Engineer, e-commerce platform", avatar: "TN", stars: 5 },
 ]
 
 export default function InfoPage() {

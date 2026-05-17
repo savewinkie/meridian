@@ -54,10 +54,12 @@ export function Sidebar() {
     router.push("/")
   }
 
-  const avatar = user?.user_metadata?.avatar_url
-  const username = user?.user_metadata?.user_name || user?.user_metadata?.name || user?.email?.split("@")[0] || "User"
-  const email = user?.email || ""
-  const initials = username.slice(0, 2).toUpperCase()
+  const avatar    = user?.user_metadata?.avatar_url
+  const username  = user?.user_metadata?.user_name || user?.user_metadata?.name || user?.email?.split("@")[0] || "User"
+  const fullName  = user?.user_metadata?.full_name || user?.user_metadata?.name || username
+  const email     = user?.email || ""
+  const initials  = username.slice(0, 2).toUpperCase()
+  const wsInitial = username[0]?.toUpperCase() || "M"
 
   return (
     <div className="flex h-full w-[220px] flex-col border-r border-white/[0.06] bg-[#080d1a]">
@@ -79,9 +81,9 @@ export function Sidebar() {
       <div className="border-b border-white/[0.06] p-3">
         <button className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-white/[0.05] transition-colors group">
           <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-gradient-to-br from-amber-400 to-amber-600 text-[10px] font-bold text-white">
-            A
+            {wsInitial}
           </div>
-          <span className="flex-1 text-left text-sm font-medium text-white/80 truncate">Acme Corp</span>
+          <span className="flex-1 text-left text-sm font-medium text-white/80 truncate">{fullName || username}</span>
           <ChevronDown className="h-3.5 w-3.5 text-white/30 shrink-0 group-hover:text-white/60 transition-colors" />
         </button>
       </div>
