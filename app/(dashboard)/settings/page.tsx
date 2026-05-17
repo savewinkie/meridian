@@ -1,6 +1,10 @@
 "use client"
 
-import { useState } from "react"
+export const dynamic = "force-dynamic"
+
+import { useState, useEffect } from "react"
+import { createClient } from "@/lib/supabase/client"
+import { useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -8,34 +12,12 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { Separator } from "@/components/ui/separator"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   Github, GitBranch, Zap, Shield, Users, CreditCard,
-  CheckCircle2, Plus, Trash2, Crown, Settings,
-  AlertTriangle, Lock, Bell, Key, Globe,
+  CheckCircle2, Crown, Settings, ExternalLink,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
-
-const teamMembers = [
-  { name: "Sarah Chen", email: "sarah@acme.com", initials: "SC", role: "owner", joined: "Jan 2024" },
-  { name: "Marcus Williams", email: "marcus@acme.com", initials: "MW", role: "admin", joined: "Jan 2024" },
-  { name: "Priya Nair", email: "priya@acme.com", initials: "PN", role: "member", joined: "Feb 2024" },
-  { name: "John Doe", email: "john@acme.com", initials: "JD", role: "member", joined: "Feb 2024" },
-  { name: "Tom Rivera", email: "tom@acme.com", initials: "TR", role: "member", joined: "Mar 2024" },
-]
-
-const connectedRepos = [
-  { name: "acme/backend", provider: "GitHub", prs: 124, lastScan: "2 min ago", active: true },
-  { name: "acme/frontend", provider: "GitHub", prs: 89, lastScan: "5 min ago", active: true },
-  { name: "acme/api", provider: "GitHub", prs: 67, lastScan: "12 min ago", active: true },
-  { name: "acme/docs", provider: "GitHub", prs: 23, lastScan: "1h ago", active: false },
-]
-
-const roleConfig = {
-  owner: { label: "Owner", cls: "bg-amber-100 text-amber-700" },
-  admin: { label: "Admin", cls: "bg-blue-100 text-blue-700" },
-  member: { label: "Member", cls: "bg-gray-100 text-gray-600" },
-}
 
 const policyRules = [
   { id: 1, label: "Block merge on critical security issues", enabled: true },
@@ -47,44 +29,64 @@ const policyRules = [
 
 function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) {
   return (
-    <button
-      onClick={() => onChange(!checked)}
-      className={cn(
-        "relative inline-flex h-5 w-9 items-center rounded-full transition-colors focus:outline-none",
-        checked ? "bg-amber-500" : "bg-gray-200"
-      )}
-    >
-      <span className={cn(
-        "inline-block h-3.5 w-3.5 rounded-full bg-white shadow transition-transform",
-        checked ? "translate-x-5" : "translate-x-1"
-      )} />
+    <button onClick={() => onChange(!checked)}
+      className={cn("relative inline-flex h-5 w-9 items-center rounded-full transition-colors focus:outline-none",
+        checked ? "bg-amber-500" : "bg-gray-200")}>
+      <span className={cn("inline-block h-3.5 w-3.5 rounded-full bg-white shadow transition-transform",
+        checked ? "translate-x-5" : "translate-x-1")} />
     </button>
   )
 }
 
+function Skel({ className }: { className?: string }) {
+  return <div className={cn("animate-pulse rounded bg-muted", className)} />
+}
+
 export default function SettingsPage() {
+  const router = useRouter()
+  const [user, setUser] = useState<any>(null)
   const [policies, setPolicies] = useState(policyRules)
-  const [inviteEmail, setInviteEmail] = useState("")
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const supabase = createClient()
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) setUser(session.user)
+      setLoading(false)
+    })
+  }, [])
 
   const togglePolicy = (id: number) => {
     setPolicies(prev => prev.map(p => p.id === id ? { ...p, enabled: !p.enabled } : p))
   }
 
+  const ghLogin    = user?.user_metadata?.user_name ?? user?.user_metadata?.preferred_username ?? ""
+  const ghName     = user?.user_metadata?.full_name ?? user?.user_metadata?.name ?? ghLogin
+  const avatarUrl  = user?.user_metadata?.avatar_url ?? ""
+  const email      = user?.email ?? ""
+  const isGitHub   = user?.app_metadata?.provider === "github"
+  const initials   = ghName ? ghName.split(" ").map((n: string) => n[0]).join("").slice(0, 2).toUpperCase() : "?"
+
+  async function handleSignOut() {
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    router.push("/login")
+  }
+
   return (
     <div className="p-8">
-      {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-[#0F1729] mb-1">Settings</h1>
-        <p className="text-sm text-muted-foreground">Manage your workspace, integrations, and billing.</p>
+        <p className="text-sm text-muted-foreground">Manage your account, integrations, and preferences.</p>
       </div>
 
-      <Tabs defaultValue="integrations" className="space-y-6">
+      <Tabs defaultValue="account" className="space-y-6">
         <TabsList className="h-auto p-1 flex-wrap gap-1">
+          <TabsTrigger value="account" className="gap-1.5 text-xs">
+            <Users className="h-3.5 w-3.5" />Account
+          </TabsTrigger>
           <TabsTrigger value="integrations" className="gap-1.5 text-xs">
             <Github className="h-3.5 w-3.5" />Integrations
-          </TabsTrigger>
-          <TabsTrigger value="team" className="gap-1.5 text-xs">
-            <Users className="h-3.5 w-3.5" />Team
           </TabsTrigger>
           <TabsTrigger value="policies" className="gap-1.5 text-xs">
             <Shield className="h-3.5 w-3.5" />Policies
@@ -97,86 +99,130 @@ export default function SettingsPage() {
           </TabsTrigger>
         </TabsList>
 
-        {/* Integrations */}
-        <TabsContent value="integrations" className="space-y-6">
-          {/* Repositories */}
+        {/* Account */}
+        <TabsContent value="account" className="space-y-6">
           <Card>
             <CardHeader>
+              <CardTitle className="text-base">Your Profile</CardTitle>
+              <CardDescription>Your connected GitHub account</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {loading ? (
+                <div className="flex items-center gap-4">
+                  <Skel className="h-16 w-16 rounded-full shrink-0" />
+                  <div className="space-y-2">
+                    <Skel className="h-4 w-36" />
+                    <Skel className="h-3 w-52" />
+                  </div>
+                </div>
+              ) : (
+                <div className="flex items-center gap-4">
+                  <Avatar className="h-16 w-16 shrink-0">
+                    <AvatarImage src={avatarUrl} />
+                    <AvatarFallback className="bg-amber-100 text-amber-700 text-lg font-bold">{initials}</AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <p className="text-base font-semibold text-foreground">{ghName || "Unknown"}</p>
+                      <Crown className="h-4 w-4 text-amber-500" />
+                      <Badge variant="success" className="text-[10px]">Owner</Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground">{email}</p>
+                    {ghLogin && (
+                      <a href={`https://github.com/${ghLogin}`} target="_blank" rel="noopener noreferrer"
+                        className="flex items-center gap-1 text-xs text-muted-foreground hover:text-amber-600 transition-colors mt-0.5">
+                        <Github className="h-3 w-3" />@{ghLogin}
+                        <ExternalLink className="h-2.5 w-2.5" />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              <Separator />
+
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle className="text-base">Connected Repositories</CardTitle>
-                  <CardDescription>Repositories monitored by Meridian</CardDescription>
+                  <p className="text-sm font-medium text-foreground">Sign out</p>
+                  <p className="text-xs text-muted-foreground">Sign out of your Meridian account</p>
                 </div>
-                <Button size="sm" variant="amber" className="gap-1.5">
-                  <Plus className="h-3.5 w-3.5" />
-                  Add repository
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent className="p-0">
-              <div className="divide-y divide-border">
-                {connectedRepos.map((repo) => (
-                  <div key={repo.name} className="flex items-center gap-4 px-6 py-4">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#0F1729]/5">
-                      <Github className="h-4 w-4 text-[#0F1729]" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold font-mono text-foreground">{repo.name}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {repo.prs} PRs reviewed · Last scan {repo.lastScan}
-                      </p>
-                    </div>
-                    <Badge variant={repo.active ? "success" : "muted"} className="text-xs">
-                      {repo.active ? "Active" : "Paused"}
-                    </Badge>
-                    <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-red-600">
-                      <Trash2 className="h-3.5 w-3.5" />
-                    </Button>
-                  </div>
-                ))}
+                <Button variant="outline" size="sm" onClick={handleSignOut}>Sign out</Button>
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
 
-          {/* GitHub App */}
+        {/* Integrations */}
+        <TabsContent value="integrations" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">GitHub App</CardTitle>
-              <CardDescription>Configure the Meridian GitHub App installation</CardDescription>
+              <CardTitle className="text-base">GitHub</CardTitle>
+              <CardDescription>Your connected GitHub account used for scanning</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex items-center justify-between p-4 rounded-lg border border-emerald-200 bg-emerald-50">
-                <div className="flex items-center gap-3">
-                  <CheckCircle2 className="h-5 w-5 text-emerald-500" />
-                  <div>
-                    <p className="text-sm font-semibold text-foreground">Connected to GitHub</p>
-                    <p className="text-xs text-muted-foreground">acme-corp organization · 4 repos</p>
+              {loading ? (
+                <div className="flex items-center gap-3 p-4 rounded-lg border border-border bg-muted/20">
+                  <Skel className="h-5 w-5 rounded" />
+                  <div className="space-y-1.5 flex-1">
+                    <Skel className="h-3.5 w-40" />
+                    <Skel className="h-3 w-28" />
                   </div>
                 </div>
-                <Button size="sm" variant="outline">Configure</Button>
-              </div>
+              ) : isGitHub ? (
+                <div className="flex items-center justify-between p-4 rounded-lg border border-emerald-200 bg-emerald-50">
+                  <div className="flex items-center gap-3">
+                    <Avatar className="h-9 w-9">
+                      <AvatarImage src={avatarUrl} />
+                      <AvatarFallback className="bg-amber-100 text-amber-700 text-xs font-bold">{initials}</AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                        <p className="text-sm font-semibold text-foreground">Connected to GitHub</p>
+                      </div>
+                      <p className="text-xs text-muted-foreground">@{ghLogin} · {email}</p>
+                    </div>
+                  </div>
+                  <a href={`https://github.com/${ghLogin}`} target="_blank" rel="noopener noreferrer">
+                    <Button size="sm" variant="outline" className="gap-1.5">
+                      <ExternalLink className="h-3.5 w-3.5" />Profile
+                    </Button>
+                  </a>
+                </div>
+              ) : (
+                <div className="flex items-center justify-between p-4 rounded-lg border border-amber-200 bg-amber-50">
+                  <div className="flex items-center gap-3">
+                    <Github className="h-5 w-5 text-amber-600" />
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">GitHub not connected</p>
+                      <p className="text-xs text-muted-foreground">Sign in with GitHub to unlock repo scanning</p>
+                    </div>
+                  </div>
+                  <Button size="sm" variant="amber" onClick={async () => {
+                    const supabase = createClient()
+                    await supabase.auth.signInWithOAuth({ provider: "github",
+                      options: { scopes: "repo read:user user:email", redirectTo: `${window.location.origin}/auth/callback` } })
+                  }}>Connect GitHub</Button>
+                </div>
+              )}
 
               <div className="flex items-center justify-between p-4 rounded-lg border border-border bg-muted/20">
                 <div className="flex items-center gap-3">
                   <GitBranch className="h-5 w-5 text-muted-foreground" />
                   <div>
                     <p className="text-sm font-semibold text-foreground">GitLab</p>
-                    <p className="text-xs text-muted-foreground">Not connected</p>
+                    <p className="text-xs text-muted-foreground">Not connected · Coming soon</p>
                   </div>
                 </div>
-                <Button size="sm" variant="outline" className="gap-1.5">
-                  <Plus className="h-3.5 w-3.5" />
-                  Connect
-                </Button>
+                <Badge variant="muted" className="text-xs">Soon</Badge>
               </div>
             </CardContent>
           </Card>
 
-          {/* Anthropic API */}
           <Card>
             <CardHeader>
               <CardTitle className="text-base">AI Configuration</CardTitle>
-              <CardDescription>Configure the Claude API for AI-powered reviews</CardDescription>
+              <CardDescription>Powered by Anthropic's Claude API</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center gap-2">
@@ -189,80 +235,13 @@ export default function SettingsPage() {
                 </div>
                 <Badge variant="success" className="ml-auto">Active</Badge>
               </div>
-              <div className="space-y-1.5">
-                <Label>API Key</Label>
-                <div className="flex gap-2">
-                  <Input type="password" value="sk-ant-••••••••••••••••••••••" readOnly className="font-mono text-xs" />
-                  <Button variant="outline" size="sm">Update</Button>
-                </div>
-              </div>
               <div className="flex items-center justify-between text-sm">
                 <span className="text-muted-foreground">Model</span>
                 <Badge variant="navy">claude-sonnet-4-6</Badge>
               </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Team */}
-        <TabsContent value="team" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="text-base">Team Members</CardTitle>
-                  <CardDescription>{teamMembers.length} members in Acme Corp</CardDescription>
-                </div>
-              </div>
-            </CardHeader>
-
-            {/* Invite */}
-            <CardContent className="pb-0">
-              <div className="flex gap-2 mb-6">
-                <Input
-                  placeholder="colleague@company.com"
-                  value={inviteEmail}
-                  onChange={(e) => setInviteEmail(e.target.value)}
-                  type="email"
-                  className="max-w-xs"
-                />
-                <Button variant="amber" size="sm" className="gap-1.5">
-                  <Plus className="h-3.5 w-3.5" />
-                  Invite
-                </Button>
-              </div>
-              <Separator />
-            </CardContent>
-
-            <CardContent className="p-0">
-              <div className="divide-y divide-border">
-                {teamMembers.map((member) => {
-                  const rc = roleConfig[member.role as keyof typeof roleConfig]
-                  return (
-                    <div key={member.email} className="flex items-center gap-4 px-6 py-4">
-                      <Avatar className="h-9 w-9 shrink-0">
-                        <AvatarFallback className="bg-amber-100 text-amber-700 text-xs font-bold">
-                          {member.initials}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <p className="text-sm font-semibold text-foreground">{member.name}</p>
-                          {member.role === "owner" && <Crown className="h-3.5 w-3.5 text-amber-500" />}
-                        </div>
-                        <p className="text-xs text-muted-foreground">{member.email} · Joined {member.joined}</p>
-                      </div>
-                      <span className={cn("text-xs font-semibold rounded-full px-2.5 py-0.5", rc.cls)}>
-                        {rc.label}
-                      </span>
-                      {member.role !== "owner" && (
-                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-red-600">
-                          <Trash2 className="h-3.5 w-3.5" />
-                        </Button>
-                      )}
-                    </div>
-                  )
-                })}
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">Max duration</span>
+                <span className="text-xs font-mono text-muted-foreground">300s per scan</span>
               </div>
             </CardContent>
           </Card>
@@ -273,7 +252,7 @@ export default function SettingsPage() {
           <Card>
             <CardHeader>
               <CardTitle className="text-base">Review Policies</CardTitle>
-              <CardDescription>Configure automated review rules for your organization</CardDescription>
+              <CardDescription>Configure automated review rules</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {policies.map((policy) => (
@@ -324,7 +303,7 @@ export default function SettingsPage() {
                   </div>
                   <p className="text-white/60 text-sm">$29/month · Renews Jan 15, 2027</p>
                   <div className="mt-4 space-y-1.5 text-sm text-white/70">
-                    {["Unlimited repositories", "Unlimited AI reviews", "5 team members", "Priority support"].map(f => (
+                    {["Unlimited repositories", "Unlimited AI scans", "Priority support", "All scanner features"].map(f => (
                       <div key={f} className="flex items-center gap-2">
                         <CheckCircle2 className="h-3.5 w-3.5 text-amber-400" />
                         {f}
@@ -337,7 +316,6 @@ export default function SettingsPage() {
                   <div className="text-white/40 text-xs">/month</div>
                 </div>
               </div>
-
               <div className="flex gap-2">
                 <Button variant="outline" size="sm">Change plan</Button>
                 <Button variant="ghost" size="sm" className="text-red-600 hover:text-red-700 hover:bg-red-50">
@@ -374,14 +352,16 @@ export default function SettingsPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-1.5">
-                <Label>Organization name</Label>
-                <Input defaultValue="Acme Corp" />
+                <Label>Display name</Label>
+                {loading ? <Skel className="h-9 w-full" /> :
+                  <Input defaultValue={ghName || ghLogin || "My Workspace"} />}
               </div>
               <div className="space-y-1.5">
                 <Label>Workspace slug</Label>
                 <div className="flex items-center gap-2">
                   <span className="text-sm text-muted-foreground">meridian.dev/</span>
-                  <Input defaultValue="acme" className="w-40" />
+                  {loading ? <Skel className="h-9 w-40" /> :
+                    <Input defaultValue={ghLogin || "my-workspace"} className="w-40" />}
                 </div>
               </div>
               <Button variant="navy" size="sm">Save changes</Button>

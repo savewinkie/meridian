@@ -349,7 +349,7 @@ export default function UploadScannerPage() {
         </div>
       </motion.div>
 
-      <div className={cn("flex flex-col flex-1 gap-5 p-6", files.length === 0 && !results ? "items-center justify-center" : "")}>
+      <div className={cn("flex flex-col flex-1 gap-5 p-6", (files.length === 0 && !results) || isScanning ? "items-center justify-center" : "")}>
 
         {/* Drop zone (always visible until results) */}
         {!results && (
