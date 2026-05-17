@@ -9,7 +9,7 @@ import {
   Loader2, FolderOpen, FileCode2, ChevronDown, Play,
   CheckCircle2, Download, Star, GitFork, Lock, Unlock,
   Brain, X, GripVertical, AlertTriangle, AlertCircle,
-  Info, Zap, Code2, Copy, Check, SquareCheckBig,
+  Info, Zap, Code2, Copy, Check, CheckSquare2,
 } from "lucide-react"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -683,7 +683,7 @@ export default function RepoScannerPage() {
                 onClick={selectedFiles.size === codeFiles.slice(0,10).length && codeFiles.slice(0,10).every(f=>selectedFiles.has(f)) ? deselectAll : selectAll}
                 className="flex items-center gap-1 shrink-0 text-[9px] font-semibold text-violet-400/70 hover:text-violet-300 transition-colors"
               >
-                <SquareCheckBig className="h-3 w-3"/>
+                <CheckSquare2 className="h-3 w-3"/>
                 {selectedFiles.size > 0 ? "Deselect" : `All (${Math.min(codeFiles.length,10)})`}
               </button>
             )}

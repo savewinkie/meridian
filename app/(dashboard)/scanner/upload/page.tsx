@@ -416,7 +416,7 @@ export default function UploadScannerPage() {
                   </button>
                 )}
                 {allDone && results.some(r => r.fixedCode) && (
-                  <button onClick={() => results.forEach(r => r.fixedCode && (()=>{const b=new Blob([r.fixedCode],{type:"text/plain"});const u=URL.createObjectURL(b);const a=document.createElement("a");a.href=u;a.download=`fixed-${r.name}`;a.click();URL.revokeObjectURL(u)})()} )
+                  <button onClick={() => results.forEach(r => r.fixedCode && (()=>{const b=new Blob([r.fixedCode],{type:"text/plain"});const u=URL.createObjectURL(b);const a=document.createElement("a");a.href=u;a.download=`fixed-${r.name}`;a.click();URL.revokeObjectURL(u)})())}
                     className="flex items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.06] px-4 py-2 text-[12px] font-medium text-white/50 hover:text-white/80 transition-all">
                     <Download className="h-3.5 w-3.5"/>Download all fixed
                   </button>
