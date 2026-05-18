@@ -101,7 +101,7 @@ export default function SignupPage() {
           <CanvasRevealEffect
             animationSpeed={3}
             containerClassName="bg-black"
-            colors={[[217, 119, 87], [196, 104, 67]]}
+            colors={[[124, 58, 237], [59, 130, 246]]}
             dotSize={5}
             reverse={false}
             showGradient={false}
@@ -111,7 +111,7 @@ export default function SignupPage() {
           <CanvasRevealEffect
             animationSpeed={4}
             containerClassName="bg-black"
-            colors={[[217, 160, 87], [196, 140, 67]]}
+            colors={[[16, 185, 129], [52, 211, 153]]}
             dotSize={5}
             reverse={true}
             showGradient={false}
@@ -133,7 +133,7 @@ export default function SignupPage() {
             <span className="text-[15px] font-semibold text-white">Qualix</span>
           </Link>
           <Link href="/login" className="text-sm text-white/40 hover:text-white transition-colors">
-            Already have an account? <span className="text-[#D97757] hover:text-[#E8956A]">Sign in →</span>
+            Already have an account? <span className="text-violet-400 hover:text-violet-300">Sign in →</span>
           </Link>
         </div>
 
@@ -248,14 +248,14 @@ export default function SignupPage() {
                       required
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
-                      className="h-12 rounded-full bg-white/[0.05] border border-white/[0.1] text-white placeholder:text-white/25 text-sm px-4 focus:outline-none focus:border-[#D97757]/60 focus:bg-white/[0.07] transition-all text-center"
+                      className="h-12 rounded-full bg-white/[0.05] border border-white/[0.1] text-white placeholder:text-white/25 text-sm px-4 focus:outline-none focus:border-violet-500/50 focus:bg-white/[0.07] transition-all text-center"
                     />
                     <input
                       placeholder="Last name"
                       required
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
-                      className="h-12 rounded-full bg-white/[0.05] border border-white/[0.1] text-white placeholder:text-white/25 text-sm px-4 focus:outline-none focus:border-[#D97757]/60 focus:bg-white/[0.07] transition-all text-center"
+                      className="h-12 rounded-full bg-white/[0.05] border border-white/[0.1] text-white placeholder:text-white/25 text-sm px-4 focus:outline-none focus:border-violet-500/50 focus:bg-white/[0.07] transition-all text-center"
                     />
                   </div>
 
@@ -265,7 +265,7 @@ export default function SignupPage() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full h-12 rounded-full bg-white/[0.05] border border-white/[0.1] text-white placeholder:text-white/25 text-sm px-5 focus:outline-none focus:border-[#D97757]/60 focus:bg-white/[0.07] transition-all text-center"
+                    className="w-full h-12 rounded-full bg-white/[0.05] border border-white/[0.1] text-white placeholder:text-white/25 text-sm px-5 focus:outline-none focus:border-violet-500/50 focus:bg-white/[0.07] transition-all text-center"
                   />
 
                   <div className="relative">
@@ -276,7 +276,7 @@ export default function SignupPage() {
                       minLength={8}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full h-12 rounded-full bg-white/[0.05] border border-white/[0.1] text-white placeholder:text-white/25 text-sm px-5 pr-12 focus:outline-none focus:border-[#D97757]/60 focus:bg-white/[0.07] transition-all text-center"
+                      className="w-full h-12 rounded-full bg-white/[0.05] border border-white/[0.1] text-white placeholder:text-white/25 text-sm px-5 pr-12 focus:outline-none focus:border-violet-500/50 focus:bg-white/[0.07] transition-all text-center"
                     />
                     <button
                       type="button"
@@ -292,7 +292,7 @@ export default function SignupPage() {
                     disabled={loading}
                     whileHover={{ scale: 1.015 }}
                     whileTap={{ scale: 0.985 }}
-                    className="relative w-full h-12 rounded-full bg-gradient-to-r from-[#D97757] to-[#C46843] hover:from-[#E8956A] hover:to-[#D97757] text-white text-sm font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#D97757]/25 overflow-hidden group"
+                    className="relative w-full h-12 rounded-full bg-gradient-to-r from-violet-600 to-violet-500 hover:from-violet-500 hover:to-violet-400 text-white text-sm font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-violet-500/25 overflow-hidden group"
                   >
                     <div className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent group-hover:translate-x-full transition-transform duration-700" />
                     <span className="relative flex items-center justify-center gap-2">
