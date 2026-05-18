@@ -342,7 +342,7 @@ export default function UploadScannerPage() {
             <ArrowLeft className="h-3.5 w-3.5"/>
           </Link>
           <Upload className="h-3.5 w-3.5 text-emerald-400 shrink-0"/>
-          <span className="text-white/40">meridian</span>
+          <span className="text-white/40">qualix</span>
           <ChevronRight className="h-3 w-3"/>
           <span className="text-white/40">scanner</span>
           <ChevronRight className="h-3 w-3"/>

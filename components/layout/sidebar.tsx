@@ -62,7 +62,7 @@ export function Sidebar() {
   const wsInitial = username[0]?.toUpperCase() || "M"
 
   return (
-    <div className="flex h-full w-[220px] flex-col border-r border-white/[0.06] bg-[#080d1a]">
+    <div className="flex h-full w-[220px] flex-col border-r border-white/[0.06] bg-[#040810]">
       {/* Logo */}
       <div className="flex h-[57px] items-center gap-2.5 border-b border-white/[0.06] px-4">
         <LogoMark size={28} />
