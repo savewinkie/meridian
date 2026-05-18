@@ -78,7 +78,7 @@ export default function LoginPage() {
         <CanvasRevealEffect
           animationSpeed={3}
           containerClassName="bg-black"
-          colors={[[124, 58, 237], [139, 92, 246]]}
+          colors={[[217, 119, 87], [196, 104, 67]]}
           dotSize={5}
           reverse={false}
           showGradient={false}
@@ -100,7 +100,7 @@ export default function LoginPage() {
             <span className="text-[15px] font-semibold text-white">Qualix</span>
           </Link>
           <Link href="/signup" className="text-sm text-white/40 hover:text-white transition-colors">
-            No account? <span className="text-violet-400 hover:text-violet-300">Sign up →</span>
+            No account? <span className="text-[#D97757] hover:text-[#E8956A]">Sign up →</span>
           </Link>
         </div>
 
@@ -175,7 +175,7 @@ export default function LoginPage() {
               disabled={githubLoading || loading}
               whileHover={{ scale: 1.015 }}
               whileTap={{ scale: 0.985 }}
-              className="w-full flex items-center justify-center gap-2.5 rounded-full border border-white/[0.12] bg-white/[0.06] backdrop-blur-sm hover:bg-white/[0.1] hover:border-white/20 px-4 h-12 text-sm font-medium text-white/80 hover:text-white transition-all mb-5 disabled:opacity-50 group overflow-hidden relative"
+              className="w-full flex items-center justify-center gap-2.5 rounded-full border border-white/[0.15] bg-white/[0.08] backdrop-blur-sm hover:bg-white/[0.14] hover:border-white/25 px-4 h-12 text-sm font-medium text-white/80 hover:text-white transition-all mb-5 disabled:opacity-50 group overflow-hidden relative"
             >
               <div className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/5 to-transparent group-hover:translate-x-full transition-transform duration-700" />
               {githubLoading ? (
@@ -201,7 +201,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full h-12 rounded-full bg-white/[0.05] border border-white/[0.1] text-white placeholder:text-white/25 text-sm px-5 focus:outline-none focus:border-violet-500/50 focus:bg-white/[0.07] transition-all text-center"
+                className="w-full h-12 rounded-full bg-white/[0.05] border border-white/[0.1] text-white placeholder:text-white/25 text-sm px-5 focus:outline-none focus:border-[#D97757]/60 focus:bg-white/[0.07] transition-all text-center"
               />
 
               <div className="relative">
@@ -211,7 +211,7 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full h-12 rounded-full bg-white/[0.05] border border-white/[0.1] text-white placeholder:text-white/25 text-sm px-5 pr-12 focus:outline-none focus:border-violet-500/50 focus:bg-white/[0.07] transition-all text-center"
+                  className="w-full h-12 rounded-full bg-white/[0.05] border border-white/[0.1] text-white placeholder:text-white/25 text-sm px-5 pr-12 focus:outline-none focus:border-[#D97757]/60 focus:bg-white/[0.07] transition-all text-center"
                 />
                 <button
                   type="button"
@@ -233,7 +233,7 @@ export default function LoginPage() {
                 disabled={loading}
                 whileHover={{ scale: 1.015 }}
                 whileTap={{ scale: 0.985 }}
-                className="relative w-full h-12 rounded-full bg-gradient-to-r from-violet-600 to-violet-500 hover:from-violet-500 hover:to-violet-400 text-white text-sm font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-violet-500/25 overflow-hidden group"
+                className="relative w-full h-12 rounded-full bg-gradient-to-r from-[#D97757] to-[#C46843] hover:from-[#E8956A] hover:to-[#D97757] text-white text-sm font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#D97757]/25 overflow-hidden group"
               >
                 <div className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent group-hover:translate-x-full transition-transform duration-700" />
                 <span className="relative flex items-center justify-center gap-2">
