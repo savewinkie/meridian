@@ -441,11 +441,19 @@ export default function RepoScannerPage() {
       supabase.auth.getSession().then(({ data: { session } }) => {
         setIsLoggedIn(!!session)
         if (session?.provider_token) {
+          localStorage.setItem("qualix_gh_token", session.provider_token)
           setToken(session.provider_token); setTokenSource("oauth")
           fetchReposWithToken(session.provider_token)
         } else {
-          const saved = localStorage.getItem("qualix_gh_pat")
-          if (saved) { setToken(saved); setTokenSource("pat"); setPatInput(saved); fetchReposWithToken(saved) }
+          const savedOAuth = localStorage.getItem("qualix_gh_token")
+          const savedPat = localStorage.getItem("qualix_gh_pat")
+          const saved = savedOAuth || savedPat
+          if (saved) {
+            setToken(saved)
+            setTokenSource(savedOAuth ? "oauth" : "pat")
+            if (!savedOAuth) setPatInput(saved)
+            fetchReposWithToken(saved)
+          }
         }
         setSessionChecked(true)
       })
@@ -468,7 +476,7 @@ export default function RepoScannerPage() {
     const { createClient } = await import("@/lib/supabase/client")
     const supabase = createClient()
     await supabase.auth.signInWithOAuth({ provider: "github", options: {
-      redirectTo: `${window.location.origin}/auth/callback`, scopes: "repo read:user user:email"
+      redirectTo: `${window.location.origin}/auth/callback?next=/scanner/repo`, scopes: "repo read:user user:email"
     }})
   }
 
