@@ -6,6 +6,7 @@ interface LogoMarkProps {
 }
 
 export function LogoMark({ className, size = 28 }: LogoMarkProps) {
+  const id = `qx-${size}`
   return (
     <svg
       width={size}
@@ -15,27 +16,22 @@ export function LogoMark({ className, size = 28 }: LogoMarkProps) {
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
+      <defs>
+        <linearGradient id={id} x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#8B5CF6" />
+          <stop offset="100%" stopColor="#5B21B6" />
+        </linearGradient>
+      </defs>
       {/* Background */}
-      <rect width="32" height="32" rx="8" fill="#0F1729" />
-
-      {/* Qualix mark — twin peaks representing signal / quality */}
-      <path
-        d="M7.5 23 L11.5 9.5 L16 18 L20.5 9.5 L24.5 23"
-        stroke="#F59E0B"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
-      />
-
-      {/* Subtle baseline */}
-      <line
-        x1="7.5" y1="23" x2="24.5" y2="23"
-        stroke="#F59E0B"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        opacity="0.35"
-      />
+      <rect width="32" height="32" rx="8" fill={`url(#${id})`} />
+      {/* Magnifying glass circle */}
+      <circle cx="13.5" cy="13.5" r="6.8" stroke="white" strokeWidth="2.3" fill="none" />
+      {/* Handle */}
+      <line x1="19" y1="19" x2="24" y2="24" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+      {/* Code scan lines inside glass */}
+      <line x1="9.8" y1="13.5" x2="17.2" y2="13.5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeOpacity="0.9" />
+      <line x1="9.8" y1="10.5" x2="15.5" y2="10.5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeOpacity="0.55" />
+      <line x1="9.8" y1="16.5" x2="15" y2="16.5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeOpacity="0.55" />
     </svg>
   )
 }

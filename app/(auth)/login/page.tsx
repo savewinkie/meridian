@@ -38,8 +38,17 @@ export default function LoginPage() {
     const { createClient } = await import("@/lib/supabase/client")
     const supabase = createClient()
     const { error: authError } = await supabase.auth.signInWithPassword({ email, password })
-    if (authError) { setError(authError.message); setLoading(false) }
-    else { router.push("/dashboard"); router.refresh() }
+    if (authError) {
+      const msg = authError.message
+      if (msg.includes("Invalid login credentials") || msg.includes("invalid_credentials")) {
+        setError("__no_account__")
+      } else if (msg.includes("Email not confirmed")) {
+        setError("__unverified__")
+      } else {
+        setError(msg)
+      }
+      setLoading(false)
+    } else { router.push("/dashboard"); router.refresh() }
   }
 
   const handleGitHub = async () => {
@@ -117,10 +126,45 @@ export default function LoginPage() {
                   initial={{ opacity: 0, y: -8 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -8 }}
-                  className="flex items-center gap-2.5 rounded-xl bg-red-500/10 border border-red-500/20 px-3.5 py-3 mb-5"
+                  className="rounded-xl border px-3.5 py-3 mb-5"
+                  style={
+                    error === "__no_account__" || error === "__unverified__"
+                      ? { background: "rgba(245,158,11,0.08)", borderColor: "rgba(245,158,11,0.2)" }
+                      : { background: "rgba(239,68,68,0.08)", borderColor: "rgba(239,68,68,0.2)" }
+                  }
                 >
-                  <AlertCircle className="h-4 w-4 text-red-400 shrink-0" />
-                  <p className="text-xs text-red-400">{error}</p>
+                  {error === "__no_account__" ? (
+                    <div className="flex items-start gap-2.5">
+                      <AlertCircle className="h-4 w-4 text-amber-400 shrink-0 mt-px" />
+                      <div>
+                        <p className="text-xs font-semibold text-amber-300">No account found</p>
+                        <p className="text-xs text-amber-400/70 mt-0.5">
+                          Wrong email or password, or you haven't signed up yet.{" "}
+                          <Link href="/signup" className="underline underline-offset-2 text-amber-300 hover:text-amber-200 transition-colors">
+                            Create a free account →
+                          </Link>
+                        </p>
+                      </div>
+                    </div>
+                  ) : error === "__unverified__" ? (
+                    <div className="flex items-start gap-2.5">
+                      <AlertCircle className="h-4 w-4 text-amber-400 shrink-0 mt-px" />
+                      <div>
+                        <p className="text-xs font-semibold text-amber-300">Verify your email first</p>
+                        <p className="text-xs text-amber-400/70 mt-0.5">
+                          Check your inbox for a confirmation link.{" "}
+                          <Link href="/signup" className="underline underline-offset-2 text-amber-300 hover:text-amber-200 transition-colors">
+                            Resend from sign up →
+                          </Link>
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2.5">
+                      <AlertCircle className="h-4 w-4 text-red-400 shrink-0" />
+                      <p className="text-xs text-red-400">{error}</p>
+                    </div>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>

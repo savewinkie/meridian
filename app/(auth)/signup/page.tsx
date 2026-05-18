@@ -29,6 +29,8 @@ export default function SignupPage() {
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
   const [reverseCanvas, setReverseCanvas] = useState(false)
+  const [resendLoading, setResendLoading] = useState(false)
+  const [resendSent, setResendSent] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -54,6 +56,21 @@ export default function SignupPage() {
       setReverseCanvas(true)
       setTimeout(() => { setSuccess(true); setLoading(false) }, 1800)
     }
+  }
+
+  const handleResend = async () => {
+    if (!email || resendLoading || resendSent || isDemoMode) return
+    setResendLoading(true)
+    const { createClient } = await import("@/lib/supabase/client")
+    const supabase = createClient()
+    await supabase.auth.resend({
+      type: "signup",
+      email,
+      options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
+    })
+    setResendLoading(false)
+    setResendSent(true)
+    setTimeout(() => setResendSent(false), 30000)
   }
 
   const handleGitHub = async () => {
@@ -139,10 +156,27 @@ export default function SignupPage() {
                 >
                   <CheckCircle2 className="h-8 w-8 text-white" />
                 </motion.div>
-                <h1 className="text-[2rem] font-bold text-white mb-2">You&apos;re in!</h1>
-                <p className="text-white/45 text-base mb-8">
-                  Check your email at <span className="text-white/65">{email}</span> to confirm your account.
+                <h1 className="text-[2rem] font-bold text-white mb-2">Check your inbox</h1>
+                <p className="text-white/45 text-sm mb-2 leading-relaxed">
+                  We sent a confirmation link to{" "}
+                  <span className="text-white/70 font-medium">{email}</span>.
+                  <br />Click it to activate your account.
                 </p>
+                <p className="text-white/25 text-xs mb-8 leading-relaxed">
+                  No email? Check your spam folder — it can take a minute or two.
+                </p>
+
+                {/* Resend button */}
+                <motion.button
+                  onClick={handleResend}
+                  disabled={resendLoading || resendSent || isDemoMode}
+                  whileHover={{ scale: resendSent ? 1 : 1.015 }}
+                  whileTap={{ scale: resendSent ? 1 : 0.985 }}
+                  className="w-full h-11 rounded-full border border-white/[0.12] bg-white/[0.06] hover:bg-white/[0.1] text-white/60 hover:text-white text-sm font-medium transition-all mb-3 disabled:opacity-50"
+                >
+                  {resendLoading ? "Sending…" : resendSent ? "Email sent!" : "Resend confirmation email"}
+                </motion.button>
+
                 <Link href="/login">
                   <motion.button
                     whileHover={{ scale: 1.015 }}
