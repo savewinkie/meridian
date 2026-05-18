@@ -9,9 +9,9 @@ import { cn } from "@/lib/utils"
 import {
   ArrowRight, Shield, GitPullRequest, BarChart3,
   Brain, CheckCircle2, Star, Menu, X,
-  TrendingUp, Sparkles, GitMerge,
+  TrendingUp, Sparkles,
   AlertCircle, ChevronRight, Code2,
-  Bell, Zap, Check, Lock, Github, Rocket,
+  Zap, Lock, Github,
 } from "lucide-react"
 import { LogoMark } from "@/components/logo"
 import { LiveDemo } from "@/components/live-demo"
@@ -517,9 +517,9 @@ function DashboardMockup() {
 
 function FeaturesSection() {
   return (
-    <section id="features" className="py-28 border-t border-white/[0.05]">
+    <section id="features" className="py-20 border-t border-white/[0.05]">
       <div className="mx-auto max-w-6xl px-6">
-        <AnimateIn className="mb-16">
+        <AnimateIn className="mb-12">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
             <div>
               <p className="text-[10px] font-bold tracking-[0.25em] uppercase text-violet-400 mb-4">Features</p>
@@ -699,116 +699,11 @@ function FeaturesSection() {
   )
 }
 
-// ─── How It Works (Scroll Storytelling) ──────────────────────────────────────
-
-function HowItWorksSection() {
-  const steps = [
-    {
-      num: "01",
-      Icon: Github,
-      title: "Connect your repository",
-      desc: "Link GitHub, GitLab, or Bitbucket in one click. Qualix handles webhooks, tokens, and permissions automatically.",
-      color: "amber" as const,
-      chip: "GitHub · GitLab · Bitbucket",
-    },
-    {
-      num: "02",
-      Icon: GitPullRequest,
-      title: "Open a pull request",
-      desc: "Every PR triggers an instant AI review. No workflow changes, no new tools — it just works inside your existing process.",
-      color: "blue" as const,
-      chip: "Auto-triggered on PR open",
-    },
-    {
-      num: "03",
-      Icon: Brain,
-      title: "Get instant AI insights",
-      desc: "Security vulnerabilities, logic bugs, code quality issues, and fix suggestions appear directly as PR comments within seconds.",
-      color: "purple" as const,
-      chip: "Results in < 3 seconds",
-    },
-    {
-      num: "04",
-      Icon: Rocket,
-      title: "Ship with confidence",
-      desc: "Merge gates block critical issues. Auto-apply fixes with one click. Your team moves faster with fewer production incidents.",
-      color: "emerald" as const,
-      chip: "Zero critical bugs in production",
-    },
-  ]
-
-  const colorMap = {
-    amber: { bg: "bg-amber-500/10", border: "border-amber-500/20", text: "text-amber-400", num: "text-amber-500/10", chip: "bg-amber-500/8 border-amber-500/15 text-amber-400/70" },
-    blue: { bg: "bg-blue-500/10", border: "border-blue-500/20", text: "text-blue-400", num: "text-blue-500/10", chip: "bg-blue-500/8 border-blue-500/15 text-blue-400/70" },
-    purple: { bg: "bg-purple-500/10", border: "border-purple-500/20", text: "text-purple-400", num: "text-purple-500/10", chip: "bg-purple-500/8 border-purple-500/15 text-purple-400/70" },
-    emerald: { bg: "bg-emerald-500/10", border: "border-emerald-500/20", text: "text-emerald-400", num: "text-emerald-500/10", chip: "bg-emerald-500/8 border-emerald-500/15 text-emerald-400/70" },
-  }
-
-  return (
-    <section className="py-32 border-t border-white/[0.05] overflow-hidden">
-      <div className="mx-auto max-w-6xl px-6">
-        <AnimateIn className="text-center mb-20">
-          <p className="text-[10px] font-bold tracking-[0.25em] uppercase text-violet-400 mb-4">How it works</p>
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-bold text-white tracking-tight leading-[1.1]">
-            From commit to<br />confident merge.
-          </h2>
-          <p className="text-white/35 text-base mt-4 max-w-md mx-auto leading-relaxed">
-            Four steps between your code and production. Qualix makes each one bulletproof.
-          </p>
-        </AnimateIn>
-
-        <div className="relative">
-          <div className="absolute top-[52px] left-[12%] right-[12%] h-px hidden md:block overflow-hidden">
-            <div className="w-full h-full bg-gradient-to-r from-transparent via-white/8 to-transparent" />
-            <motion.div
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
-              className="absolute inset-0 bg-gradient-to-r from-violet-500/40 via-blue-400/20 to-emerald-500/40 origin-left"
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {steps.map((step, i) => {
-              const c = colorMap[step.color]
-              return (
-                <AnimateIn key={step.num} delay={i * 120}>
-                  <Tilt3DCard className="h-full" intensity={8}>
-                    <div className="rounded-2xl border border-white/[0.07] bg-white/[0.03] backdrop-blur-sm p-6 h-full hover:border-white/[0.14] hover:bg-white/[0.06] transition-all duration-300 group">
-                      <div className={cn("flex h-10 w-10 items-center justify-center rounded-xl mb-5 border transition-all duration-300 group-hover:scale-110", c.bg, c.border)}>
-                        <step.Icon className={cn("h-5 w-5", c.text)} />
-                      </div>
-                      <div className={cn("text-7xl font-black leading-none mb-3 select-none", c.num)}>{step.num}</div>
-                      <h3 className="text-sm font-semibold text-white mb-2 leading-snug">{step.title}</h3>
-                      <p className="text-xs text-white/35 leading-relaxed mb-4">{step.desc}</p>
-                      <div className={cn("inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-medium", c.chip)}>
-                        <div className={cn("h-1.5 w-1.5 rounded-full shrink-0", c.text)} style={{ opacity: 0.7 }} />
-                        {step.chip}
-                      </div>
-                    </div>
-                  </Tilt3DCard>
-                </AnimateIn>
-              )
-            })}
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
 // ─── Comparison / Product Tour (hidden) ──────────────────────────────────────
 
 function ProductTour() { return null }
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
-
-const testimonials = [
-  { quote: "Qualix caught a SQL injection vulnerability in a PR that passed our manual review. It pays for itself in one incident prevented.", author: "Sarah Chen", role: "CTO, Flowbase", avatar: "SC", stars: 5 },
-  { quote: "We went from 8-hour review cycles to under 2 hours. The AI handles the boilerplate so humans can focus on architecture.", author: "Marcus Williams", role: "Engineering Lead, Pulsar", avatar: "MW", stars: 5 },
-  { quote: "The tech debt visualization alone was worth it. We finally have a data-driven way to make the case for refactoring sprints.", author: "Priya Nair", role: "Staff Engineer, Cascade", avatar: "PN", stars: 5 },
-]
 
 const plans = [
   {
@@ -830,60 +725,6 @@ const plans = [
 
 const companies = ["Acme Corp", "Streamline", "Vertex", "Cascade", "Pulsar", "Flowbase", "Luminary", "Nexus", "Orbit", "Prism", "Vanta", "Axiom"]
 
-// ─── Enterprise + Integrations ────────────────────────────────────────────────
-
-function EnterpriseSection() {
-  return (
-    <section className="py-16 border-y border-white/[0.05]">
-      <div className="mx-auto max-w-5xl px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <AnimateIn direction="left">
-            <Tilt3DCard className="h-full" intensity={6}>
-              <div className="rounded-2xl border border-white/[0.08] bg-white/[0.04] backdrop-blur-sm p-8 flex flex-col justify-between h-full">
-                <div>
-                  <p className="text-[10px] font-bold tracking-[0.25em] uppercase text-blue-400 mb-4">Integrations</p>
-                  <h3 className="text-2xl font-bold text-white mb-3">Works with your stack.</h3>
-                  <p className="text-white/35 text-sm leading-relaxed mb-6">GitHub, GitLab, Bitbucket, Slack, Jira, Linear, VS Code, and 50+ more tools — connected in minutes.</p>
-                  <div className="flex flex-wrap gap-2">
-                    {["GitHub", "GitLab", "Slack", "Jira", "Linear", "VS Code"].map((name) => (
-                      <span key={name} className="text-[11px] font-medium text-white/40 bg-white/[0.05] border border-white/[0.07] rounded-full px-3 py-1">{name}</span>
-                    ))}
-                    <span className="text-[11px] font-medium text-white/20 bg-white/[0.02] border border-white/[0.04] rounded-full px-3 py-1">+50 more</span>
-                  </div>
-                </div>
-              </div>
-            </Tilt3DCard>
-          </AnimateIn>
-          <AnimateIn direction="right" delay={80}>
-            <Tilt3DCard className="h-full" intensity={6}>
-              <div className="rounded-2xl border border-violet-500/15 bg-violet-500/[0.04] p-8 flex flex-col justify-between h-full">
-                <div>
-                  <p className="text-[10px] font-bold tracking-[0.25em] uppercase text-violet-400 mb-4">Enterprise</p>
-                  <h3 className="text-2xl font-bold text-white mb-3">Built for regulated teams.</h3>
-                  <p className="text-white/35 text-sm leading-relaxed mb-6">SOC 2 Type II, GDPR, SAML/SSO, audit logs, RBAC, and on-premises deployment — included in every Enterprise plan.</p>
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {["SOC 2 Type II", "GDPR", "SAML/SSO", "Audit Logs", "RBAC", "On-Prem"].map((item) => (
-                      <span key={item} className="flex items-center gap-1.5 text-[11px] font-medium text-violet-400/70 bg-violet-500/[0.07] border border-violet-500/15 rounded-full px-3 py-1">
-                        <CheckCircle2 className="h-3 w-3" />{item}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <MagneticButton>
-                  <Link href="mailto:sales@qualix.dev">
-                    <Button className="bg-violet-600 hover:bg-violet-500 text-white gap-2 shadow-lg shadow-violet-500/20" size="sm">
-                      Talk to sales <ArrowRight className="h-3.5 w-3.5" />
-                    </Button>
-                  </Link>
-                </MagneticButton>
-              </div>
-            </Tilt3DCard>
-          </AnimateIn>
-        </div>
-      </div>
-    </section>
-  )
-}
 
 // ─── Pricing Section ──────────────────────────────────────────────────────────
 
@@ -1170,71 +1011,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── Problem Section ─────────────────────────────────────────────────── */}
-      <section className="py-28 border-b border-white/[0.05]">
-        <div className="mx-auto max-w-6xl px-6">
-          <AnimateIn className="text-center mb-14">
-            <p className="text-[10px] font-bold tracking-[0.25em] uppercase text-white/30 mb-4">The problem</p>
-            <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-bold text-white tracking-tight leading-[1.1]">
-              Manual code review<br />
-              <span className="bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">is broken.</span>
-            </h2>
-          </AnimateIn>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {[
-              {
-                stat: "8+",
-                statSub: "hour cycles",
-                title: "Review bottlenecks compound",
-                desc: "Teams wait days for feedback. Critical PRs sit unreviewed while engineers context-switch endlessly.",
-                accent: "text-red-400",
-                bg: "from-red-500/[0.06]",
-                border: "border-red-500/15",
-              },
-              {
-                stat: "73%",
-                statSub: "pass undetected",
-                title: "Security blind spots",
-                desc: "73% of SQL injection vulnerabilities pass manual review. Humans miss what pattern-matching AI catches instantly.",
-                accent: "text-orange-400",
-                bg: "from-orange-500/[0.06]",
-                border: "border-orange-500/15",
-              },
-              {
-                stat: "∞",
-                statSub: "compounds",
-                title: "Tech debt death spiral",
-                desc: "Untracked issues quietly accumulate. Small problems become production incidents. The backlog grows faster than it's addressed.",
-                accent: "text-amber-400",
-                bg: "from-amber-500/[0.06]",
-                border: "border-amber-500/15",
-              },
-            ].map((item, i) => (
-              <AnimateIn key={item.title} delay={i * 100}>
-                <div className={cn(
-                  "relative rounded-2xl border p-8 bg-gradient-to-br to-transparent overflow-hidden h-full",
-                  item.border, item.bg
-                )}>
-                  <div className="flex items-start gap-5">
-                    <div className="shrink-0">
-                      <div className={cn("text-4xl font-black tabular-nums leading-none", item.accent)}>{item.stat}</div>
-                      <div className="text-[10px] text-white/30 mt-0.5 font-medium">{item.statSub}</div>
-                    </div>
-                    <div className="pt-0.5">
-                      <h3 className="text-sm font-semibold text-white mb-2">{item.title}</h3>
-                      <p className="text-xs text-white/40 leading-relaxed">{item.desc}</p>
-                    </div>
-                  </div>
-                </div>
-              </AnimateIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <FeaturesSection />
-      <HowItWorksSection />
 
       {/* ── Live Demo ───────────────────────────────────────────────────────── */}
       <LiveDemo />
@@ -1261,50 +1038,6 @@ export default function LandingPage() {
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-500/20 to-transparent" />
       </section>
 
-      {/* ── Testimonials ────────────────────────────────────────────────────── */}
-      <section className="py-24 border-b border-white/[0.05]">
-        <div className="mx-auto max-w-6xl px-6">
-          <AnimateIn className="text-center mb-14">
-            <p className="text-[10px] font-bold tracking-[0.25em] uppercase text-violet-400 mb-4">What teams say</p>
-            <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-bold text-white tracking-tight leading-[1.1]">
-              Loved by engineers<br />everywhere.
-            </h2>
-          </AnimateIn>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {testimonials.map((t, i) => (
-              <AnimateIn key={t.author} delay={i * 100}>
-                <Tilt3DCard className="h-full" intensity={6}>
-                  <div className="group rounded-2xl border border-white/[0.08] bg-white/[0.04] backdrop-blur-sm p-7 h-full flex flex-col hover:border-violet-500/20 hover:bg-white/[0.07] transition-all duration-300 relative overflow-hidden">
-                    <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-violet-500/0 to-transparent group-hover:via-violet-500/30 transition-all duration-500" />
-                    {/* Stars */}
-                    <div className="flex gap-1 mb-5">
-                      {Array.from({ length: t.stars }).map((_, si) => (
-                        <Star key={si} className="h-3.5 w-3.5 text-amber-400 fill-current" />
-                      ))}
-                    </div>
-                    {/* Quote */}
-                    <p className="text-sm text-white/60 leading-relaxed flex-1 mb-6">
-                      &ldquo;{t.quote}&rdquo;
-                    </p>
-                    {/* Author */}
-                    <div className="flex items-center gap-3">
-                      <div className="h-9 w-9 rounded-full bg-gradient-to-br from-violet-500/30 to-blue-500/20 border border-violet-500/20 flex items-center justify-center text-violet-300 text-xs font-bold shrink-0">
-                        {t.avatar}
-                      </div>
-                      <div>
-                        <p className="text-sm font-semibold text-white">{t.author}</p>
-                        <p className="text-xs text-white/35">{t.role}</p>
-                      </div>
-                    </div>
-                  </div>
-                </Tilt3DCard>
-              </AnimateIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <EnterpriseSection />
       <PricingSection />
 
       {/* ── CTA ─────────────────────────────────────────────────────────────── */}
