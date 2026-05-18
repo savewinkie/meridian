@@ -16,23 +16,23 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Refract — AI Code Review Platform",
-    template: "%s · Refract",
+    default: "Qualix — AI Code Review Platform",
+    template: "%s · Qualix",
   },
   description:
     "AI-powered code review and quality platform for engineering teams. Catch bugs, security issues, and tech debt before they ship.",
   keywords: ["code review", "AI", "developer tools", "GitHub", "security scanning", "tech debt"],
-  authors: [{ name: "Refract" }],
+  authors: [{ name: "Qualix" }],
   openGraph: {
     type: "website",
     locale: "en_US",
-    title: "Refract — AI Code Review Platform",
+    title: "Qualix — AI Code Review Platform",
     description: "Ship better code, faster. AI-powered reviews that actually understand your codebase.",
-    siteName: "Refract",
+    siteName: "Qualix",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Refract — AI Code Review Platform",
+    title: "Qualix — AI Code Review Platform",
     description: "Ship better code, faster.",
   },
 }

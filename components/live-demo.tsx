@@ -15,7 +15,7 @@ const TOOLS = [
     iconBg: "bg-amber-500/10",
     iconColor: "text-amber-400",
     hoverBorder: "hover:border-amber-500/25",
-    storageKey: "refract_free_code",
+    storageKey: "qualix_free_code",
     href: "/scanner/code",
   },
   {
@@ -27,7 +27,7 @@ const TOOLS = [
     iconBg: "bg-blue-500/10",
     iconColor: "text-blue-400",
     hoverBorder: "hover:border-blue-500/25",
-    storageKey: "refract_free_website",
+    storageKey: "qualix_free_website",
     href: "/scanner/website",
   },
   {
@@ -39,7 +39,7 @@ const TOOLS = [
     iconBg: "bg-purple-500/10",
     iconColor: "text-purple-400",
     hoverBorder: "hover:border-purple-500/25",
-    storageKey: "refract_free_upload",
+    storageKey: "qualix_free_upload",
     href: "/scanner/upload",
   },
   {
@@ -51,7 +51,7 @@ const TOOLS = [
     iconBg: "bg-emerald-500/10",
     iconColor: "text-emerald-400",
     hoverBorder: "hover:border-emerald-500/25",
-    storageKey: "refract_free_repo",
+    storageKey: "qualix_free_repo",
     href: "/scanner/repo",
   },
 ]

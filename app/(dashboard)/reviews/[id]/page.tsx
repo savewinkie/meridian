@@ -249,7 +249,7 @@ function DiffView({ file }: { file: typeof diffFiles[0] }) {
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-                              <span className="text-[11px] font-bold text-amber-700">Refract AI</span>
+                              <span className="text-[11px] font-bold text-amber-700">Qualix AI</span>
                               <Badge variant={severityConfig[issue.severity as keyof typeof severityConfig].variant} className="text-[10px]">
                                 {issue.severity}
                               </Badge>
@@ -367,7 +367,7 @@ export default function ReviewDetailPage({ params }: { params: { id: string } })
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-[#0F1729] mb-1">
-                    Refract AI Summary
+                    Qualix AI Summary
                   </p>
                   <p className="text-sm text-muted-foreground leading-relaxed">
                     {aiSummary.overall}

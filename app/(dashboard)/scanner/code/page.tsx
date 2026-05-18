@@ -143,7 +143,7 @@ export default function CodeScannerPage() {
   const lines = code.split("\n")
 
   useEffect(() => {
-    setFreeUsed(localStorage.getItem("refract_free_code") === "1")
+    setFreeUsed(localStorage.getItem("qualix_free_code") === "1")
     import("@/lib/supabase/client").then(({ createClient }) => {
       createClient().auth.getSession().then(({ data: { session } }) => setIsLoggedIn(!!session))
     })
@@ -171,7 +171,7 @@ export default function CodeScannerPage() {
       const data = await res.json()
       if (data.error) throw new Error(data.error)
       setResult(data); setActiveTab("issues")
-      if (isLoggedIn === false) { localStorage.setItem("refract_free_code", "1"); setFreeUsed(true) }
+      if (isLoggedIn === false) { localStorage.setItem("qualix_free_code", "1"); setFreeUsed(true) }
     } catch (err: any) {
       setError(err.message ?? "Scan failed. Please try again.")
     } finally {
@@ -227,7 +227,7 @@ export default function CodeScannerPage() {
             <ArrowLeft className="h-3.5 w-3.5" />
           </Link>
           <Brain className="h-3.5 w-3.5 text-purple-400 shrink-0" />
-          <span className="text-white/40">refract</span>
+          <span className="text-white/40">qualix</span>
           <ChevronRight className="h-3 w-3" />
           <span className="text-white/40">scanner</span>
           <ChevronRight className="h-3 w-3" />

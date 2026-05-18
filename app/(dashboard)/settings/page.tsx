@@ -144,7 +144,7 @@ export default function SettingsPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-foreground">Sign out</p>
-                  <p className="text-xs text-muted-foreground">Sign out of your Refract account</p>
+                  <p className="text-xs text-muted-foreground">Sign out of your Qualix account</p>
                 </div>
                 <Button variant="outline" size="sm" onClick={handleSignOut}>Sign out</Button>
               </div>

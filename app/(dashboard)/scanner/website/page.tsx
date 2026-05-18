@@ -110,7 +110,7 @@ export default function WebsiteScannerPage() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null)
 
   useEffect(() => {
-    setFreeUsed(localStorage.getItem("refract_free_website") === "1")
+    setFreeUsed(localStorage.getItem("qualix_free_website") === "1")
     import("@/lib/supabase/client").then(({ createClient }) => {
       createClient().auth.getSession().then(({ data: { session } }) => setIsLoggedIn(!!session))
     })
@@ -132,7 +132,7 @@ export default function WebsiteScannerPage() {
       setResult(data)
       if (data.categories?.length) setActiveCategory(data.categories[0].name)
       if (isLoggedIn === false) {
-        localStorage.setItem("refract_free_website", "1")
+        localStorage.setItem("qualix_free_website", "1")
         setFreeUsed(true)
       }
     } catch (err: any) {
@@ -195,7 +195,7 @@ export default function WebsiteScannerPage() {
                 </div>
                 <h2 className="text-[20px] font-bold text-white/80 mb-2">Scan any website</h2>
                 <p className="text-[12px] text-white/30 max-w-[340px] leading-relaxed">
-                  Enter a URL and Refract AI audits the HTML, CSS, JavaScript, performance, SEO, security, and accessibility in one go.
+                  Enter a URL and Qualix AI audits the HTML, CSS, JavaScript, performance, SEO, security, and accessibility in one go.
                 </p>
               </div>
 

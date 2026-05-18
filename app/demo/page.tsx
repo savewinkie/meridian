@@ -57,7 +57,7 @@ function Navbar() {
               <motion.div whileHover={{ rotate: 15 }} transition={{ type: "spring", stiffness: 400 }}>
                 <LogoMark size={28} />
               </motion.div>
-              <span className="text-base font-semibold tracking-tight text-white">Refract</span>
+              <span className="text-base font-semibold tracking-tight text-white">Qualix</span>
             </Link>
           </div>
           <nav className="hidden md:flex items-center gap-1">
@@ -136,9 +136,9 @@ export default function DemoPage() {
         <div className="mx-auto max-w-6xl px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-2">
             <LogoMark size={24} />
-            <span className="text-sm font-semibold text-white">Refract</span>
+            <span className="text-sm font-semibold text-white">Qualix</span>
           </Link>
-          <p className="text-xs text-white/25">© {new Date().getFullYear()} Refract, Inc. All rights reserved.</p>
+          <p className="text-xs text-white/25">© {new Date().getFullYear()} Qualix, Inc. All rights reserved.</p>
         </div>
       </footer>
     </div>

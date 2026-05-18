@@ -105,7 +105,7 @@ function FileTree({ tree, path = "", selected, onToggle, expanded, onExpand, fla
     const files = flatNodes.filter(n => n.type==="blob" && n.path.startsWith(fp+"/") && isCodeFile(n.path)).map(n=>n.path)
     if (!files.length) { e.preventDefault(); return }
     e.dataTransfer.effectAllowed = "copy"
-    e.dataTransfer.setData("refract-files", JSON.stringify(files))
+    e.dataTransfer.setData("qualix-files", JSON.stringify(files))
   }
 
   return (
@@ -139,7 +139,7 @@ function FileTree({ tree, path = "", selected, onToggle, expanded, onExpand, fla
         const isSel = selected.has(fullPath)
         return (
           <div key={fullPath} draggable
-            onDragStart={e=>{e.dataTransfer.effectAllowed="copy";e.dataTransfer.setData("refract-files",JSON.stringify([fullPath]))}}
+            onDragStart={e=>{e.dataTransfer.effectAllowed="copy";e.dataTransfer.setData("qualix-files",JSON.stringify([fullPath]))}}
             onClick={()=>onToggle(fullPath)}
             className={cn("group flex items-center gap-1.5 px-2 py-[3px] rounded-md cursor-pointer select-none transition-all",
               isSel?"bg-violet-500/10":"hover:bg-white/[0.04]"
@@ -435,7 +435,7 @@ export default function RepoScannerPage() {
   const queuedFiles = Array.from(selectedFiles)
 
   useEffect(() => {
-    setFreeUsed(localStorage.getItem("refract_free_repo") === "1")
+    setFreeUsed(localStorage.getItem("qualix_free_repo") === "1")
     import("@/lib/supabase/client").then(({ createClient }) => {
       const supabase = createClient()
       supabase.auth.getSession().then(({ data: { session } }) => {
@@ -444,7 +444,7 @@ export default function RepoScannerPage() {
           setToken(session.provider_token); setTokenSource("oauth")
           fetchReposWithToken(session.provider_token)
         } else {
-          const saved = localStorage.getItem("refract_gh_pat")
+          const saved = localStorage.getItem("qualix_gh_pat")
           if (saved) { setToken(saved); setTokenSource("pat"); setPatInput(saved); fetchReposWithToken(saved) }
         }
         setSessionChecked(true)
@@ -474,7 +474,7 @@ export default function RepoScannerPage() {
 
   function loadWithPat() {
     if (!patInput.trim()) return
-    localStorage.setItem("refract_gh_pat", patInput.trim())
+    localStorage.setItem("qualix_gh_pat", patInput.trim())
     setToken(patInput.trim()); setTokenSource("pat"); fetchReposWithToken(patInput.trim())
   }
 
@@ -531,7 +531,7 @@ export default function RepoScannerPage() {
   }
   function handleDrop(e: React.DragEvent) {
     e.preventDefault(); setIsDragOver(false)
-    try { const p = JSON.parse(e.dataTransfer.getData("refract-files")); addFiles(p) } catch {}
+    try { const p = JSON.parse(e.dataTransfer.getData("qualix-files")); addFiles(p) } catch {}
   }
 
   async function scanSelected() {
@@ -560,7 +560,7 @@ export default function RepoScannerPage() {
       setResults([...allResults])
     }
     setScanningFile(null); setIsScanning(false)
-    if (!isLoggedIn) { localStorage.setItem("refract_free_repo", "1"); setFreeUsed(true) }
+    if (!isLoggedIn) { localStorage.setItem("qualix_free_repo", "1"); setFreeUsed(true) }
   }
 
   // Aggregate stats for results header
@@ -579,7 +579,7 @@ export default function RepoScannerPage() {
             <ArrowLeft className="h-3.5 w-3.5"/>
           </Link>
           <Github className="h-3.5 w-3.5 text-violet-400 shrink-0"/>
-          <span className="text-white/40">refract</span>
+          <span className="text-white/40">qualix</span>
           <ChevronRight className="h-3 w-3"/>
           <span className="text-white/40">scanner</span>
           <ChevronRight className="h-3 w-3"/>

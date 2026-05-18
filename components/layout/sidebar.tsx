@@ -67,7 +67,7 @@ export function Sidebar() {
       <div className="flex h-[57px] items-center gap-2.5 border-b border-white/[0.06] px-4">
         <LogoMark size={28} />
         <span className="text-[15px] font-semibold tracking-tight text-white">
-          Refract
+          Qualix
         </span>
         <div className="ml-auto">
           <button className="relative text-white/30 hover:text-white/70 transition-colors">

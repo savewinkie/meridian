@@ -117,7 +117,7 @@ function Navbar() {
               <motion.div whileHover={{ rotate: 15 }} transition={{ type: "spring", stiffness: 400 }}>
                 <LogoMark size={28} />
               </motion.div>
-              <span className="text-base font-semibold tracking-tight text-white">Refract</span>
+              <span className="text-base font-semibold tracking-tight text-white">Qualix</span>
             </Link>
           </div>
           <nav className="hidden md:flex items-center gap-1">
@@ -186,7 +186,7 @@ function Navbar() {
 }
 
 const testimonials = [
-  { quote: "Refract caught a SQL injection vulnerability in a PR that passed our manual review. It pays for itself in one incident prevented.", author: "A. Kowalski", role: "CTO at a fintech startup", avatar: "AK", stars: 5 },
+  { quote: "Qualix caught a SQL injection vulnerability in a PR that passed our manual review. It pays for itself in one incident prevented.", author: "A. Kowalski", role: "CTO at a fintech startup", avatar: "AK", stars: 5 },
   { quote: "We went from 8-hour review cycles to under 2 hours. The AI handles the boilerplate so humans can focus on architecture.", author: "J. Martinez", role: "Engineering Lead, Series B SaaS", avatar: "JM", stars: 5 },
   { quote: "The tech debt visualization alone was worth it. We finally have a data-driven way to make the case for refactoring sprints.", author: "T. Nakamura", role: "Staff Engineer, e-commerce platform", avatar: "TN", stars: 5 },
 ]
@@ -203,7 +203,7 @@ export default function InfoPage() {
           <AnimateIn>
             <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 mb-6">
               <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-              <span className="text-sm text-white/60">Everything about Refract</span>
+              <span className="text-sm text-white/60">Everything about Qualix</span>
             </div>
             <h1 className="text-4xl sm:text-5xl font-bold text-white tracking-tight mb-4">
               How it works &amp; what teams say
@@ -228,8 +228,8 @@ export default function InfoPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
             <div className="hidden md:block absolute top-6 left-[16.67%] right-[16.67%] h-px bg-gradient-to-r from-transparent via-amber-500/20 to-transparent" />
             {[
-              { step: "01", title: "Connect your repos", description: "Install the Refract GitHub App in one click. Works with GitHub, GitLab, and Bitbucket.", icon: GitPullRequest },
-              { step: "02", title: "AI reviews every PR", description: "When a PR is opened, Refract automatically analyzes the diff and leaves inline comments with severity ratings.", icon: Brain },
+              { step: "01", title: "Connect your repos", description: "Install the Qualix GitHub App in one click. Works with GitHub, GitLab, and Bitbucket.", icon: GitPullRequest },
+              { step: "02", title: "AI reviews every PR", description: "When a PR is opened, Qualix automatically analyzes the diff and leaves inline comments with severity ratings.", icon: Brain },
               { step: "03", title: "Track & improve", description: "Use analytics to identify patterns, track quality trends, and measure your team's improvement over time.", icon: TrendingUp },
             ].map((step, i) => (
               <AnimateIn key={step.step} delay={i * 120}>
@@ -349,9 +349,9 @@ export default function InfoPage() {
         <div className="mx-auto max-w-6xl px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-2">
             <LogoMark size={24} />
-            <span className="text-sm font-semibold text-white">Refract</span>
+            <span className="text-sm font-semibold text-white">Qualix</span>
           </Link>
-          <p className="text-xs text-white/25">© {new Date().getFullYear()} Refract, Inc. All rights reserved.</p>
+          <p className="text-xs text-white/25">© {new Date().getFullYear()} Qualix, Inc. All rights reserved.</p>
         </div>
       </footer>
     </div>
