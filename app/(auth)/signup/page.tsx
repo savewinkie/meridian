@@ -6,7 +6,11 @@ import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { Github, ArrowRight, Eye, EyeOff, CheckCircle2, AlertCircle } from "lucide-react"
 import { LogoMark } from "@/components/logo"
-import { CanvasRevealEffect } from "@/components/ui/canvas-reveal-effect"
+import dynamic from "next/dynamic"
+const CanvasRevealEffect = dynamic(
+  () => import("@/components/ui/canvas-reveal-effect").then(m => ({ default: m.CanvasRevealEffect })),
+  { ssr: false }
+)
 
 const isDemoMode =
   !process.env.NEXT_PUBLIC_SUPABASE_URL ||
