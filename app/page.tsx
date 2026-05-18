@@ -23,7 +23,7 @@ function ScrollProgressBar() {
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 })
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-amber-500 to-amber-300 origin-left z-[100]"
+      className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-violet-500 via-purple-400 to-blue-500 origin-left z-[100]"
       style={{ scaleX }}
     />
   )
@@ -46,7 +46,7 @@ function CursorGlow() {
       className="pointer-events-none fixed inset-0 z-30 transition-opacity duration-700"
       style={{
         opacity: visible ? 1 : 0,
-        background: `radial-gradient(900px at ${pos.x}px ${pos.y}px, rgba(245,158,11,0.042), transparent 70%)`,
+        background: `radial-gradient(900px at ${pos.x}px ${pos.y}px, rgba(124,58,237,0.04), transparent 70%)`,
       }}
     />
   )
@@ -73,7 +73,7 @@ function SpotlightCard({ children, className }: { children: React.ReactNode; cla
         className="pointer-events-none absolute inset-0 transition-opacity duration-500 z-0"
         style={{
           opacity: hovered ? 1 : 0,
-          background: `radial-gradient(500px circle at ${pos.x}px ${pos.y}px, rgba(245,158,11,0.065), transparent 60%)`,
+          background: `radial-gradient(500px circle at ${pos.x}px ${pos.y}px, rgba(124,58,237,0.07), transparent 60%)`,
         }}
       />
       {children}
@@ -165,7 +165,7 @@ function FloatingChip({ children, className, delay = 0, floatDelay = "0s" }: {
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ delay, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        "flex items-center gap-2 rounded-xl border border-white/[0.14] bg-[#0a1120]/90 backdrop-blur-md px-3.5 py-2.5 text-xs shadow-2xl shadow-black/40",
+        "flex items-center gap-2 rounded-xl border border-white/[0.10] bg-[#0a0814]/90 backdrop-blur-md px-3.5 py-2.5 text-xs shadow-2xl shadow-black/50",
         className
       )}
       style={{ animation: `float 5s ease-in-out ${floatDelay} infinite` }}
@@ -194,7 +194,7 @@ function CyclingWord() {
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           exit={{ opacity: 0, y: -28, filter: "blur(12px)" }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="gradient-amber inline-block pb-[0.18em]"
+          className="inline-block pb-[0.18em] bg-gradient-to-r from-violet-400 via-purple-300 to-blue-400 bg-clip-text text-transparent"
         >
           {HERO_WORDS[idx]}
         </motion.span>
@@ -272,7 +272,7 @@ function CountStatCard({ num, suffix, label, delay = 0 }: { num: number; suffix:
       className={cn("text-center transition-all duration-700 ease-out", inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6")}
     >
       <div className="text-4xl lg:text-5xl font-bold text-white mb-2 tabular-nums">{count}{suffix}</div>
-      <div className="text-sm text-white/50">{label}</div>
+      <div className="text-sm text-white/40">{label}</div>
     </div>
   )
 }
@@ -324,7 +324,7 @@ function Navbar() {
   }
 
   return (
-    <header className={cn("fixed top-0 left-0 right-0 z-50 transition-all duration-300", scrolled ? "bg-[#0F1729]/95 backdrop-blur-md border-b border-white/10" : "bg-transparent")}>
+    <header className={cn("fixed top-0 left-0 right-0 z-50 transition-all duration-300", scrolled ? "bg-[#030712]/95 backdrop-blur-md border-b border-white/[0.06]" : "bg-transparent")}>
       <div className="mx-auto max-w-6xl px-6">
         <div className="flex h-16 items-center">
           <div className="flex-1">
@@ -337,7 +337,7 @@ function Navbar() {
           </div>
           <nav className="hidden md:flex items-center gap-1">
             {[["Features", "#features"], ["Pricing", "#pricing"], ["Info", "/info"], ["Demo", "/demo"]].map(([label, href]) => (
-              <Link key={label} href={href} className="px-3 py-1.5 rounded-md text-sm font-medium transition-colors text-white/60 hover:text-white hover:bg-white/10">
+              <Link key={label} href={href} className="px-3 py-1.5 rounded-md text-sm font-medium transition-colors text-white/50 hover:text-white hover:bg-white/[0.06]">
                 {label}
               </Link>
             ))}
@@ -349,24 +349,28 @@ function Navbar() {
                   {avatar ? (
                     <img src={avatar} alt={username} className="h-8 w-8 rounded-full border border-white/20 object-cover" />
                   ) : (
-                    <div className="h-8 w-8 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xs font-bold">
+                    <div className="h-8 w-8 rounded-full bg-violet-500/20 border border-violet-500/30 flex items-center justify-center text-violet-400 text-xs font-bold">
                       {username?.[0]?.toUpperCase()}
                     </div>
                   )}
-                  <span className="text-sm text-white/60 font-medium">{username}</span>
+                  <span className="text-sm text-white/50 font-medium">{username}</span>
                 </div>
                 <MagneticButton>
                   <Link href="/dashboard"><Button size="sm" variant="amber">Dashboard</Button></Link>
                 </MagneticButton>
-                <Button variant="ghost" size="sm" onClick={handleSignOut} className="text-white/40 hover:text-white/80 hover:bg-white/10">
+                <Button variant="ghost" size="sm" onClick={handleSignOut} className="text-white/40 hover:text-white/80 hover:bg-white/[0.06]">
                   Sign out
                 </Button>
               </>
             ) : (
               <>
-                <Link href="/login"><Button variant="ghost" size="sm" className="text-white/80 hover:text-white hover:bg-white/10">Sign in</Button></Link>
+                <Link href="/login"><Button variant="ghost" size="sm" className="text-white/60 hover:text-white hover:bg-white/[0.06]">Sign in</Button></Link>
                 <MagneticButton>
-                  <Link href="/signup"><Button size="sm" variant="amber">Get started free</Button></Link>
+                  <Link href="/signup">
+                    <Button size="sm" className="bg-violet-600 hover:bg-violet-500 text-white border-0 shadow-lg shadow-violet-500/20">
+                      Get started free
+                    </Button>
+                  </Link>
                 </MagneticButton>
               </>
             )}
@@ -377,20 +381,20 @@ function Navbar() {
         </div>
       </div>
       {mobileOpen && (
-        <div className="md:hidden bg-[#0F1729] border-b border-white/10 px-6 py-4 space-y-3">
+        <div className="md:hidden bg-[#030712] border-b border-white/[0.06] px-6 py-4 space-y-3">
           {[["Features", "#features"], ["Pricing", "#pricing"], ["Info", "/info"]].map(([label, href]) => (
-            <Link key={label} href={href} className="block text-sm text-white/60 py-1 hover:text-white">{label}</Link>
+            <Link key={label} href={href} className="block text-sm text-white/50 py-1 hover:text-white">{label}</Link>
           ))}
           <div className="pt-2 flex flex-col gap-2">
             {user ? (
               <>
                 <Link href="/dashboard"><Button variant="amber" className="w-full">Go to Dashboard</Button></Link>
-                <Button variant="ghost" onClick={handleSignOut} className="w-full text-white/50 hover:text-white hover:bg-white/10">Sign out</Button>
+                <Button variant="ghost" onClick={handleSignOut} className="w-full text-white/50 hover:text-white hover:bg-white/[0.06]">Sign out</Button>
               </>
             ) : (
               <>
-                <Link href="/login"><Button variant="ghost" className="w-full text-white/70 hover:text-white hover:bg-white/10">Sign in</Button></Link>
-                <Link href="/signup"><Button variant="amber" className="w-full">Get started free</Button></Link>
+                <Link href="/login"><Button variant="ghost" className="w-full text-white/70 hover:text-white hover:bg-white/[0.06]">Sign in</Button></Link>
+                <Link href="/signup"><Button className="w-full bg-violet-600 hover:bg-violet-500 text-white">Get started free</Button></Link>
               </>
             )}
           </div>
@@ -424,46 +428,53 @@ function DashboardMockup() {
   return (
     <div
       ref={ref}
-      className="relative mx-auto max-w-2xl"
+      className="relative w-full"
       style={{
         transform: `perspective(1400px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
         transition: "transform 0.15s ease-out",
         willChange: "transform",
       }}
     >
-      <div className="absolute inset-0 bg-amber-500/20 blur-3xl rounded-3xl scale-110 animate-pulse-glow" />
+      {/* Glow behind mockup */}
+      <div className="absolute inset-0 bg-violet-600/15 blur-3xl rounded-3xl scale-105 animate-pulse-glow" />
+      <div className="absolute inset-0 bg-blue-500/8 blur-2xl rounded-3xl scale-110" />
       <motion.div
         initial={{ opacity: 0, y: 40, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ delay: 0.4, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="relative rounded-2xl border border-white/10 bg-[#0d1526] overflow-hidden shadow-2xl"
+        className="relative rounded-2xl border border-white/[0.08] bg-[#08070f] overflow-hidden shadow-2xl shadow-black/60"
       >
-        <div className="flex items-center gap-2 px-4 py-3 border-b border-white/5 bg-[#0a1020]">
+        {/* Window chrome */}
+        <div className="flex items-center gap-2 px-4 py-3 border-b border-white/[0.05] bg-[#05040b]">
           <div className="flex gap-1.5">
-            <div className="h-3 w-3 rounded-full bg-red-500/70" /><div className="h-3 w-3 rounded-full bg-amber-500/70" /><div className="h-3 w-3 rounded-full bg-emerald-500/70" />
+            <div className="h-3 w-3 rounded-full bg-red-500/60" />
+            <div className="h-3 w-3 rounded-full bg-amber-500/60" />
+            <div className="h-3 w-3 rounded-full bg-emerald-500/60" />
           </div>
           <div className="flex-1 flex justify-center">
-            <div className="flex items-center gap-2 rounded-md bg-white/5 px-3 py-1">
-              <GitPullRequest className="h-3 w-3 text-white/40" />
-              <span className="text-xs text-white/40 font-mono">feat/add-oauth-provider · PR #247</span>
+            <div className="flex items-center gap-2 rounded-md bg-white/[0.04] px-3 py-1">
+              <GitPullRequest className="h-3 w-3 text-white/30" />
+              <span className="text-xs text-white/30 font-mono">feat/add-oauth-provider · PR #247</span>
             </div>
           </div>
           <Badge variant="warning" className="text-[10px] py-0">3 issues</Badge>
         </div>
-        <div className="px-4 py-3 bg-amber-500/5 border-b border-white/5">
+        {/* AI Review summary */}
+        <div className="px-4 py-3 bg-violet-500/[0.06] border-b border-white/[0.05]">
           <div className="flex items-start gap-2">
-            <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-amber-500/20 mt-0.5">
-              <Sparkles className="h-2.5 w-2.5 text-amber-400" />
+            <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-violet-500/20 mt-0.5">
+              <Sparkles className="h-2.5 w-2.5 text-violet-400" />
             </div>
             <div>
-              <p className="text-[11px] font-semibold text-amber-400 mb-0.5">AI Review Summary</p>
-              <p className="text-[11px] text-white/60 leading-relaxed">Found 2 critical security issues in <span className="text-white/80 font-mono">src/auth/</span>. JWT token not validated against secret key — allows token forgery.</p>
+              <p className="text-[11px] font-semibold text-violet-400 mb-0.5">AI Review Summary</p>
+              <p className="text-[11px] text-white/50 leading-relaxed">Found 2 critical security issues in <span className="text-white/70 font-mono">src/auth/</span>. JWT token not validated against secret key — allows token forgery.</p>
             </div>
           </div>
         </div>
+        {/* Code diff */}
         <div className="font-mono text-[11px] leading-relaxed">
-          <div className="px-4 py-2 border-b border-white/5 flex items-center justify-between">
-            <span className="text-white/40">src/auth/middleware.ts</span>
+          <div className="px-4 py-2 border-b border-white/[0.05] flex items-center justify-between">
+            <span className="text-white/30">src/auth/middleware.ts</span>
             <div className="flex items-center gap-3 text-[10px]"><span className="text-emerald-400">+47</span><span className="text-red-400">-12</span></div>
           </div>
           {[
@@ -477,22 +488,22 @@ function DashboardMockup() {
             { n: 43, type: "added", code: "  const decoded = jwt.verify(token, process.env.JWT_SECRET)" },
           ].map((line, i) => (
             <div key={i} className={cn("flex items-start px-4 py-0.5", line.type === "added" ? "bg-emerald-500/10 border-l-2 border-emerald-500" : line.type === "removed" ? "bg-red-500/10 border-l-2 border-red-500" : "border-l-2 border-transparent")}>
-              <span className="w-8 shrink-0 text-white/20 select-none">{line.n}</span>
-              <span className={cn(line.type === "added" ? "text-emerald-300" : line.type === "removed" ? "text-red-300 line-through opacity-60" : "text-white/70")}>
+              <span className="w-8 shrink-0 text-white/15 select-none">{line.n}</span>
+              <span className={cn(line.type === "added" ? "text-emerald-300" : line.type === "removed" ? "text-red-300 line-through opacity-60" : "text-white/55")}>
                 {line.type === "added" ? "+ " : line.type === "removed" ? "- " : "  "}{line.code}
               </span>
             </div>
           ))}
-          <div className="mx-4 my-2 rounded-lg border border-amber-500/20 bg-amber-500/5 p-3">
+          <div className="mx-4 my-2 rounded-lg border border-violet-500/20 bg-violet-500/[0.05] p-3">
             <div className="flex items-start gap-2">
               <AlertCircle className="h-3.5 w-3.5 text-amber-400 shrink-0 mt-0.5" />
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-[10px] font-semibold text-amber-400">Qualix AI</span>
+                  <span className="text-[10px] font-semibold text-violet-400">Qualix AI</span>
                   <Badge variant="critical" className="text-[9px] py-0 px-1.5">Critical</Badge>
-                  <span className="text-[9px] text-white/30">Security · Line 43</span>
+                  <span className="text-[9px] text-white/25">Security · Line 43</span>
                 </div>
-                <p className="text-[10px] text-white/60 leading-relaxed">Using <span className="text-amber-300 font-mono">jwt.decode()</span> instead of <span className="text-emerald-300 font-mono">jwt.verify()</span> skips signature validation. An attacker can craft arbitrary tokens.</p>
+                <p className="text-[10px] text-white/50 leading-relaxed">Using <span className="text-amber-300 font-mono">jwt.decode()</span> instead of <span className="text-emerald-300 font-mono">jwt.verify()</span> skips signature validation. An attacker can craft arbitrary tokens.</p>
               </div>
             </div>
           </div>
@@ -506,79 +517,93 @@ function DashboardMockup() {
 
 function FeaturesSection() {
   return (
-    <section id="features" className="py-24 border-t border-white/5">
+    <section id="features" className="py-28 border-t border-white/[0.05]">
       <div className="mx-auto max-w-6xl px-6">
-        <AnimateIn className="mb-16 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-          <div>
-            <p className="text-amber-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">Features</p>
-            <h2 className="text-4xl lg:text-5xl font-bold text-white tracking-tight leading-[1.1]">Built for teams that<br />care about quality.</h2>
+        <AnimateIn className="mb-16">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+            <div>
+              <p className="text-[10px] font-bold tracking-[0.25em] uppercase text-violet-400 mb-4">Features</p>
+              <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-bold text-white tracking-tight leading-[1.1]">
+                Built for teams that<br />care about quality.
+              </h2>
+            </div>
+            <p className="text-white/35 text-sm leading-relaxed max-w-xs">
+              From AI-powered reviews to security scanning and tech debt tracking — one platform, zero friction.
+            </p>
           </div>
-          <p className="text-white/40 text-sm leading-relaxed max-w-xs">From AI-powered reviews to security scanning and tech debt tracking — one platform, zero friction.</p>
         </AnimateIn>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          {/* AI Reviews — big */}
+        {/* Bento grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+
+          {/* AI Reviews — big (col-span-2) */}
           <AnimateIn delay={0} className="md:col-span-2">
             <Tilt3DCard className="h-full">
-              <SpotlightCard className="rounded-2xl border border-white/10 bg-white/5 p-8 hover:border-amber-500/20 transition-all duration-300 h-full">
+              <SpotlightCard className="rounded-2xl border border-white/[0.08] bg-white/[0.04] backdrop-blur-sm p-8 hover:bg-white/[0.08] hover:border-white/[0.15] transition-all duration-300 h-full overflow-hidden relative">
+                {/* Purple gradient on this card */}
+                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-violet-500/40 to-transparent" />
+                <div className="absolute top-0 left-0 w-[400px] h-[300px] bg-violet-600/[0.06] blur-3xl rounded-full pointer-events-none" />
                 <div className="flex items-center gap-3 mb-5 relative z-10">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/20">
-                    <Brain className="h-5 w-5 text-amber-400" />
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-violet-500/10 border border-violet-500/20">
+                    <Brain className="h-5.5 w-5.5 text-violet-400 h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-[10px] text-white/25 font-mono tracking-[0.2em] uppercase mb-0.5">01</p>
+                    <p className="text-[9px] text-white/20 font-mono tracking-[0.25em] uppercase mb-0.5">01</p>
                     <h3 className="text-base font-semibold text-white">AI-Powered Reviews</h3>
                   </div>
                 </div>
-                <p className="text-white/50 text-sm leading-relaxed max-w-md mb-7 relative z-10">
+                <p className="text-white/45 text-sm leading-relaxed max-w-md mb-7 relative z-10">
                   Claude analyzes every PR for bugs, anti-patterns, and logic errors — with context-aware suggestions, not just lint rules.
                 </p>
-                <div className="rounded-xl border border-white/10 bg-[#070d1a] overflow-hidden relative z-10">
-                  <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-white/5">
+                <div className="rounded-xl border border-white/[0.06] bg-[#030712] overflow-hidden relative z-10">
+                  <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-white/[0.05]">
                     <div className="h-2 w-2 rounded-full bg-red-500/50" /><div className="h-2 w-2 rounded-full bg-amber-500/50" /><div className="h-2 w-2 rounded-full bg-emerald-500/50" />
                     <span className="text-[10px] text-white/20 font-mono ml-2">auth/validator.ts</span>
                   </div>
                   <div className="font-mono text-[11px] px-4 py-3 space-y-0.5">
-                    <div className="flex gap-4 text-white/35 py-0.5"><span className="w-6 shrink-0 text-right">12</span><span>{"const token = authHeader.split(' ')[1]"}</span></div>
+                    <div className="flex gap-4 text-white/30 py-0.5"><span className="w-6 shrink-0 text-right">12</span><span>{"const token = authHeader.split(' ')[1]"}</span></div>
                     <div className="flex gap-4 bg-red-500/10 border-l-2 border-red-500/50 pl-2 -ml-px text-red-400/70 py-0.5"><span className="w-6 shrink-0 text-right">13</span><span>{"- const decoded = jwt.decode(token)"}</span></div>
                     <div className="flex gap-4 bg-emerald-500/10 border-l-2 border-emerald-500/50 pl-2 -ml-px text-emerald-400/70 py-0.5"><span className="w-6 shrink-0 text-right">13</span><span>{"+ const decoded = jwt.verify(token, SECRET)"}</span></div>
-                    <div className="flex gap-4 text-white/35 py-0.5"><span className="w-6 shrink-0 text-right">14</span><span>{"if (!decoded) { return unauthorized() }"}</span></div>
+                    <div className="flex gap-4 text-white/30 py-0.5"><span className="w-6 shrink-0 text-right">14</span><span>{"if (!decoded) { return unauthorized() }"}</span></div>
                   </div>
-                  <div className="mx-4 mb-4 rounded-lg bg-amber-500/5 border border-amber-500/15 p-3">
+                  <div className="mx-4 mb-4 rounded-lg bg-violet-500/[0.05] border border-violet-500/15 p-3">
                     <div className="flex items-center gap-2 mb-1.5">
-                      <span className="text-[10px] font-semibold text-amber-400">Qualix AI</span>
+                      <span className="text-[10px] font-semibold text-violet-400">Qualix AI</span>
                       <span className="text-[9px] bg-red-500/15 text-red-400 px-1.5 py-0.5 rounded-md font-semibold">Critical</span>
                       <span className="text-[9px] text-white/20">Security · Line 13</span>
                     </div>
-                    <p className="text-[11px] text-white/45 leading-relaxed"><span className="text-red-300/70 font-mono">jwt.decode()</span> skips signature validation — an attacker can forge arbitrary tokens without the secret key.</p>
+                    <p className="text-[11px] text-white/40 leading-relaxed"><span className="text-red-300/70 font-mono">jwt.decode()</span> skips signature validation — an attacker can forge arbitrary tokens without the secret key.</p>
                   </div>
                 </div>
               </SpotlightCard>
             </Tilt3DCard>
           </AnimateIn>
 
-          {/* Security Scanning */}
+          {/* Security Scanning — right col */}
           <AnimateIn delay={100}>
             <Tilt3DCard className="h-full">
-              <SpotlightCard className="rounded-2xl border border-white/10 bg-white/5 p-8 hover:border-amber-500/20 transition-all duration-300 h-full">
+              <SpotlightCard className="rounded-2xl border border-white/[0.08] bg-white/[0.04] backdrop-blur-sm p-8 hover:bg-white/[0.08] hover:border-white/[0.15] transition-all duration-300 h-full relative overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent" />
                 <div className="flex items-center gap-3 mb-5 relative z-10">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/20"><Shield className="h-5 w-5 text-amber-400" /></div>
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-500/10 border border-blue-500/20">
+                    <Shield className="h-5 w-5 text-blue-400" />
+                  </div>
                   <div>
-                    <p className="text-[10px] text-white/25 font-mono tracking-[0.2em] uppercase mb-0.5">02</p>
+                    <p className="text-[9px] text-white/20 font-mono tracking-[0.25em] uppercase mb-0.5">02</p>
                     <h3 className="text-base font-semibold text-white">Security Scanning</h3>
                   </div>
                 </div>
-                <p className="text-white/50 text-sm leading-relaxed mb-7 relative z-10">Detect hardcoded secrets, CVEs, OWASP vulnerabilities, and misconfigurations before they reach production.</p>
+                <p className="text-white/45 text-sm leading-relaxed mb-6 relative z-10">Detect hardcoded secrets, CVEs, OWASP vulnerabilities, and misconfigurations before they reach production.</p>
                 <div className="space-y-2 relative z-10">
                   {[
-                    { label: "Hardcoded API key", sev: "Critical", cls: "text-red-400 bg-red-500/10" },
-                    { label: "SQL injection risk", sev: "High", cls: "text-orange-400 bg-orange-500/10" },
-                    { label: "Outdated dep (lodash)", sev: "Medium", cls: "text-amber-400 bg-amber-500/10" },
-                    { label: "Missing rate limit", sev: "Low", cls: "text-blue-400 bg-blue-500/10" },
+                    { label: "Hardcoded API key", sev: "Critical", cls: "text-red-400 bg-red-500/10 border-red-500/20" },
+                    { label: "SQL injection risk", sev: "High", cls: "text-orange-400 bg-orange-500/10 border-orange-500/20" },
+                    { label: "Outdated dep (lodash)", sev: "Medium", cls: "text-amber-400 bg-amber-500/10 border-amber-500/20" },
+                    { label: "Missing rate limit", sev: "Low", cls: "text-blue-400 bg-blue-500/10 border-blue-500/20" },
                   ].map((v) => (
-                    <div key={v.label} className="flex items-center justify-between rounded-lg bg-white/5 border border-white/5 px-3 py-2.5">
-                      <span className="text-[11px] text-white/55">{v.label}</span>
-                      <span className={cn("text-[10px] font-semibold px-2 py-0.5 rounded-md", v.cls)}>{v.sev}</span>
+                    <div key={v.label} className="flex items-center justify-between rounded-lg bg-white/[0.03] border border-white/[0.06] px-3 py-2.5">
+                      <span className="text-[11px] text-white/50">{v.label}</span>
+                      <span className={cn("text-[10px] font-semibold px-2 py-0.5 rounded-md border", v.cls)}>{v.sev}</span>
                     </div>
                   ))}
                 </div>
@@ -589,12 +614,18 @@ function FeaturesSection() {
           {/* Risk Scoring */}
           <AnimateIn delay={0}>
             <Tilt3DCard className="h-full">
-              <SpotlightCard className="rounded-2xl border border-white/10 bg-white/5 p-6 hover:border-amber-500/20 transition-all duration-300 h-full">
+              <SpotlightCard className="rounded-2xl border border-white/[0.08] bg-white/[0.04] backdrop-blur-sm p-6 hover:bg-white/[0.08] hover:border-white/[0.15] transition-all duration-300 h-full relative overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-500/25 to-transparent" />
                 <div className="flex items-center gap-3 mb-4 relative z-10">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/20"><TrendingUp className="h-4 w-4 text-amber-400" /></div>
-                  <div><p className="text-[10px] text-white/25 font-mono tracking-[0.2em] uppercase mb-0.5">03</p><h3 className="text-sm font-semibold text-white">Risk Scoring</h3></div>
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/20">
+                    <TrendingUp className="h-4 w-4 text-amber-400" />
+                  </div>
+                  <div>
+                    <p className="text-[9px] text-white/20 font-mono tracking-[0.25em] uppercase mb-0.5">03</p>
+                    <h3 className="text-sm font-semibold text-white">Risk Scoring</h3>
+                  </div>
                 </div>
-                <p className="text-white/40 text-xs leading-relaxed mb-5 relative z-10">Every PR gets a risk score based on change complexity, blast radius, and historical patterns.</p>
+                <p className="text-white/35 text-xs leading-relaxed mb-5 relative z-10">Every PR gets a risk score based on change complexity, blast radius, and historical patterns.</p>
                 <div className="flex items-end gap-1 h-10 relative z-10">
                   {[35, 60, 28, 75, 50, 88, 42, 70, 55, 92].map((h, i) => (
                     <div key={i} className="flex-1 rounded-sm" style={{ height: `${h}%`, background: `rgba(245,158,11,${0.15 + (h / 100) * 0.55})` }} />
@@ -607,16 +638,22 @@ function FeaturesSection() {
           {/* Team Analytics */}
           <AnimateIn delay={80}>
             <Tilt3DCard className="h-full">
-              <SpotlightCard className="rounded-2xl border border-white/10 bg-white/5 p-6 hover:border-amber-500/20 transition-all duration-300 h-full">
+              <SpotlightCard className="rounded-2xl border border-white/[0.08] bg-white/[0.04] backdrop-blur-sm p-6 hover:bg-white/[0.08] hover:border-white/[0.15] transition-all duration-300 h-full relative overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-500/25 to-transparent" />
                 <div className="flex items-center gap-3 mb-4 relative z-10">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/20"><BarChart3 className="h-4 w-4 text-amber-400" /></div>
-                  <div><p className="text-[10px] text-white/25 font-mono tracking-[0.2em] uppercase mb-0.5">04</p><h3 className="text-sm font-semibold text-white">Team Analytics</h3></div>
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+                    <BarChart3 className="h-4 w-4 text-emerald-400" />
+                  </div>
+                  <div>
+                    <p className="text-[9px] text-white/20 font-mono tracking-[0.25em] uppercase mb-0.5">04</p>
+                    <h3 className="text-sm font-semibold text-white">Team Analytics</h3>
+                  </div>
                 </div>
-                <p className="text-white/40 text-xs leading-relaxed mb-5 relative z-10">Track review response times, merge velocity, contributor health, and quality trends across your org.</p>
+                <p className="text-white/35 text-xs leading-relaxed mb-5 relative z-10">Track review response times, merge velocity, contributor health, and quality trends across your org.</p>
                 <div className="grid grid-cols-2 gap-2 relative z-10">
                   {[{ label: "Avg review time", val: "1.8h", delta: "↓ 43%" }, { label: "Merge velocity", val: "12/day", delta: "↑ 28%" }].map((m) => (
-                    <div key={m.label} className="rounded-lg bg-white/5 border border-white/5 p-3">
-                      <p className="text-[9px] text-white/30 uppercase tracking-wide mb-1.5">{m.label}</p>
+                    <div key={m.label} className="rounded-lg bg-white/[0.03] border border-white/[0.05] p-3">
+                      <p className="text-[9px] text-white/25 uppercase tracking-wide mb-1.5">{m.label}</p>
                       <p className="text-sm font-bold text-white leading-none mb-1">{m.val}</p>
                       <p className="text-[10px] text-emerald-400 font-medium">{m.delta}</p>
                     </div>
@@ -629,13 +666,19 @@ function FeaturesSection() {
           {/* Auto Fix */}
           <AnimateIn delay={160}>
             <Tilt3DCard className="h-full">
-              <SpotlightCard className="rounded-2xl border border-white/10 bg-white/5 p-6 hover:border-amber-500/20 transition-all duration-300 h-full">
+              <SpotlightCard className="rounded-2xl border border-white/[0.08] bg-white/[0.04] backdrop-blur-sm p-6 hover:bg-white/[0.08] hover:border-white/[0.15] transition-all duration-300 h-full relative overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent" />
                 <div className="flex items-center gap-3 mb-4 relative z-10">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/20"><Zap className="h-4 w-4 text-emerald-400" /></div>
-                  <div><p className="text-[10px] text-white/25 font-mono tracking-[0.2em] uppercase mb-0.5">05</p><h3 className="text-sm font-semibold text-white">Auto-Fix</h3></div>
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+                    <Zap className="h-4 w-4 text-emerald-400" />
+                  </div>
+                  <div>
+                    <p className="text-[9px] text-white/20 font-mono tracking-[0.25em] uppercase mb-0.5">05</p>
+                    <h3 className="text-sm font-semibold text-white">Auto-Fix</h3>
+                  </div>
                 </div>
-                <p className="text-white/40 text-xs leading-relaxed mb-5 relative z-10">One-click AI-generated fixes for detected issues. Review, apply, and ship — without leaving your PR.</p>
-                <div className="relative z-10 rounded-lg bg-emerald-500/5 border border-emerald-500/15 p-3 flex items-center gap-2">
+                <p className="text-white/35 text-xs leading-relaxed mb-5 relative z-10">One-click AI-generated fixes for detected issues. Review, apply, and ship — without leaving your PR.</p>
+                <div className="relative z-10 rounded-lg bg-emerald-500/[0.05] border border-emerald-500/15 p-3 flex items-center gap-2">
                   <div className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
                   <span className="text-[11px] text-emerald-400/80">3 fixes ready to apply</span>
                   <ArrowRight className="h-3 w-3 text-emerald-400/50 ml-auto shrink-0" />
@@ -645,8 +688,8 @@ function FeaturesSection() {
           </AnimateIn>
         </div>
 
-        <AnimateIn delay={200} className="text-center">
-          <Link href="/dashboard" className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] hover:bg-white/[0.07] hover:border-white/20 px-5 py-2.5 text-sm font-medium text-white/50 hover:text-white/80 transition-all">
+        <AnimateIn delay={200} className="text-center mt-8">
+          <Link href="/dashboard" className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/[0.14] px-5 py-2.5 text-sm font-medium text-white/40 hover:text-white/70 transition-all">
             See all features — auto-fix, review policies, smart alerts, and more
             <ArrowRight className="h-3.5 w-3.5" />
           </Link>
@@ -702,49 +745,43 @@ function HowItWorksSection() {
   }
 
   return (
-    <section className="py-32 border-t border-white/5 overflow-hidden">
+    <section className="py-32 border-t border-white/[0.05] overflow-hidden">
       <div className="mx-auto max-w-6xl px-6">
         <AnimateIn className="text-center mb-20">
-          <p className="text-amber-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">How it works</p>
-          <h2 className="text-4xl lg:text-5xl font-bold text-white tracking-tight leading-[1.1]">
+          <p className="text-[10px] font-bold tracking-[0.25em] uppercase text-violet-400 mb-4">How it works</p>
+          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-bold text-white tracking-tight leading-[1.1]">
             From commit to<br />confident merge.
           </h2>
-          <p className="text-white/40 text-base mt-4 max-w-md mx-auto leading-relaxed">
+          <p className="text-white/35 text-base mt-4 max-w-md mx-auto leading-relaxed">
             Four steps between your code and production. Qualix makes each one bulletproof.
           </p>
         </AnimateIn>
 
-        {/* Step cards with connecting line */}
         <div className="relative">
           <div className="absolute top-[52px] left-[12%] right-[12%] h-px hidden md:block overflow-hidden">
-            <div className="w-full h-full bg-gradient-to-r from-transparent via-white/12 to-transparent" />
+            <div className="w-full h-full bg-gradient-to-r from-transparent via-white/8 to-transparent" />
             <motion.div
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true, amount: 0.5 }}
               transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
-              className="absolute inset-0 bg-gradient-to-r from-amber-500/40 via-amber-400/20 to-emerald-500/40 origin-left"
+              className="absolute inset-0 bg-gradient-to-r from-violet-500/40 via-blue-400/20 to-emerald-500/40 origin-left"
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {steps.map((step, i) => {
               const c = colorMap[step.color]
               return (
                 <AnimateIn key={step.num} delay={i * 120}>
                   <Tilt3DCard className="h-full" intensity={8}>
-                    <div className="rounded-2xl border border-white/[0.09] bg-white/[0.03] p-6 h-full hover:border-white/[0.18] hover:bg-white/[0.06] transition-all duration-300 group">
-                      {/* Icon */}
+                    <div className="rounded-2xl border border-white/[0.07] bg-white/[0.03] backdrop-blur-sm p-6 h-full hover:border-white/[0.14] hover:bg-white/[0.06] transition-all duration-300 group">
                       <div className={cn("flex h-10 w-10 items-center justify-center rounded-xl mb-5 border transition-all duration-300 group-hover:scale-110", c.bg, c.border)}>
                         <step.Icon className={cn("h-5 w-5", c.text)} />
                       </div>
-
-                      {/* Step number watermark */}
                       <div className={cn("text-7xl font-black leading-none mb-3 select-none", c.num)}>{step.num}</div>
-
                       <h3 className="text-sm font-semibold text-white mb-2 leading-snug">{step.title}</h3>
-                      <p className="text-xs text-white/42 leading-relaxed mb-4">{step.desc}</p>
-
+                      <p className="text-xs text-white/35 leading-relaxed mb-4">{step.desc}</p>
                       <div className={cn("inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-medium", c.chip)}>
                         <div className={cn("h-1.5 w-1.5 rounded-full shrink-0", c.text)} style={{ opacity: 0.7 }} />
                         {step.chip}
@@ -797,38 +834,36 @@ const companies = ["Acme Corp", "Streamline", "Vertex", "Cascade", "Pulsar", "Fl
 
 function EnterpriseSection() {
   return (
-    <section className="py-16 border-y border-white/5">
+    <section className="py-16 border-y border-white/[0.05]">
       <div className="mx-auto max-w-5xl px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Integrations */}
           <AnimateIn direction="left">
             <Tilt3DCard className="h-full" intensity={6}>
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-8 flex flex-col justify-between h-full">
+              <div className="rounded-2xl border border-white/[0.08] bg-white/[0.04] backdrop-blur-sm p-8 flex flex-col justify-between h-full">
                 <div>
-                  <p className="text-amber-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">Integrations</p>
+                  <p className="text-[10px] font-bold tracking-[0.25em] uppercase text-blue-400 mb-4">Integrations</p>
                   <h3 className="text-2xl font-bold text-white mb-3">Works with your stack.</h3>
-                  <p className="text-white/40 text-sm leading-relaxed mb-6">GitHub, GitLab, Bitbucket, Slack, Jira, Linear, VS Code, and 50+ more tools — connected in minutes.</p>
+                  <p className="text-white/35 text-sm leading-relaxed mb-6">GitHub, GitLab, Bitbucket, Slack, Jira, Linear, VS Code, and 50+ more tools — connected in minutes.</p>
                   <div className="flex flex-wrap gap-2">
                     {["GitHub", "GitLab", "Slack", "Jira", "Linear", "VS Code"].map((name) => (
-                      <span key={name} className="text-[11px] font-medium text-white/40 bg-white/[0.06] border border-white/[0.08] rounded-full px-3 py-1">{name}</span>
+                      <span key={name} className="text-[11px] font-medium text-white/40 bg-white/[0.05] border border-white/[0.07] rounded-full px-3 py-1">{name}</span>
                     ))}
-                    <span className="text-[11px] font-medium text-white/25 bg-white/[0.03] border border-white/[0.05] rounded-full px-3 py-1">+50 more</span>
+                    <span className="text-[11px] font-medium text-white/20 bg-white/[0.02] border border-white/[0.04] rounded-full px-3 py-1">+50 more</span>
                   </div>
                 </div>
               </div>
             </Tilt3DCard>
           </AnimateIn>
-          {/* Enterprise */}
           <AnimateIn direction="right" delay={80}>
             <Tilt3DCard className="h-full" intensity={6}>
-              <div className="rounded-2xl border border-amber-500/15 bg-amber-500/[0.05] p-8 flex flex-col justify-between h-full">
+              <div className="rounded-2xl border border-violet-500/15 bg-violet-500/[0.04] p-8 flex flex-col justify-between h-full">
                 <div>
-                  <p className="text-amber-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">Enterprise</p>
+                  <p className="text-[10px] font-bold tracking-[0.25em] uppercase text-violet-400 mb-4">Enterprise</p>
                   <h3 className="text-2xl font-bold text-white mb-3">Built for regulated teams.</h3>
-                  <p className="text-white/40 text-sm leading-relaxed mb-6">SOC 2 Type II, GDPR, SAML/SSO, audit logs, RBAC, and on-premises deployment — included in every Enterprise plan.</p>
+                  <p className="text-white/35 text-sm leading-relaxed mb-6">SOC 2 Type II, GDPR, SAML/SSO, audit logs, RBAC, and on-premises deployment — included in every Enterprise plan.</p>
                   <div className="flex flex-wrap gap-2 mb-6">
                     {["SOC 2 Type II", "GDPR", "SAML/SSO", "Audit Logs", "RBAC", "On-Prem"].map((item) => (
-                      <span key={item} className="flex items-center gap-1.5 text-[11px] font-medium text-amber-400/70 bg-amber-500/[0.08] border border-amber-500/15 rounded-full px-3 py-1">
+                      <span key={item} className="flex items-center gap-1.5 text-[11px] font-medium text-violet-400/70 bg-violet-500/[0.07] border border-violet-500/15 rounded-full px-3 py-1">
                         <CheckCircle2 className="h-3 w-3" />{item}
                       </span>
                     ))}
@@ -836,7 +871,9 @@ function EnterpriseSection() {
                 </div>
                 <MagneticButton>
                   <Link href="mailto:sales@qualix.dev">
-                    <Button variant="amber" size="sm" className="gap-2">Talk to sales <ArrowRight className="h-3.5 w-3.5" /></Button>
+                    <Button className="bg-violet-600 hover:bg-violet-500 text-white gap-2 shadow-lg shadow-violet-500/20" size="sm">
+                      Talk to sales <ArrowRight className="h-3.5 w-3.5" />
+                    </Button>
                   </Link>
                 </MagneticButton>
               </div>
@@ -853,18 +890,17 @@ function EnterpriseSection() {
 function PricingSection() {
   const [isAnnual, setIsAnnual] = useState(false)
   return (
-    <section id="pricing" className="py-24 border-y border-white/5">
+    <section id="pricing" className="py-28 border-b border-white/[0.05]">
       <div className="mx-auto max-w-6xl px-6">
-        <AnimateIn className="text-center mb-12">
-          <p className="text-amber-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">Pricing</p>
-          <h2 className="text-4xl font-bold text-white tracking-tight mb-4">Simple, transparent pricing.</h2>
-          <p className="text-white/50 text-lg mb-8">No seat fees. No usage surprises. Start free, scale as you grow.</p>
-          {/* Toggle */}
-          <div className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2.5">
-            <span className={cn("text-sm font-medium transition-colors duration-200", !isAnnual ? "text-white" : "text-white/40")}>Monthly</span>
+        <AnimateIn className="text-center mb-14">
+          <p className="text-[10px] font-bold tracking-[0.25em] uppercase text-violet-400 mb-4">Pricing</p>
+          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-bold text-white tracking-tight mb-4">Simple, transparent pricing.</h2>
+          <p className="text-white/40 text-lg mb-8">No seat fees. No usage surprises. Start free, scale as you grow.</p>
+          <div className="inline-flex items-center gap-3 rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-2.5">
+            <span className={cn("text-sm font-medium transition-colors duration-200", !isAnnual ? "text-white" : "text-white/35")}>Monthly</span>
             <button
               onClick={() => setIsAnnual(!isAnnual)}
-              className={cn("relative h-6 w-11 rounded-full transition-colors duration-300", isAnnual ? "bg-amber-500" : "bg-white/20")}
+              className={cn("relative h-6 w-11 rounded-full transition-colors duration-300", isAnnual ? "bg-violet-600" : "bg-white/15")}
             >
               <motion.div
                 className="absolute top-0.5 h-5 w-5 rounded-full bg-white shadow-sm"
@@ -872,14 +908,14 @@ function PricingSection() {
                 transition={{ type: "spring", stiffness: 500, damping: 30 }}
               />
             </button>
-            <span className={cn("text-sm font-medium transition-colors duration-200 flex items-center gap-1.5", isAnnual ? "text-white" : "text-white/40")}>
+            <span className={cn("text-sm font-medium transition-colors duration-200 flex items-center gap-1.5", isAnnual ? "text-white" : "text-white/35")}>
               Annual
               <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5 rounded-full">-20%</span>
             </span>
           </div>
         </AnimateIn>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch">
           {plans.map((plan, i) => {
             const displayPrice = isAnnual ? plan.annualPrice : plan.price
             const displayPeriod = plan.period && isAnnual && plan.price !== "Custom" && plan.price !== "$0"
@@ -887,11 +923,23 @@ function PricingSection() {
             return (
               <AnimateIn key={plan.name} delay={i * 100}>
                 <Tilt3DCard className="h-full" intensity={6}>
-                  <SpotlightCard className={cn("relative rounded-2xl border p-8 flex flex-col h-full", plan.highlighted ? "bg-amber-500/10 border-amber-500/30 shadow-2xl shadow-amber-500/10" : "bg-white/5 border-white/10")}>
+                  <SpotlightCard className={cn(
+                    "relative rounded-2xl border p-8 flex flex-col h-full overflow-hidden",
+                    plan.highlighted
+                      ? "border-violet-500/30 shadow-2xl shadow-violet-500/10"
+                      : "border-white/[0.08] bg-white/[0.04] backdrop-blur-sm"
+                  )}>
                     {plan.highlighted && (
-                      <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10">
-                        <Badge variant="warning" className="shadow-sm">Most popular</Badge>
-                      </div>
+                      <>
+                        {/* Purple gradient overlay for pro card */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-violet-600/[0.12] via-violet-500/[0.06] to-transparent pointer-events-none" />
+                        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-violet-500/50 to-transparent" />
+                        <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10">
+                          <span className="inline-flex items-center gap-1 rounded-full border border-violet-500/30 bg-violet-500/15 px-3 py-1 text-[11px] font-semibold text-violet-300">
+                            <Sparkles className="h-3 w-3" /> Most popular
+                          </span>
+                        </div>
+                      </>
                     )}
                     <div className="mb-6 relative z-10">
                       <div className="flex items-center justify-between mb-1">
@@ -909,7 +957,7 @@ function PricingSection() {
                           )}
                         </AnimatePresence>
                       </div>
-                      <p className="text-sm text-white/40 mb-4">{plan.description}</p>
+                      <p className="text-sm text-white/35 mb-4">{plan.description}</p>
                       <div className="flex items-baseline gap-1">
                         <AnimatePresence mode="wait">
                           <motion.span
@@ -923,20 +971,29 @@ function PricingSection() {
                             {displayPrice}
                           </motion.span>
                         </AnimatePresence>
-                        {displayPeriod && <span className="text-sm text-white/40">{displayPeriod}</span>}
+                        {displayPeriod && <span className="text-sm text-white/35">{displayPeriod}</span>}
                       </div>
                     </div>
                     <ul className="space-y-3 mb-8 flex-1 relative z-10">
                       {plan.features.map((feature) => (
                         <li key={feature} className="flex items-start gap-2.5">
-                          <CheckCircle2 className={cn("h-4 w-4 mt-0.5 shrink-0", plan.highlighted ? "text-amber-400" : "text-emerald-400")} />
-                          <span className="text-sm text-white/60">{feature}</span>
+                          <CheckCircle2 className={cn("h-4 w-4 mt-0.5 shrink-0", plan.highlighted ? "text-violet-400" : "text-emerald-400")} />
+                          <span className="text-sm text-white/55">{feature}</span>
                         </li>
                       ))}
                     </ul>
                     <div className="relative z-10">
                       <Link href={plan.href}>
-                        <Button className="w-full" variant={plan.highlighted ? "amber" : "outline"} size="lg">{plan.cta}</Button>
+                        <Button
+                          className={cn("w-full", plan.highlighted
+                            ? "bg-violet-600 hover:bg-violet-500 text-white shadow-lg shadow-violet-500/20 border-0"
+                            : ""
+                          )}
+                          variant={plan.highlighted ? undefined : "outline"}
+                          size="lg"
+                        >
+                          {plan.cta}
+                        </Button>
                       </Link>
                     </div>
                   </SpotlightCard>
@@ -962,101 +1019,125 @@ export default function LandingPage() {
   const mockupY = useTransform(heroProgress, [0, 1], [0, 80])
 
   return (
-    <div className="min-h-screen bg-[#0F1729] dot-grid-dark">
+    <div
+      className="min-h-screen"
+      style={{
+        background: `
+          radial-gradient(ellipse 90% 70% at 50% -15%, rgba(109,40,217,0.3) 0%, transparent 65%),
+          radial-gradient(ellipse 50% 50% at 85% 70%, rgba(59,130,246,0.08) 0%, transparent 55%),
+          radial-gradient(ellipse 40% 50% at 15% 80%, rgba(245,158,11,0.06) 0%, transparent 50%),
+          #030712
+        `,
+      }}
+    >
       <ScrollProgressBar />
       <CursorGlow />
       <Navbar />
 
       {/* ── Hero ─────────────────────────────────────────────────────────────── */}
-      <section ref={heroRef} className="relative overflow-hidden pt-32 pb-24">
+      <section ref={heroRef} className="relative overflow-hidden pt-28 pb-20 md:pt-32 md:pb-28">
         {/* Parallax aurora blobs */}
-        <motion.div style={{ y: blob1Y }} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] bg-amber-500/8 blur-[180px] rounded-full pointer-events-none animate-pulse-glow" />
-        <motion.div style={{ y: blob2Y }} className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-amber-400/4 blur-[130px] rounded-full pointer-events-none" />
-        <motion.div style={{ y: blob2Y }} className="absolute top-2/3 right-1/4 w-[350px] h-[350px] bg-blue-500/5 blur-[100px] rounded-full pointer-events-none" />
-        <div className="absolute bottom-0 left-1/2 w-[600px] h-[300px] bg-amber-500/3 blur-[120px] rounded-full pointer-events-none" />
+        <motion.div style={{ y: blob1Y }} className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[600px] bg-violet-600/10 blur-[180px] rounded-full pointer-events-none" />
+        <motion.div style={{ y: blob2Y }} className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-blue-500/6 blur-[130px] rounded-full pointer-events-none" />
+        <motion.div style={{ y: blob2Y }} className="absolute bottom-1/3 left-1/4 w-[350px] h-[350px] bg-amber-500/5 blur-[100px] rounded-full pointer-events-none" />
 
         <motion.div style={{ y: heroContentY, opacity: heroOpacity }} className="relative mx-auto max-w-6xl px-6">
-          <div className="text-center mb-16 relative">
+          {/* SPLIT LAYOUT: left text + right mockup */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-            {/* Floating chips — decorative, desktop only */}
-            <div className="absolute top-8 -left-4 hidden xl:block">
-              <FloatingChip delay={0.8} floatDelay="0s" className="shadow-red-500/10">
-                <Shield className="h-3.5 w-3.5 text-red-400 shrink-0" />
-                <span className="text-white/55">SQL injection blocked</span>
-              </FloatingChip>
-            </div>
-            <div className="absolute top-4 -right-8 hidden xl:block">
-              <FloatingChip delay={1.0} floatDelay="1.2s" className="shadow-amber-500/10">
-                <Star className="h-3.5 w-3.5 text-amber-400 shrink-0" />
-                <span className="text-white/55">Quality score <strong className="text-white/80">94/100</strong></span>
-              </FloatingChip>
-            </div>
-            <div className="absolute bottom-0 -left-16 hidden xl:block">
-              <FloatingChip delay={1.2} floatDelay="2.4s" className="shadow-emerald-500/10">
-                <Zap className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
-                <span className="text-white/55">Reviewed in <strong className="text-white/80">1.8s</strong></span>
-              </FloatingChip>
-            </div>
+            {/* LEFT: Text content */}
+            <div className="flex flex-col items-start">
+              <AnimateIn>
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  className="inline-flex items-center gap-2 rounded-full border border-violet-500/20 bg-violet-500/[0.07] px-4 py-1.5 mb-8 cursor-default"
+                >
+                  <div className="h-1.5 w-1.5 rounded-full bg-violet-400 animate-pulse" />
+                  <span className="text-sm text-violet-300/80">Powered by Claude · Now in public beta</span>
+                  <ChevronRight className="h-3.5 w-3.5 text-violet-400/40" />
+                </motion.div>
+              </AnimateIn>
 
-            <AnimateIn>
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 mb-8 cursor-default"
-              >
-                <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-                <span className="text-sm text-white/70">Powered by Claude · Now in public beta</span>
-                <ChevronRight className="h-3.5 w-3.5 text-white/40" />
-              </motion.div>
-            </AnimateIn>
+              <AnimateIn delay={80}>
+                <h1 className="text-[clamp(2.8rem,7vw,5.5rem)] font-bold text-white tracking-tight leading-[1.05] mb-6">
+                  Code review,<br /><CyclingWord />
+                </h1>
+              </AnimateIn>
 
-            <AnimateIn delay={80}>
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.05] mb-6">
-                Code review,<br /><CyclingWord />
-              </h1>
-            </AnimateIn>
+              <AnimateIn delay={160}>
+                <p className="text-lg text-white/50 max-w-lg leading-relaxed mb-10">
+                  Stop shipping bugs. Let AI review every pull request, detect security vulnerabilities,
+                  and track tech debt — automatically, before anything reaches production.
+                </p>
+              </AnimateIn>
 
-            <AnimateIn delay={160}>
-              <p className="text-lg sm:text-xl text-white/60 max-w-2xl mx-auto leading-relaxed mb-10">
-                Stop shipping bugs. Let AI review every pull request, detect security vulnerabilities,
-                and track tech debt — automatically, before anything reaches production.
-              </p>
-            </AnimateIn>
-
-            <AnimateIn delay={240}>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                <MagneticButton>
-                  <Link href="/signup">
-                    <Button size="xl" variant="amber" className="gap-2 shadow-xl shadow-amber-500/25">
-                      Start for free <ArrowRight className="h-4 w-4" />
+              <AnimateIn delay={240}>
+                <div className="flex flex-col sm:flex-row items-start gap-3 mb-8">
+                  <MagneticButton>
+                    <Link href="/signup">
+                      <Button size="xl" className="bg-violet-600 hover:bg-violet-500 text-white gap-2 shadow-xl shadow-violet-500/25 border-0">
+                        Start for free <ArrowRight className="h-4 w-4" />
+                      </Button>
+                    </Link>
+                  </MagneticButton>
+                  <Link href="/demo">
+                    <Button size="xl" className="bg-white/[0.06] text-white hover:bg-white/[0.10] border border-white/[0.08] gap-2">
+                      <Code2 className="h-4 w-4" />Try the live demo
                     </Button>
                   </Link>
-                </MagneticButton>
-                <Link href="/demo">
-                  <Button size="xl" className="bg-white/10 text-white hover:bg-white/20 border border-white/10 gap-2">
-                    <Code2 className="h-4 w-4" />Try the live demo
-                  </Button>
-                </Link>
-              </div>
-            </AnimateIn>
+                </div>
+              </AnimateIn>
 
-            <AnimateIn delay={300}>
-              <div className="mt-8 flex items-center justify-center gap-1.5">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <motion.div key={i} initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.6 + i * 0.05, type: "spring" }}>
-                    <Star className="h-4 w-4 text-amber-400 fill-current" />
-                  </motion.div>
-                ))}
-                <span className="ml-2 text-sm text-white/50">Loved by <strong className="text-white/80">500+</strong> engineering teams</span>
+              <AnimateIn delay={300}>
+                <div className="flex items-center gap-1.5">
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <motion.div key={i} initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.6 + i * 0.05, type: "spring" }}>
+                      <Star className="h-4 w-4 text-amber-400 fill-current" />
+                    </motion.div>
+                  ))}
+                  <span className="ml-2 text-sm text-white/40">Loved by <strong className="text-white/70">500+</strong> engineering teams</span>
+                </div>
+              </AnimateIn>
+            </div>
+
+            {/* RIGHT: Dashboard Mockup with floating chips */}
+            <div className="relative hidden lg:block">
+              {/* Floating chips */}
+              <div className="absolute -top-6 -left-10 z-20">
+                <FloatingChip delay={0.8} floatDelay="0s" className="shadow-red-500/10">
+                  <Shield className="h-3.5 w-3.5 text-red-400 shrink-0" />
+                  <span className="text-white/55">SQL injection blocked</span>
+                </FloatingChip>
               </div>
-            </AnimateIn>
+              <div className="absolute top-0 -right-8 z-20">
+                <FloatingChip delay={1.0} floatDelay="1.2s" className="shadow-amber-500/10">
+                  <Star className="h-3.5 w-3.5 text-amber-400 shrink-0" />
+                  <span className="text-white/55">Quality score <strong className="text-white/80">94/100</strong></span>
+                </FloatingChip>
+              </div>
+              <div className="absolute -bottom-4 -left-6 z-20">
+                <FloatingChip delay={1.2} floatDelay="2.4s" className="shadow-emerald-500/10">
+                  <Zap className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                  <span className="text-white/55">Reviewed in <strong className="text-white/80">1.8s</strong></span>
+                </FloatingChip>
+              </div>
+
+              <motion.div style={{ y: mockupY }}>
+                <AnimateIn delay={200}>
+                  <DashboardMockup />
+                </AnimateIn>
+              </motion.div>
+            </div>
+
+            {/* Mobile: mockup below text */}
+            <div className="lg:hidden relative">
+              <motion.div style={{ y: mockupY }}>
+                <AnimateIn delay={200}>
+                  <DashboardMockup />
+                </AnimateIn>
+              </motion.div>
+            </div>
           </div>
-
-          {/* 3D Dashboard mockup with parallax */}
-          <motion.div style={{ y: mockupY }}>
-            <AnimateIn delay={200}>
-              <DashboardMockup />
-            </AnimateIn>
-          </motion.div>
         </motion.div>
 
         {/* Scroll indicator */}
@@ -1066,24 +1147,87 @@ export default function LandingPage() {
           transition={{ delay: 2 }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         >
-          <span className="text-[10px] text-white/20 uppercase tracking-widest">Scroll</span>
+          <span className="text-[10px] text-white/15 uppercase tracking-widest">Scroll</span>
           <motion.div
             animate={{ y: [0, 6, 0] }}
             transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-            className="w-4 h-6 rounded-full border border-white/15 flex items-start justify-center pt-1"
+            className="w-4 h-6 rounded-full border border-white/10 flex items-start justify-center pt-1"
           >
-            <div className="w-1 h-1.5 rounded-full bg-white/30" />
+            <div className="w-1 h-1.5 rounded-full bg-white/25" />
           </motion.div>
         </motion.div>
       </section>
 
       {/* ── Marquee logos ───────────────────────────────────────────────────── */}
-      <section className="border-y border-white/5 py-10 overflow-hidden">
-        <p className="text-center text-xs text-white/25 tracking-widest uppercase mb-6">Trusted by engineering teams at</p>
+      <section className="border-y border-white/[0.05] py-10 overflow-hidden">
+        <p className="text-center text-[10px] text-white/20 tracking-widest uppercase mb-6">Trusted by engineering teams at</p>
         <div className="flex">
           <div className="flex animate-marquee gap-16 items-center whitespace-nowrap">
             {[...companies, ...companies].map((name, i) => (
-              <span key={i} className="text-sm font-semibold text-white/15 tracking-widest uppercase">{name}</span>
+              <span key={i} className="text-sm font-semibold text-white/12 tracking-widest uppercase">{name}</span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Problem Section ─────────────────────────────────────────────────── */}
+      <section className="py-28 border-b border-white/[0.05]">
+        <div className="mx-auto max-w-6xl px-6">
+          <AnimateIn className="text-center mb-14">
+            <p className="text-[10px] font-bold tracking-[0.25em] uppercase text-white/30 mb-4">The problem</p>
+            <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-bold text-white tracking-tight leading-[1.1]">
+              Manual code review<br />
+              <span className="bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">is broken.</span>
+            </h2>
+          </AnimateIn>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[
+              {
+                stat: "8+",
+                statSub: "hour cycles",
+                title: "Review bottlenecks compound",
+                desc: "Teams wait days for feedback. Critical PRs sit unreviewed while engineers context-switch endlessly.",
+                accent: "text-red-400",
+                bg: "from-red-500/[0.06]",
+                border: "border-red-500/15",
+              },
+              {
+                stat: "73%",
+                statSub: "pass undetected",
+                title: "Security blind spots",
+                desc: "73% of SQL injection vulnerabilities pass manual review. Humans miss what pattern-matching AI catches instantly.",
+                accent: "text-orange-400",
+                bg: "from-orange-500/[0.06]",
+                border: "border-orange-500/15",
+              },
+              {
+                stat: "∞",
+                statSub: "compounds",
+                title: "Tech debt death spiral",
+                desc: "Untracked issues quietly accumulate. Small problems become production incidents. The backlog grows faster than it's addressed.",
+                accent: "text-amber-400",
+                bg: "from-amber-500/[0.06]",
+                border: "border-amber-500/15",
+              },
+            ].map((item, i) => (
+              <AnimateIn key={item.title} delay={i * 100}>
+                <div className={cn(
+                  "relative rounded-2xl border p-8 bg-gradient-to-br to-transparent overflow-hidden h-full",
+                  item.border, item.bg
+                )}>
+                  <div className="flex items-start gap-5">
+                    <div className="shrink-0">
+                      <div className={cn("text-4xl font-black tabular-nums leading-none", item.accent)}>{item.stat}</div>
+                      <div className="text-[10px] text-white/30 mt-0.5 font-medium">{item.statSub}</div>
+                    </div>
+                    <div className="pt-0.5">
+                      <h3 className="text-sm font-semibold text-white mb-2">{item.title}</h3>
+                      <p className="text-xs text-white/40 leading-relaxed">{item.desc}</p>
+                    </div>
+                  </div>
+                </div>
+              </AnimateIn>
             ))}
           </div>
         </div>
@@ -1097,15 +1241,15 @@ export default function LandingPage() {
 
       {/* ── Stats ───────────────────────────────────────────────────────────── */}
       <section className="py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-amber-500/[0.025] to-transparent pointer-events-none" />
-        {/* Animated grid lines */}
+        {/* Purple/amber gradient line above numbers */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-violet-500/30 to-transparent" />
         <div className="absolute inset-0 pointer-events-none" style={{
-          backgroundImage: "linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)",
+          backgroundImage: "linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)",
           backgroundSize: "80px 80px",
         }} />
         <div className="mx-auto max-w-5xl px-6 relative">
           <AnimateIn className="text-center mb-12">
-            <p className="text-amber-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">By the numbers</p>
+            <p className="text-[10px] font-bold tracking-[0.25em] uppercase text-violet-400 mb-2">By the numbers</p>
           </AnimateIn>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <CountStatCard num={2} suffix="M+" label="Reviews processed" delay={0} />
@@ -1114,17 +1258,72 @@ export default function LandingPage() {
             <CountStatCard num={99} suffix=".9%" label="Uptime SLA" delay={240} />
           </div>
         </div>
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-500/20 to-transparent" />
+      </section>
+
+      {/* ── Testimonials ────────────────────────────────────────────────────── */}
+      <section className="py-24 border-b border-white/[0.05]">
+        <div className="mx-auto max-w-6xl px-6">
+          <AnimateIn className="text-center mb-14">
+            <p className="text-[10px] font-bold tracking-[0.25em] uppercase text-violet-400 mb-4">What teams say</p>
+            <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-bold text-white tracking-tight leading-[1.1]">
+              Loved by engineers<br />everywhere.
+            </h2>
+          </AnimateIn>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {testimonials.map((t, i) => (
+              <AnimateIn key={t.author} delay={i * 100}>
+                <Tilt3DCard className="h-full" intensity={6}>
+                  <div className="group rounded-2xl border border-white/[0.08] bg-white/[0.04] backdrop-blur-sm p-7 h-full flex flex-col hover:border-violet-500/20 hover:bg-white/[0.07] transition-all duration-300 relative overflow-hidden">
+                    <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-violet-500/0 to-transparent group-hover:via-violet-500/30 transition-all duration-500" />
+                    {/* Stars */}
+                    <div className="flex gap-1 mb-5">
+                      {Array.from({ length: t.stars }).map((_, si) => (
+                        <Star key={si} className="h-3.5 w-3.5 text-amber-400 fill-current" />
+                      ))}
+                    </div>
+                    {/* Quote */}
+                    <p className="text-sm text-white/60 leading-relaxed flex-1 mb-6">
+                      &ldquo;{t.quote}&rdquo;
+                    </p>
+                    {/* Author */}
+                    <div className="flex items-center gap-3">
+                      <div className="h-9 w-9 rounded-full bg-gradient-to-br from-violet-500/30 to-blue-500/20 border border-violet-500/20 flex items-center justify-center text-violet-300 text-xs font-bold shrink-0">
+                        {t.avatar}
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-white">{t.author}</p>
+                        <p className="text-xs text-white/35">{t.role}</p>
+                      </div>
+                    </div>
+                  </div>
+                </Tilt3DCard>
+              </AnimateIn>
+            ))}
+          </div>
+        </div>
       </section>
 
       <EnterpriseSection />
       <PricingSection />
 
       {/* ── CTA ─────────────────────────────────────────────────────────────── */}
-      <section className="py-28 relative overflow-hidden">
+      <section
+        className="py-28 relative overflow-hidden"
+        style={{
+          background: "linear-gradient(to bottom, #030712, #0d0a1f, #030712)",
+        }}
+      >
+        {/* Animated orb */}
         <motion.div
-          animate={{ scale: [1, 1.08, 1], opacity: [0.5, 0.9, 0.5] }}
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-amber-500/10 blur-[140px] rounded-full pointer-events-none"
+          animate={{ scale: [1, 1.08, 1], opacity: [0.4, 0.7, 0.4] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-violet-600/15 blur-[120px] rounded-full pointer-events-none"
+        />
+        <motion.div
+          animate={{ scale: [1, 1.12, 1], opacity: [0.2, 0.4, 0.2] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[300px] bg-blue-500/10 blur-[100px] rounded-full pointer-events-none"
         />
         <AnimateIn className="relative mx-auto max-w-3xl px-6 text-center">
           <motion.div
@@ -1132,34 +1331,37 @@ export default function LandingPage() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm p-12 glow-border-hover shimmer-card"
+            className="rounded-3xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-md p-12 relative overflow-hidden"
           >
-            <p className="text-amber-400 text-xs font-bold tracking-[0.2em] uppercase mb-6">Get started today</p>
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-violet-500/40 to-transparent" />
+            <p className="text-[10px] font-bold tracking-[0.25em] uppercase text-violet-400 mb-6">Get started today</p>
             <h2 className="text-4xl sm:text-5xl font-bold text-white tracking-tight mb-6">
-              Ready to ship <span className="gradient-amber">better code</span>?
+              Ready to ship{" "}
+              <span className="bg-gradient-to-r from-violet-400 via-purple-300 to-blue-400 bg-clip-text text-transparent">
+                better code
+              </span>
+              ?
             </h2>
-            <p className="text-white/60 text-lg mb-10">Join 500+ engineering teams. No credit card required.</p>
+            <p className="text-white/50 text-lg mb-10">Join 500+ engineering teams. No credit card required.</p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <MagneticButton>
                 <Link href="/signup">
-                  <Button size="xl" variant="amber" className="gap-2 shadow-xl shadow-amber-500/30">
+                  <Button size="xl" className="bg-violet-600 hover:bg-violet-500 text-white gap-2 shadow-xl shadow-violet-500/30 border-0">
                     Start for free <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
               </MagneticButton>
               <Link href="mailto:sales@qualix.dev">
-                <Button size="xl" className="bg-white/10 text-white hover:bg-white/20 border border-white/10">Talk to sales</Button>
+                <Button size="xl" className="bg-white/[0.06] text-white hover:bg-white/[0.10] border border-white/[0.08]">Talk to sales</Button>
               </Link>
             </div>
-
-            {/* Social proof below CTA */}
             <div className="mt-10 flex items-center justify-center gap-6 flex-wrap">
               {[
                 { icon: Shield, label: "SOC 2 Type II" },
                 { icon: Lock, label: "GDPR Compliant" },
                 { icon: Zap, label: "99.9% Uptime" },
               ].map(({ icon: Icon, label }) => (
-                <div key={label} className="flex items-center gap-1.5 text-xs text-white/30">
+                <div key={label} className="flex items-center gap-1.5 text-xs text-white/25">
                   <Icon className="h-3.5 w-3.5" />
                   {label}
                 </div>
@@ -1170,15 +1372,22 @@ export default function LandingPage() {
       </section>
 
       {/* ── Footer ──────────────────────────────────────────────────────────── */}
-      <footer className="border-t border-white/10 py-12">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
+      <footer className="border-t border-white/[0.07] py-14 relative" style={{
+        backgroundImage: "linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px)",
+        backgroundSize: "60px 60px",
+      }}>
+        <div className="mx-auto max-w-6xl px-6 relative">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-14">
             <div className="col-span-2">
-              <Link href="/" className="flex items-center gap-2 mb-4">
-                <LogoMark size={28} />
-                <span className="text-base font-semibold text-white">Qualix</span>
+              <Link href="/" className="flex items-center gap-2.5 mb-5">
+                <LogoMark size={32} />
+                <span className="text-lg font-bold text-white tracking-tight">Qualix</span>
               </Link>
-              <p className="text-sm text-white/40 max-w-xs leading-relaxed">AI-powered code review and quality platform for modern engineering teams.</p>
+              <p className="text-sm text-white/35 max-w-xs leading-relaxed mb-4">AI-powered code review and quality platform for modern engineering teams.</p>
+              <div className="flex items-center gap-1.5">
+                <div className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                <span className="text-xs text-white/25">All systems operational</span>
+              </div>
             </div>
             {[
               { heading: "Product", links: ["Features", "Pricing", "Changelog", "Roadmap"] },
@@ -1186,18 +1395,18 @@ export default function LandingPage() {
               { heading: "Legal", links: ["Privacy", "Terms", "Security", "DPA"] },
             ].map((col) => (
               <div key={col.heading}>
-                <p className="text-xs font-semibold uppercase tracking-widest text-white/25 mb-4">{col.heading}</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20 mb-5">{col.heading}</p>
                 <ul className="space-y-3">
                   {col.links.map((link) => (
-                    <li key={link}><a href="#" className="text-sm text-white/40 hover:text-white transition-colors">{link}</a></li>
+                    <li key={link}><a href="#" className="text-sm text-white/35 hover:text-white transition-colors">{link}</a></li>
                   ))}
                 </ul>
               </div>
             ))}
           </div>
-          <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-white/25">© {new Date().getFullYear()} Qualix, Inc. All rights reserved.</p>
-            <div className="flex items-center gap-4 text-xs text-white/25">
+          <div className="border-t border-white/[0.07] pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p className="text-xs text-white/20">© {new Date().getFullYear()} Qualix, Inc. All rights reserved.</p>
+            <div className="flex items-center gap-4 text-xs text-white/20">
               <span>Made with ♥ for developers</span>
             </div>
           </div>

@@ -23,20 +23,26 @@ export default function ScannerLayout({ children }: { children: React.ReactNode 
   }, [])
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-[#070d1a]">
-      <header className="flex items-center h-12 border-b border-white/[0.05] bg-[#070d1a]/95 backdrop-blur-md shrink-0 px-4 z-10">
-        <Link href="/" className="flex items-center gap-2 group">
-          <LogoMark size={22} />
-          <span className="text-sm font-semibold text-white">Qualix</span>
+    <div className="flex flex-col h-screen overflow-hidden bg-[#030712]">
+      <header className="relative flex items-center h-14 bg-[#030712]/95 backdrop-blur-md shrink-0 px-5 z-10 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:bg-gradient-to-r after:from-transparent after:via-white/10 after:to-transparent">
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <LogoMark size={24} />
+          <span className="text-[15px] font-semibold text-white tracking-tight">Qualix</span>
         </Link>
         <div className="flex-1" />
         {user ? (
           <Link href="/dashboard">
-            <Button size="sm" variant="amber">Dashboard</Button>
+            <Button size="sm" className="bg-violet-600 hover:bg-violet-500 text-white border-0 shadow-sm shadow-violet-500/20">
+              Dashboard
+            </Button>
           </Link>
         ) : (
           <Link href="/login">
-            <Button size="sm" variant="ghost" className="text-white/70 hover:text-white hover:bg-white/10">
+            <Button
+              size="sm"
+              variant="ghost"
+              className="text-white/60 hover:text-white hover:bg-white/[0.06] border border-white/[0.08] hover:border-white/[0.14] transition-all"
+            >
               Sign in
             </Button>
           </Link>
