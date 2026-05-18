@@ -1,9 +1,16 @@
 "use client"
 
-import React, { useMemo, useRef } from "react"
+import React, { useMemo, useRef, useEffect, useState } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import * as THREE from "three"
 import { cn } from "@/lib/utils"
+
+function ClientOnly({ children }: { children: React.ReactNode }) {
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
+  if (!mounted) return null
+  return <>{children}</>
+}
 
 type Uniforms = {
   [key: string]: { value: number[] | number[][] | number; type: string }
@@ -237,8 +244,10 @@ const ShaderMaterial = ({
 
 const Shader: React.FC<ShaderProps> = ({ source, uniforms, maxFps = 60 }) => {
   return (
-    <Canvas className="absolute inset-0 h-full w-full">
-      <ShaderMaterial source={source} uniforms={uniforms} maxFps={maxFps} />
-    </Canvas>
+    <ClientOnly>
+      <Canvas className="absolute inset-0 h-full w-full">
+        <ShaderMaterial source={source} uniforms={uniforms} maxFps={maxFps} />
+      </Canvas>
+    </ClientOnly>
   )
 }
