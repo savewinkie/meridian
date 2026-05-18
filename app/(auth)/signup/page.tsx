@@ -303,9 +303,9 @@ export default function SignupPage() {
 
                 <p className="mt-6 text-center text-[11px] text-white/25 leading-relaxed">
                   By signing up, you agree to our{" "}
-                  <Link href="#" className="underline text-white/35 hover:text-white/55 transition-colors">Terms</Link>
+                  <Link href="/terms" className="underline text-white/35 hover:text-white/55 transition-colors">Terms</Link>
                   {" "}and{" "}
-                  <Link href="#" className="underline text-white/35 hover:text-white/55 transition-colors">Privacy Policy</Link>.
+                  <Link href="/privacy" className="underline text-white/35 hover:text-white/55 transition-colors">Privacy Policy</Link>.
                 </p>
               </motion.div>
             )}

@@ -1123,15 +1123,15 @@ export default function LandingPage() {
               </div>
             </div>
             {[
-              { heading: "Product", links: ["Features", "Pricing", "Changelog", "Roadmap"] },
-              { heading: "Company", links: ["About", "Blog", "Careers", "Press"] },
-              { heading: "Legal", links: ["Privacy", "Terms", "Security", "DPA"] },
+              { heading: "Product", links: [["Features", "#features"], ["Pricing", "#pricing"], ["Changelog", "#"], ["Roadmap", "#"]] },
+              { heading: "Company", links: [["About", "#"], ["Blog", "#"], ["Careers", "#"], ["Press", "#"]] },
+              { heading: "Legal", links: [["Privacy", "/privacy"], ["Terms", "/terms"], ["Security", "#"], ["DPA", "#"]] },
             ].map((col) => (
               <div key={col.heading}>
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/20 mb-5">{col.heading}</p>
                 <ul className="space-y-3">
-                  {col.links.map((link) => (
-                    <li key={link}><a href="#" className="text-sm text-white/35 hover:text-white transition-colors">{link}</a></li>
+                  {col.links.map(([label, href]) => (
+                    <li key={label}><a href={href} className="text-sm text-white/35 hover:text-white transition-colors">{label}</a></li>
                   ))}
                 </ul>
               </div>
