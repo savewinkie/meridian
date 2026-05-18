@@ -126,7 +126,7 @@ export default function SignupPage() {
 
         <Link href="/" className="relative flex items-center gap-2.5">
           <LogoMark size={30} />
-          <span className="text-[15px] font-semibold text-white">Meridian</span>
+          <span className="text-[15px] font-semibold text-white">Refract</span>
         </Link>
 
         <motion.div
@@ -185,7 +185,7 @@ export default function SignupPage() {
       <div className="flex flex-1 flex-col items-center justify-center px-6 py-12">
         <Link href="/" className="mb-8 flex items-center gap-2 lg:hidden">
           <LogoMark size={28} />
-          <span className="text-sm font-semibold text-white">Meridian</span>
+          <span className="text-sm font-semibold text-white">Refract</span>
         </Link>
 
         <motion.div

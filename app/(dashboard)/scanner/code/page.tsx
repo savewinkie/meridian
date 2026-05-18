@@ -8,7 +8,7 @@ import {
   Zap, Loader2, Copy, Check, ChevronDown, AlertTriangle,
   Shield, Bug, Gauge, Code2, Brain, CheckCircle2, AlertCircle,
   Sparkles, Download, RefreshCw, FileCode2, ChevronRight,
-  Terminal, Play, ArrowLeft,
+  Terminal, Play, ArrowLeft, Lock,
 } from "lucide-react"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -137,8 +137,19 @@ export default function CodeScannerPage() {
   const [copied, setCopied] = useState(false)
   const [visibleIssues, setVisibleIssues] = useState(0)
   const [sevFilter, setSevFilter] = useState<string | null>(null)
+  const [freeUsed, setFreeUsed] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null)
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const lines = code.split("\n")
+
+  useEffect(() => {
+    setFreeUsed(localStorage.getItem("refract_free_code") === "1")
+    import("@/lib/supabase/client").then(({ createClient }) => {
+      createClient().auth.getSession().then(({ data: { session } }) => setIsLoggedIn(!!session))
+    })
+  }, [])
+
+  const blocked = freeUsed && isLoggedIn === false
 
   useEffect(() => {
     if (result) {
@@ -148,7 +159,7 @@ export default function CodeScannerPage() {
   }, [result])
 
   async function scan() {
-    if (!code.trim()) return
+    if (!code.trim() || blocked) return
     setIsScanning(true); setResult(null); setError(null); setStepIdx(0); setSevFilter(null)
     intervalRef.current = setInterval(() => setStepIdx((i) => (i + 1) % LOADING_STEPS.length), 900)
     try {
@@ -160,6 +171,7 @@ export default function CodeScannerPage() {
       const data = await res.json()
       if (data.error) throw new Error(data.error)
       setResult(data); setActiveTab("issues")
+      if (isLoggedIn === false) { localStorage.setItem("refract_free_code", "1"); setFreeUsed(true) }
     } catch (err: any) {
       setError(err.message ?? "Scan failed. Please try again.")
     } finally {
@@ -215,7 +227,7 @@ export default function CodeScannerPage() {
             <ArrowLeft className="h-3.5 w-3.5" />
           </Link>
           <Brain className="h-3.5 w-3.5 text-purple-400 shrink-0" />
-          <span className="text-white/40">meridian</span>
+          <span className="text-white/40">refract</span>
           <ChevronRight className="h-3 w-3" />
           <span className="text-white/40">scanner</span>
           <ChevronRight className="h-3 w-3" />
@@ -379,37 +391,47 @@ export default function CodeScannerPage() {
               {language !== "Auto-detect" && <><span>·</span><span className="text-white/35">{language}</span></>}
             </div>
 
-            <motion.button
-              onClick={scan}
-              disabled={isScanning || !code.trim()}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.97 }}
-              className={cn(
-                "group relative overflow-hidden flex items-center gap-2 rounded-xl px-5 py-2 text-[12.5px] font-semibold text-white transition-all",
-                "disabled:opacity-30 disabled:cursor-not-allowed",
-                code.trim() && !isScanning
-                  ? "bg-amber-500 hover:bg-amber-400 shadow-lg shadow-amber-500/25"
-                  : "bg-amber-500/50"
-              )}
-            >
-              <span className="relative z-10 flex items-center gap-2">
-                {isScanning
-                  ? <Loader2 className="h-3.5 w-3.5 animate-spin shrink-0" />
-                  : <Play className="h-3.5 w-3.5 shrink-0 fill-white" />
-                }
-                <span className="whitespace-nowrap max-w-[200px] truncate">
-                  {isScanning ? LOADING_STEPS[stepIdx] : "Scan & Fix with Opus 4.7"}
+            {blocked ? (
+              <div className="flex items-center gap-2">
+                <Lock className="h-3.5 w-3.5 text-white/25 shrink-0" />
+                <span className="text-[11px] text-white/30">Free scan used ·</span>
+                <Link href="/signup" className="text-[11px] font-semibold text-amber-400 hover:text-amber-300 underline underline-offset-2 transition-colors">
+                  Sign up for unlimited →
+                </Link>
+              </div>
+            ) : (
+              <motion.button
+                onClick={scan}
+                disabled={isScanning || !code.trim()}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
+                className={cn(
+                  "group relative overflow-hidden flex items-center gap-2 rounded-xl px-5 py-2 text-[12.5px] font-semibold text-white transition-all",
+                  "disabled:opacity-30 disabled:cursor-not-allowed",
+                  code.trim() && !isScanning
+                    ? "bg-amber-500 hover:bg-amber-400 shadow-lg shadow-amber-500/25"
+                    : "bg-amber-500/50"
+                )}
+              >
+                <span className="relative z-10 flex items-center gap-2">
+                  {isScanning
+                    ? <Loader2 className="h-3.5 w-3.5 animate-spin shrink-0" />
+                    : <Play className="h-3.5 w-3.5 shrink-0 fill-white" />
+                  }
+                  <span className="whitespace-nowrap max-w-[200px] truncate">
+                    {isScanning ? LOADING_STEPS[stepIdx] : "Scan & Fix with Opus 4.7"}
+                  </span>
                 </span>
-              </span>
-              <div className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:translate-x-full transition-transform duration-700" />
-              {code.trim() && !isScanning && (
-                <motion.div
-                  className="absolute inset-0 rounded-xl bg-amber-400/20"
-                  animate={{ opacity: [0, 0.5, 0] }}
-                  transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-                />
-              )}
-            </motion.button>
+                <div className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:translate-x-full transition-transform duration-700" />
+                {code.trim() && !isScanning && (
+                  <motion.div
+                    className="absolute inset-0 rounded-xl bg-amber-400/20"
+                    animate={{ opacity: [0, 0.5, 0] }}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                  />
+                )}
+              </motion.button>
+            )}
           </div>
 
           {/* Progress bar */}

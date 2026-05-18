@@ -16,23 +16,23 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Meridian — AI Code Review Platform",
-    template: "%s · Meridian",
+    default: "Refract — AI Code Review Platform",
+    template: "%s · Refract",
   },
   description:
     "AI-powered code review and quality platform for engineering teams. Catch bugs, security issues, and tech debt before they ship.",
   keywords: ["code review", "AI", "developer tools", "GitHub", "security scanning", "tech debt"],
-  authors: [{ name: "Meridian" }],
+  authors: [{ name: "Refract" }],
   openGraph: {
     type: "website",
     locale: "en_US",
-    title: "Meridian — AI Code Review Platform",
+    title: "Refract — AI Code Review Platform",
     description: "Ship better code, faster. AI-powered reviews that actually understand your codebase.",
-    siteName: "Meridian",
+    siteName: "Refract",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Meridian — AI Code Review Platform",
+    title: "Refract — AI Code Review Platform",
     description: "Ship better code, faster.",
   },
 }

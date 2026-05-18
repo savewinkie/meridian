@@ -277,7 +277,7 @@ export default function UploadScannerPage() {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    setFreeUsed(localStorage.getItem("meridian_free_upload") === "1")
+    setFreeUsed(localStorage.getItem("refract_free_upload") === "1")
     import("@/lib/supabase/client").then(({ createClient }) => {
       createClient().auth.getSession().then(({ data: { session } }) => setIsLoggedIn(!!session))
     })
@@ -315,7 +315,7 @@ export default function UploadScannerPage() {
         setResults([...allResults])
       }
       if (isLoggedIn === false) {
-        localStorage.setItem("meridian_free_upload", "1")
+        localStorage.setItem("refract_free_upload", "1")
         setFreeUsed(true)
       }
     } catch (err: any) {

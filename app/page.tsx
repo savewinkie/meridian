@@ -254,7 +254,7 @@ function Navbar() {
               <motion.div whileHover={{ rotate: 15 }} transition={{ type: "spring", stiffness: 400 }}>
                 <LogoMark size={28} />
               </motion.div>
-              <span className="text-base font-semibold tracking-tight text-white">Meridian</span>
+              <span className="text-base font-semibold tracking-tight text-white">Refract</span>
             </Link>
           </div>
           <nav className="hidden md:flex items-center gap-1">
@@ -384,7 +384,7 @@ function DashboardMockup() {
               <AlertCircle className="h-3.5 w-3.5 text-amber-400 shrink-0 mt-0.5" />
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-[10px] font-semibold text-amber-400">Meridian AI</span>
+                  <span className="text-[10px] font-semibold text-amber-400">Refract AI</span>
                   <Badge variant="critical" className="text-[9px] py-0 px-1.5">Critical</Badge>
                   <span className="text-[9px] text-white/30">Security · Line 43</span>
                 </div>
@@ -441,7 +441,7 @@ function FeaturesSection() {
                 </div>
                 <div className="mx-4 mb-4 rounded-lg bg-amber-500/5 border border-amber-500/15 p-3">
                   <div className="flex items-center gap-2 mb-1.5">
-                    <span className="text-[10px] font-semibold text-amber-400">Meridian AI</span>
+                    <span className="text-[10px] font-semibold text-amber-400">Refract AI</span>
                     <span className="text-[9px] bg-red-500/15 text-red-400 px-1.5 py-0.5 rounded-md font-semibold">Critical</span>
                     <span className="text-[9px] text-white/20">Security · Line 13</span>
                   </div>
@@ -756,9 +756,9 @@ function _ComparisonTableOld() {
     <section className="py-24 border-y border-white/5">
       <div className="mx-auto max-w-5xl px-6">
         <AnimateIn className="text-center mb-12">
-          <p className="text-amber-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">Why Meridian</p>
+          <p className="text-amber-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">Why Refract</p>
           <h2 className="text-4xl font-bold text-white tracking-tight mb-4">How we compare.</h2>
-          <p className="text-white/40 text-base max-w-xl mx-auto">Manual review and Copilot help with the basics. Meridian goes the full distance.</p>
+          <p className="text-white/40 text-base max-w-xl mx-auto">Manual review and Copilot help with the basics. Refract goes the full distance.</p>
         </AnimateIn>
         <AnimateIn delay={100}>
           <div className="rounded-2xl border border-white/10 overflow-hidden">
@@ -769,7 +769,7 @@ function _ComparisonTableOld() {
               <div className="p-5 text-center border-l border-b border-amber-500/15 bg-amber-500/5">
                 <div className="flex items-center justify-center gap-1.5">
                   <LogoMark size={14} />
-                  <p className="text-xs font-bold text-amber-400">Meridian</p>
+                  <p className="text-xs font-bold text-amber-400">Refract</p>
                 </div>
               </div>
             </div>
@@ -791,7 +791,7 @@ function _ComparisonTableOld() {
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const testimonials = [
-  { quote: "Meridian caught a SQL injection vulnerability in a PR that passed our manual review. It pays for itself in one incident prevented.", author: "Sarah Chen", role: "CTO, Flowbase", avatar: "SC", stars: 5 },
+  { quote: "Refract caught a SQL injection vulnerability in a PR that passed our manual review. It pays for itself in one incident prevented.", author: "Sarah Chen", role: "CTO, Flowbase", avatar: "SC", stars: 5 },
   { quote: "We went from 8-hour review cycles to under 2 hours. The AI handles the boilerplate so humans can focus on architecture.", author: "Marcus Williams", role: "Engineering Lead, Pulsar", avatar: "MW", stars: 5 },
   { quote: "The tech debt visualization alone was worth it. We finally have a data-driven way to make the case for refactoring sprints.", author: "Priya Nair", role: "Staff Engineer, Cascade", avatar: "PN", stars: 5 },
 ]
@@ -1134,7 +1134,7 @@ export default function LandingPage() {
             <div className="col-span-2">
               <Link href="/" className="flex items-center gap-2 mb-4">
                 <LogoMark size={28} />
-                <span className="text-base font-semibold text-white">Meridian</span>
+                <span className="text-base font-semibold text-white">Refract</span>
               </Link>
               <p className="text-sm text-white/40 max-w-xs leading-relaxed">AI-powered code review and quality platform for modern engineering teams.</p>
             </div>
@@ -1154,7 +1154,7 @@ export default function LandingPage() {
             ))}
           </div>
           <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-white/25">© {new Date().getFullYear()} Meridian, Inc. All rights reserved.</p>
+            <p className="text-xs text-white/25">© {new Date().getFullYear()} Refract, Inc. All rights reserved.</p>
             <div className="flex items-center gap-4 text-xs text-white/25">
               <span>Made with ♥ for developers</span>
             </div>

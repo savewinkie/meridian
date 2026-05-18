@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(start *)",
+      "WebFetch(domain:21st.dev)",
+      "WebFetch(domain:magicui.design)",
+      "WebSearch",
+      "Bash(npm run *)",
+      "Bash(npx tsc *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(python3 *)"
+    ]
+  }
+}

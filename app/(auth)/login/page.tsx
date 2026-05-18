@@ -83,7 +83,7 @@ export default function LoginPage() {
 
         <Link href="/" className="relative flex items-center gap-2.5">
           <LogoMark size={30} />
-          <span className="text-[15px] font-semibold text-white">Meridian</span>
+          <span className="text-[15px] font-semibold text-white">Refract</span>
         </Link>
 
         <motion.div
@@ -106,7 +106,7 @@ export default function LoginPage() {
             ))}
           </div>
           <blockquote className="text-white/70 text-[17px] leading-relaxed mb-6 font-light">
-            "Meridian caught a critical security vulnerability in our auth flow that would have exposed user data. It paid for itself in the first week."
+            "Refract caught a critical security vulnerability in our auth flow that would have exposed user data. It paid for itself in the first week."
           </blockquote>
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-amber-400/20 to-amber-600/10 border border-amber-500/20 text-amber-400 text-xs font-bold">
@@ -119,14 +119,14 @@ export default function LoginPage() {
           </div>
         </motion.div>
 
-        <p className="relative text-[11px] text-white/20">© {new Date().getFullYear()} Meridian, Inc.</p>
+        <p className="relative text-[11px] text-white/20">© {new Date().getFullYear()} Refract, Inc.</p>
       </div>
 
       {/* Right panel */}
       <div className="flex flex-1 flex-col items-center justify-center px-6 py-12">
         <Link href="/" className="mb-8 flex items-center gap-2 lg:hidden">
           <LogoMark size={28} />
-          <span className="text-sm font-semibold text-white">Meridian</span>
+          <span className="text-sm font-semibold text-white">Refract</span>
         </Link>
 
         <motion.div

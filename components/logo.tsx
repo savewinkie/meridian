@@ -18,7 +18,7 @@ export function LogoMark({ className, size = 28 }: LogoMarkProps) {
       {/* Background */}
       <rect width="32" height="32" rx="8" fill="#0F1729" />
 
-      {/* Meridian mark — twin peaks (M shape) representing signal / quality */}
+      {/* Refract mark — twin peaks representing signal / quality */}
       <path
         d="M7.5 23 L11.5 9.5 L16 18 L20.5 9.5 L24.5 23"
         stroke="#F59E0B"
@@ -53,7 +53,7 @@ export function Logo({ className, size = 28, textClassName, showText = true }: L
       <LogoMark size={size} />
       {showText && (
         <span className={cn("font-semibold tracking-tight", textClassName ?? "text-[15px] text-[#0F1729]")}>
-          Meridian
+          Refract
         </span>
       )}
     </div>
