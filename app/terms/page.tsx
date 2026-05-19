@@ -10,9 +10,9 @@ const EMAIL = "legal@qualix.dev"
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-[#030712] text-white">
+    <div className="min-h-screen bg-[#0a0a0a] text-white">
       {/* Top bar */}
-      <div className="border-b border-white/[0.06] px-6 py-4">
+      <div className="border-b border-[#1a1a1a] px-6 py-4">
         <div className="mx-auto max-w-3xl flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 group">
             <LogoMark size={24} />
@@ -27,7 +27,7 @@ export default function TermsPage() {
 
       <div className="mx-auto max-w-3xl px-6 py-16">
         <div className="mb-12">
-          <p className="text-[10px] font-bold tracking-[0.25em] uppercase text-violet-400 mb-3">Legal</p>
+          <p className="text-[10px] font-bold tracking-[0.25em] uppercase text-[#d97757] mb-3">Legal</p>
           <h1 className="text-4xl font-bold text-white mb-3">Terms of Service</h1>
           <p className="text-white/35 text-sm">Effective date: {EFFECTIVE}</p>
         </div>
@@ -171,15 +171,15 @@ export default function TermsPage() {
           <Section title="13. Contact">
             <p>
               For questions about these Terms, contact us at{" "}
-              <a href={`mailto:${EMAIL}`} className="text-violet-400 hover:text-violet-300 underline underline-offset-2 transition-colors">{EMAIL}</a>.
+              <a href={`mailto:${EMAIL}`} className="text-[#d97757] hover:text-[#c46843] underline underline-offset-2 transition-colors">{EMAIL}</a>.
             </p>
           </Section>
 
         </div>
 
-        <div className="mt-16 pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mt-16 pt-8 border-t border-[#1a1a1a] flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-white/20">© {new Date().getFullYear()} {COMPANY}</p>
-          <Link href="/privacy" className="text-xs text-white/35 hover:text-violet-400 transition-colors">
+          <Link href="/privacy" className="text-xs text-white/35 hover:text-[#d97757] transition-colors">
             Privacy Policy →
           </Link>
         </div>

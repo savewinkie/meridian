@@ -23,16 +23,16 @@ export default function ScannerLayout({ children }: { children: React.ReactNode 
   }, [])
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-[#030712]">
-      <header className="relative flex items-center h-14 bg-[#030712]/95 backdrop-blur-md shrink-0 px-5 z-10 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:bg-gradient-to-r after:from-transparent after:via-white/10 after:to-transparent">
+    <div className="flex flex-col h-screen overflow-hidden bg-[#0a0a0a]">
+      <header className="relative flex items-center h-14 bg-[#0a0a0a]/95 backdrop-blur-md shrink-0 px-5 z-10 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:bg-gradient-to-r after:from-transparent after:via-[#262626] after:to-transparent">
         <Link href="/" className="flex items-center gap-2.5 group">
           <LogoMark size={24} />
-          <span className="text-[15px] font-semibold text-white tracking-tight">Qualix</span>
+          <span className="text-[15px] font-semibold text-[#ededea] tracking-tight">Qualix</span>
         </Link>
         <div className="flex-1" />
         {user ? (
           <Link href="/dashboard">
-            <Button size="sm" className="bg-violet-600 hover:bg-violet-500 text-white border-0 shadow-sm shadow-violet-500/20">
+            <Button size="sm" className="bg-[#d97757] hover:bg-[#c46843] text-white border-0 shadow-sm shadow-[#d97757]/20 rounded-full transition-all">
               Dashboard
             </Button>
           </Link>
@@ -41,7 +41,7 @@ export default function ScannerLayout({ children }: { children: React.ReactNode 
             <Button
               size="sm"
               variant="ghost"
-              className="text-white/60 hover:text-white hover:bg-white/[0.06] border border-white/[0.08] hover:border-white/[0.14] transition-all"
+              className="text-[#9b9b9b] hover:text-[#ededea] hover:bg-[#141414] border border-[#262626] hover:border-[#333333] rounded-full transition-all"
             >
               Sign in
             </Button>
