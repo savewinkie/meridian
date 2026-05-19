@@ -10,9 +10,9 @@ const EMAIL = "privacy@qualix.dev"
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white">
+    <div className="min-h-screen bg-[#030712] text-white">
       {/* Top bar */}
-      <div className="border-b border-[#1a1a1a] px-6 py-4">
+      <div className="border-b border-white/[0.06] px-6 py-4">
         <div className="mx-auto max-w-3xl flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 group">
             <LogoMark size={24} />
@@ -27,7 +27,7 @@ export default function PrivacyPage() {
 
       <div className="mx-auto max-w-3xl px-6 py-16">
         <div className="mb-12">
-          <p className="text-[10px] font-bold tracking-[0.25em] uppercase text-[#d97757] mb-3">Legal</p>
+          <p className="text-[10px] font-bold tracking-[0.25em] uppercase text-violet-400 mb-3">Legal</p>
           <h1 className="text-4xl font-bold text-white mb-3">Privacy Policy</h1>
           <p className="text-white/35 text-sm">Effective date: {EFFECTIVE}</p>
         </div>
@@ -108,7 +108,7 @@ export default function PrivacyPage() {
             </p>
             <p>
               If you discover a security vulnerability, please report it to{" "}
-              <a href="mailto:security@qualix.dev" className="text-[#d97757] hover:text-[#c46843] underline underline-offset-2 transition-colors">security@qualix.dev</a>.
+              <a href="mailto:security@qualix.dev" className="text-violet-400 hover:text-violet-300 underline underline-offset-2 transition-colors">security@qualix.dev</a>.
             </p>
           </Section>
 
@@ -123,7 +123,7 @@ export default function PrivacyPage() {
             </ul>
             <p>
               To exercise these rights, contact us at{" "}
-              <a href={`mailto:${EMAIL}`} className="text-[#d97757] hover:text-[#c46843] underline underline-offset-2 transition-colors">{EMAIL}</a>.
+              <a href={`mailto:${EMAIL}`} className="text-violet-400 hover:text-violet-300 underline underline-offset-2 transition-colors">{EMAIL}</a>.
               We will respond within 30 days.
             </p>
           </Section>
@@ -164,10 +164,10 @@ export default function PrivacyPage() {
           <Section title="11. Contact Us">
             <p>
               For questions, concerns, or privacy-related requests, contact our privacy team at{" "}
-              <a href={`mailto:${EMAIL}`} className="text-[#d97757] hover:text-[#c46843] underline underline-offset-2 transition-colors">{EMAIL}</a>
+              <a href={`mailto:${EMAIL}`} className="text-violet-400 hover:text-violet-300 underline underline-offset-2 transition-colors">{EMAIL}</a>
               {" "}or write to us at:
             </p>
-            <address className="not-italic mt-3 pl-4 border-l border-[#262626] text-white/40">
+            <address className="not-italic mt-3 pl-4 border-l border-white/[0.08] text-white/40">
               {COMPANY}<br />
               Privacy Team<br />
               legal@qualix.dev
@@ -176,9 +176,9 @@ export default function PrivacyPage() {
 
         </div>
 
-        <div className="mt-16 pt-8 border-t border-[#1a1a1a] flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mt-16 pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-white/20">© {new Date().getFullYear()} {COMPANY}</p>
-          <Link href="/terms" className="text-xs text-white/35 hover:text-[#d97757] transition-colors">
+          <Link href="/terms" className="text-xs text-white/35 hover:text-violet-400 transition-colors">
             Terms of Service →
           </Link>
         </div>
